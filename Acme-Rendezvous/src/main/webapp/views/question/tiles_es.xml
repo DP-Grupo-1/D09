@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles.xml
+
+ * Copyright (C) 2017 Universidad de Sevilla
+ * Author (A) 2012 Rafael Corchuelo (corchu@us.es)
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+       
+<tiles-definitions>
+
+	<definition name="question/user/list" extends="master.page">	
+		<put-attribute name="title" value="Listar las preguntas" />
+		<put-attribute name="body" value="/views/question/list.jsp" />
+	</definition>
+	
+	<definition name="question/user/edit" extends="master.page">	
+		<put-attribute name="title" value="Editar pregunta" />
+		<put-attribute name="body" value="/views/question/edit.jsp" />
+	</definition>
+	
+	<definition name="question/user/answerQuestions" extends="master.page">	
+		<put-attribute name="title" value="Responder las preguntas" />
+		<put-attribute name="body" value="/views/question/answerQuestions.jsp" />
+	</definition>
+	
+	<definition name="question/user/answers" extends="master.page">	
+		<put-attribute name="title" value="Ver respuestas" />
+		<put-attribute name="body" value="/views/question/answers.jsp" />
+	</definition>
+	
+</tiles-definitions>
