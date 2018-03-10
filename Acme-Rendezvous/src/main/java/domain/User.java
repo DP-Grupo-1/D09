@@ -67,7 +67,6 @@ public class User extends Actor {
 	private CreditCard	creditCard;
 
 
-	@NotNull
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	public CreditCard getCreditCard() {
