@@ -63,6 +63,8 @@ public abstract class Actor extends DomainEntity {
 	public void setPhoneNumber(final String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
+
+	@NotBlank
 	@SafeHtml
 	@Email
 	public String getEmail() {
