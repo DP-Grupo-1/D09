@@ -47,6 +47,7 @@ public class Rendezvous extends DomainEntity {
 	private User						creator;
 	private Collection<User>			attendants;
 	private Collection<Announcement>	announcements;
+	private Collection<Category> categories;
 
 
 	//-----------------------------Getters y Setters Atributos----------------------------------
@@ -186,5 +187,17 @@ public class Rendezvous extends DomainEntity {
 
 	public void setAnnouncements(final Collection<Announcement> announcements) {
 		this.announcements = announcements;
+	}
+
+	
+	@NotNull
+	@Valid
+	@ManyToMany
+	public Collection<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(Collection<Category> categories) {
+		this.categories = categories;
 	}
 }

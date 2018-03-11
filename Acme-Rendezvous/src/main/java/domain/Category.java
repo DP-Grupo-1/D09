@@ -26,7 +26,7 @@ public class Category extends DomainEntity {
 	
 	private Category parent;
 	private Collection<Category> childrens;
-	private Collection<Service> services;
+	private Collection<Benefit> benefits;
 	
 	
 	@NotBlank
@@ -58,7 +58,7 @@ public class Category extends DomainEntity {
 	
 	@Valid
 	@NotNull
-	@OneToMany(mappedBy = "parentCategory")
+	@OneToMany(mappedBy = "parent")
 	public Collection<Category> getChildrens() {
 		return childrens;
 	}
@@ -69,11 +69,11 @@ public class Category extends DomainEntity {
 	@Valid
 	@ManyToMany
 	@NotNull
-	public Collection<Service> getServices() {
-		return services;
+	public Collection<Benefit> getBenefits() {
+		return benefits;
 	}
-	public void setServices(Collection<Service> services) {
-		this.services = services;
+	public void setBenefits(Collection<Benefit> benefits) {
+		this.benefits = benefits;
 	}
 }
 
