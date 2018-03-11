@@ -51,7 +51,7 @@ public class BenefitManagerController extends AbstractController {
 		benefit = this.benefitService.create();
 
 		result = this.createEditModelAndView(benefit);
-		result.addObject("requestURI", "question/user/edit.do?benefitId=" + benefit.getId());
+		result.addObject("requestURI", "benefit/manager/edit.do?benefitId=" + benefit.getId());
 
 		return result;
 	}

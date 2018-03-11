@@ -1,5 +1,6 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -10,18 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import controllers.AbstractController;
+
 import repositories.BenefitRepository;
 import repositories.CreditCardRepository;
 import domain.Administrator;
 import domain.Benefit;
 import domain.CreditCard;
 import domain.Manager;
+import domain.Rendezvous;
 import domain.Request;
 import domain.User;
 
 @Service
 @Transactional
-public class BenefitService {
+public class BenefitService extends AbstractController{
 
 	@Autowired
 	private BenefitRepository	benefitRepository;
@@ -46,6 +50,8 @@ public class BenefitService {
 	public Benefit create() {
 		Benefit result;
 		result = new Benefit();
+		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+		result.setRendezvouses(rendezvouses);
 		
 		return result;
 	}
@@ -117,5 +123,15 @@ public class BenefitService {
 		benefit.setFlag("CANCELLED");
 		this.saveByAdmin(benefit);
 		
+	}
+
+	public Collection<Benefit> findAll() {
+		// TODO Auto-generated method stub
+		return this.benefitRepository.findAll();
+	}
+
+	public Collection<Benefit> findAllRequestedByRendezvous(Rendezvous rendezvous) {
+		// TODO Auto-generated method stub
+		return this.benefitRepository.findAllRequestedByRendezvous(rendezvous);
 	}
 }

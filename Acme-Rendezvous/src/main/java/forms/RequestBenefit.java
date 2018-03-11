@@ -1,10 +1,7 @@
+package forms;
 
-package domain;
-
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Entity;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.CreditCardNumber;
@@ -13,21 +10,43 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
 
-@Entity
-@Access(AccessType.PROPERTY)
-public class CreditCard extends DomainEntity {
+import domain.Benefit;
+import domain.Rendezvous;
 
-	// Attributes
+public class RequestBenefit {
+
 	private String	holderName;
 	private String	brandName;
 	private String	number;
 	private int		expirationMonth;
 	private int		expirationYear;
 	private int		cvv;
-
+	private String	comment;
+	private Rendezvous rendezvous;
+	private Benefit benefit;
 	
-
-
+	@NotNull
+	public Benefit getBenefit() {
+		return benefit;
+	}
+	public void setBenefit(Benefit benefit) {
+		this.benefit = benefit;
+	}
+	@SafeHtml(whitelistType = WhiteListType.NONE)
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
+	@NotNull
+	public Rendezvous getRendezvous() {
+		return rendezvous;
+	}
+	public void setRendezvous(Rendezvous rendezvous) {
+		this.rendezvous = rendezvous;
+	}
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getHolderName() {

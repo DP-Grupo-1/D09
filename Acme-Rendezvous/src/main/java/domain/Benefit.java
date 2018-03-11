@@ -1,8 +1,11 @@
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -57,5 +60,16 @@ public class Benefit extends DomainEntity {
 	}
 	public void setFlag(String flag) {
 		this.flag = flag;
+	}
+	
+	private Collection<Rendezvous> rendezvouses;
+
+	@Valid
+	@ManyToMany(mappedBy = "rendezvous")
+	public Collection<Rendezvous> getRendezvouses() {
+		return rendezvouses;
+	}
+	public void setRendezvouses(Collection<Rendezvous> rendezvouses) {
+		this.rendezvouses = rendezvouses;
 	}
 }

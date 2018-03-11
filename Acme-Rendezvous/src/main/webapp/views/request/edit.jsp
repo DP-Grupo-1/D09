@@ -20,6 +20,17 @@
 
 		
 		<form:form action="${requestURI}" modelAttribute="requestBenefit">
+		
+		<form:hidden path="benefit" />
+		
+		
+		<form:label path="rendezvous">
+		<spring:message code="request.rendezvous"/>
+		</form:label>
+		<form:select path="rendezvous">
+		<form:options items="${rendezvouses}" itemValue="id" itemLabel="name"/>
+		</form:select>
+		<form:errors cssClass="error" path="rendezvous"/>
 	
    	 	<acme:textbox code="requestBenefit.holder.name" path="holderName"/>
     

@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 
 import repositories.RequestRepository;
 import domain.Benefit;
+import domain.Rendezvous;
 import domain.Request;
 import domain.User;
 
@@ -45,18 +46,25 @@ public class RequestService {
 		return result;
 	}
 
-	public Request save(final Request request, final Benefit benefit) {
+	public Request save(final Request request, final Benefit benefit, final Rendezvous rendezvous) {
 		Assert.notNull(request);
+		Assert.notNull(benefit);
+		Assert.notNull(rendezvous);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
+		
 		Request result;
 		request.setBenefit(benefit);
 		
 		result = this.requestRepository.save(request);
 		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getCreator().equals(principal));
 		Collection<Request> requests = principal.getRequests();
 		requests.add(result);
 		principal.setRequests(requests);
 		this.userService.save(principal);
+		Collection<Rendezvous> rendezvouses = benefit.getRendezvouses();
+		rendezvouses.add(rendezvous);
+		benefit.setRendezvouses(rendezvouses);
 
 		return result;
 	}
@@ -69,6 +77,11 @@ public class RequestService {
 	
 	public Collection<Request> findAllByBenefit(int benefitId){
 		return this.requestRepository.findAllByBenefit(benefitId);
+	}
+
+	public Collection<Request> findAllByBenefit(Benefit benefit) {
+		// TODO Auto-generated method stub
+		return this.requestRepository.findAllByBenefit(benefit.getId());
 	}
 
 }
