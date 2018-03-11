@@ -65,7 +65,17 @@ public class User extends Actor {
 
 	//Relationships---------------------------------------------------------------
 	private CreditCard	creditCard;
+	private Collection<Request> requests;
 
+	@Valid
+	@OneToMany(cascade = CascadeType.ALL)
+	public Collection<Request> getRequests() {
+		return requests;
+	}
+
+	public void setRequests(Collection<Request> requests) {
+		this.requests = requests;
+	}
 
 	@Valid
 	@OneToOne(cascade = CascadeType.ALL, optional = false)

@@ -25,17 +25,17 @@ public class Request extends DomainEntity {
 		this.comment = comment;
 	}
 	
-	private Benefit	service;
+	private Benefit	benefit;
 
 	@NotNull
 	@Valid
 	@ManyToOne(optional = false)
-	public Benefit getService() {
-		return this.service;
+	public Benefit getBenefit() {
+		return this.benefit;
 	}
 
-	public void setService(final Benefit service) {
-		this.service = service;
+	public void setBenefit(final Benefit benefit) {
+		this.benefit = benefit;
 	}
 
 }

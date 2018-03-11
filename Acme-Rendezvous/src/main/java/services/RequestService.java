@@ -1,7 +1,6 @@
 package services;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Collection;
 
 import javax.transaction.Transactional;
 
@@ -9,9 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import repositories.CreditCardRepository;
 import repositories.RequestRepository;
-import domain.CreditCard;
+import domain.Benefit;
 import domain.Request;
 import domain.User;
 
@@ -31,47 +29,46 @@ public class RequestService {
 	}
 
 	public Request create() {
-		CreditCard result;
-		result = new CreditCard();
+		Request result;
+		result = new Request();
 
 		return result;
 	}
-	public Request findOne(final int creditCardId) {
-		Assert.isTrue(creditCardId != 0);
+	public Request findOne(final int requestId) {
+		Assert.isTrue(requestId != 0);
 
-		CreditCard result;
+		Request result;
 
-		result = this.creditCardRepository.findOne(creditCardId);
+		result = this.requestRepository.findOne(requestId);
 		Assert.notNull(result);
 
 		return result;
 	}
 
-	public Request save(final CreditCard creditCard) {
-		Assert.notNull(creditCard);
-		CreditCard result;
-		Assert.isTrue(this.checkCCNumber(creditCard.getNumber()));
-		Assert.isTrue(this.expirationDate(creditCard));
+	public Request save(final Request request, final Benefit benefit) {
+		Assert.notNull(request);
+		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
+		Request result;
+		request.setBenefit(benefit);
+		
+		result = this.requestRepository.save(request);
 		final User principal = this.userService.findByPrincipal();
-		principal.setCreditCard(creditCard);
+		Collection<Request> requests = principal.getRequests();
+		requests.add(result);
+		principal.setRequests(requests);
 		this.userService.save(principal);
-		result = this.creditCardRepository.save(creditCard);
 
 		return result;
-	}
-
-	public void delete(final CreditCard creditCard) {
-		Assert.notNull(creditCard);
-		Assert.isTrue(creditCard.getId() != 0);
-		Assert.isTrue(this.creditCardRepository.exists(creditCard.getId()));
-
-		this.creditCardRepository.delete(creditCard);
 	}
 
 	// Auxiliary Methods
 
 	public void flush() {
-		this.creditCardRepository.flush();
+		this.requestRepository.flush();
+	}
+	
+	public Collection<Request> findAllByBenefit(int benefitId){
+		return this.requestRepository.findAllByBenefit(benefitId);
 	}
 
 }
