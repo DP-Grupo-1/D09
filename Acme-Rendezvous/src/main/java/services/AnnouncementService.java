@@ -86,6 +86,10 @@ public class AnnouncementService {
 		return this.announcementRepository.stddAnnouncementsPerRendezvous();
 	}
 
+	public void flush() {
+		this.announcementRepository.flush();
+	}
+
 	//Prune domain object--------------------------------------------------------
 	//	public Announcement reconstruct(Announcement announcement,BindingResult binding){
 	//		Announcement res;
