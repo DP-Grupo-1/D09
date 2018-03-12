@@ -344,6 +344,11 @@
 		<property name="description" value="holaHola" />
 		<property name="picture" value="http://www.google.com" />
 		<property name="flag" value="ACTIVE" />
+		<property name="rendezvouses">
+			<list>
+				<ref bean="rendezvous1" />
+			</list>
+		</property>
 	</bean>
 	
 	
@@ -352,6 +357,11 @@
 		<property name="description" value="holaHolaCaracola" />
 		<property name="picture" value="http://www.twitter.com" />
 		<property name="flag" value="ACTIVE" />
+		<property name="rendezvouses">
+			<list>
+				<ref bean="rendezvous2" />
+			</list>
+		</property>
 	</bean>
 	
 	
@@ -421,7 +431,7 @@
 	<bean id="creditCard1" class="domain.CreditCard">
 		<property name="holderName" value="Alfredo Campos Duran" />
 		<property name="brandName" value="visa" />
-		<property name="number" value="47666441255050121000" />
+		<property name="number" value="4941797406682489" />
 		<property name="expirationMonth" value="03" />
 		<property name="expirationYear" value="19" />
 		<property name="cvv" value="600" />
@@ -430,7 +440,7 @@
 	<bean id="creditCard2" class="domain.CreditCard">
 		<property name="holderName" value="Jacinto Ruiz" />
 		<property name="brandName" value="visa" />
-		<property name="number" value="47666441255050111000" />
+		<property name="number" value="4941797406682489" />
 		<property name="expirationMonth" value="01" />
 		<property name="expirationYear" value="25" />
 		<property name="cvv" value="601" />

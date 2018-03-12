@@ -68,7 +68,7 @@ public class Benefit extends DomainEntity {
 
 
 	@Valid
-	@ManyToMany(mappedBy = "rendezvous")
+	@ManyToMany()
 	public Collection<Rendezvous> getRendezvouses() {
 		return this.rendezvouses;
 	}
