@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import repositories.ManagerRepository;
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Benefit;
@@ -30,6 +31,18 @@ public class ManagerService {
 	//CRUD methods--------------------------------------------------------
 	public Manager create() {
 		final Manager res = new Manager();
+
+		final UserAccount userAccount = new UserAccount();
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.MANAGER);
+
+		Collection<Authority> authorities;
+
+		authorities = userAccount.getAuthorities();
+		authorities.add(authority);
+		userAccount.setAuthorities(authorities);
+
+		res.setUserAccount(userAccount);
 
 		final Collection<Benefit> benefits = new ArrayList<Benefit>();
 		res.setBenefits(benefits);
