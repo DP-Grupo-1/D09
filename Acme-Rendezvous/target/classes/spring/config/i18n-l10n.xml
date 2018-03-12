@@ -28,6 +28,7 @@
 		<value>/views/profile/messages</value>
 		
 		<value>/views/announcement/messages</value>
+		<value>/views/manager/messages</value>
 		<value>/views/dashboard/messages</value>
 		<value>/views/answer/messages</value>
 		<value>/views/comment/messages</value>

@@ -15,12 +15,12 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
+
 <form:form action="manager/register.do" modelAttribute="register">
 
 
-
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
-<acme:textbox code="manager.managername" path="managername"/>
+<acme:textbox code="manager.username" path="username"/>
 <acme:password code="manager.password" path="password"/>
 <acme:textbox code="manager.name" path="name"/>
 <acme:textbox code="manager.surname" path="surname"/>

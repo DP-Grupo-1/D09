@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import repositories.ManagerRepository;
-import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import domain.Benefit;
@@ -40,16 +39,11 @@ public class ManagerService {
 
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
-		final Manager res;
-		final UserAccount userAccount = LoginService.getPrincipal();
-		Assert.notNull(userAccount);
-		if (manager.getId() == 0)
-			Assert.isTrue(userAccount.getAuthorities().contains(Authority.MANAGER));//Admins son los que pueden crear admins
-		else
-			Assert.isTrue(userAccount.getId() == manager.getId());//Si se va a modificar, quien lo vaya a hacer tiene que tener el mismo id que su manager
-		res = this.managerRepository.save(manager);
-		return res;
+
+		return this.managerRepository.save(manager);
+
 	}
+
 	public Collection<Manager> findAll() {
 		Collection<Manager> res;
 		res = this.managerRepository.findAll();
