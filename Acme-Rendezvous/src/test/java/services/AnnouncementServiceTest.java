@@ -116,6 +116,9 @@ public class AnnouncementServiceTest extends AbstractTest {
 			}, {
 				// Delete Announcement: no administrador
 				"user1", 70, IllegalArgumentException.class
+			}, {
+				// Delete Announcement que no existe
+				"admin", 100, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
