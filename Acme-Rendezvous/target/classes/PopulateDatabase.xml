@@ -49,6 +49,20 @@
 		</property>
 	</bean>
 
+
+<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="manager1" />
+		<property name="password" value="c240642ddef994358c96da82c0361a58" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="MANAGER" />
+				</bean>
+				
+			</list>
+		</property>
+	</bean>
+
 	<!-- Other domain beans come here -->
 
 
@@ -84,6 +98,12 @@
 		<property name="attendants">
 			<list>
 				<ref bean="user1" />
+			</list>
+		</property>
+		
+		<property name="categories">
+			<list>
+				<ref bean="category1" />
 			</list>
 		</property>
 	</bean>
@@ -122,6 +142,12 @@
 				<ref bean="user2" />
 			</list>
 		</property>
+		
+		<property name="categories">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
 	</bean>
 
 
@@ -147,6 +173,7 @@
 		<property name="email" value="carfer@gmail.com" />
 		<property name="userAccount" ref="userAccount2" />
 		<property name="adult" value="true" />
+		<property name="creditCard" ref="creditCard1" />
 		
 		<property name="replies">
 			<list>
@@ -165,6 +192,13 @@
 				<ref bean="comment1" />
 			</list>
 		</property>
+		
+		<property name="requests">
+			<list>
+				<ref bean="request2" />
+			</list>
+		</property>
+		
 	</bean>
 
 
@@ -176,6 +210,7 @@
 		<property name="email" value="perpe@gmail.com" />
 		<property name="userAccount" ref="userAccount3" />
 		<property name="adult" value="true" />
+		<property name="creditCard" ref="creditCard2" />
 	
 		<property name="replies">
 			<list>
@@ -193,6 +228,12 @@
 		<property name="comments">
 			<list>
 				<ref bean="comment2" />
+			</list>
+		</property>
+		
+		<property name="requests">
+			<list>
+				<ref bean="request1" />
 			</list>
 		</property>
 	</bean>
@@ -295,5 +336,116 @@
 		<property name="description" value="description3" />
 	</bean>
 
+
+	<!-- Benefits -->
+
+	<bean id="benefit1" class="domain.Benefit">
+		<property name="name" value="Service1" />
+		<property name="description" value="holaHola" />
+		<property name="picture" value="http://www.google.com" />
+		<property name="flag" value="ACTIVE" />
+	</bean>
+	
+	
+	<bean id="benefit2" class="domain.Benefit">
+		<property name="name" value="Service2" />
+		<property name="description" value="holaHolaCaracola" />
+		<property name="picture" value="http://www.twitter.com" />
+		<property name="flag" value="ACTIVE" />
+	</bean>
+	
+	
+	
+	
+	
+	<!-- Categories -->
+	
+	<bean id="category1" class="domain.Category">
+		<property name="name" value="CATEGORY" />
+		<property name="description" value="description1" />
+		<property name="parent" ref="category1"/>
+		<property name="childrens">
+			<list>
+				<ref bean="category2" />
+			</list>
+		</property>
+		
+		<property name="benefits">
+			<list>
+				<ref bean="benefit1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="category2" class="domain.Category">
+		<property name="name" value="Children1" />
+		<property name="description" value="description2" />
+		<property name="parent" ref="category1"/>
+		<property name="childrens">
+			<list>
+				
+			</list>
+		</property>
+		
+		<property name="benefits">
+			<list>
+				<ref bean="benefit2" />
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Managers -->
+	
+	<bean id="manager1" class="domain.Manager">
+		<property name="name" value="Alfredo" />
+		<property name="surname" value="Campos" />
+		<property name="postalAddress" value="41927" />
+		<property name="phoneNumber" value="646770369" />
+		<property name="email" value="alfcamdur@gmail.com" />
+		<property name="userAccount" ref="userAccount4" />
+		<property name="adult" value="true" />
+		<property name="VAT" value="21.0" />
+		
+		<property name="benefits">
+			<list>
+				<ref bean="benefit1" />
+			</list>
+		</property>
+
+		
+	</bean>
+	
+	
+	<!-- CreditCards -->
+	
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Alfredo Campos Duran" />
+		<property name="brandName" value="visa" />
+		<property name="number" value="47666441255050121000" />
+		<property name="expirationMonth" value="03" />
+		<property name="expirationYear" value="19" />
+		<property name="cvv" value="600" />
+	</bean>
+	
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Jacinto Ruiz" />
+		<property name="brandName" value="visa" />
+		<property name="number" value="47666441255050111000" />
+		<property name="expirationMonth" value="01" />
+		<property name="expirationYear" value="25" />
+		<property name="cvv" value="601" />
+	</bean>
+	
+	<!-- Requests -->
+	
+	<bean id="request1" class="domain.Request">
+		<property name="comment" value="hey que tal" />
+		<property name="benefit" ref="benefit1" />
+	</bean>
+	
+	<bean id="request2" class="domain.Request">
+		<property name="comment" value="hey que tal holaaa" />
+		<property name="benefit" ref="benefit2" />
+	</bean>
 
 </beans>

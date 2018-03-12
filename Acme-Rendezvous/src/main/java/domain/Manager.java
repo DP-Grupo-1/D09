@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -20,28 +21,29 @@ import org.hibernate.validator.constraints.NotBlank;
 //	})
 //})
 public class Manager extends Actor {
-	
-	private String VAT;
 
-	private Collection<Benefit> benefits;
+	private String				VAT;
+
+	private Collection<Benefit>	benefits;
+
 
 	@NotNull
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL)
 	public Collection<Benefit> getBenefits() {
-		return benefits;
+		return this.benefits;
 	}
 
-	public void setBenefits(Collection<Benefit> benefits) {
+	public void setBenefits(final Collection<Benefit> benefits) {
 		this.benefits = benefits;
 	}
-	
+
 	@NotBlank
 	public String getVAT() {
-		return VAT;
+		return this.VAT;
 	}
 
-	public void setVAT(String vAT) {
-		VAT = vAT;
+	public void setVAT(final String VAT) {
+		this.VAT = VAT;
 	}
 }

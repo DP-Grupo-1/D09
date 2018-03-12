@@ -1,5 +1,7 @@
+
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
@@ -7,12 +9,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 
 import repositories.ManagerRepository;
 import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import domain.Benefit;
 import domain.Manager;
+import forms.RegisterManager;
 
 @Service
 @Transactional
@@ -24,11 +29,14 @@ public class ManagerService {
 
 
 	//CRUD methods--------------------------------------------------------
-	//	public Manager create() {
-	//		Manager res;
-	//		res = new Manager();
-	//		return res;
-	//	}
+	public Manager create() {
+		final Manager res = new Manager();
+
+		final Collection<Benefit> benefits = new ArrayList<Benefit>();
+		res.setBenefits(benefits);
+
+		return res;
+	}
 
 	public Manager save(final Manager manager) {
 		Assert.notNull(manager);
@@ -69,6 +77,25 @@ public class ManagerService {
 		res = this.managerRepository.findByUserAccountId(userAccount.getId());
 		Assert.notNull(res);
 		return res;
+	}
+
+	public Manager reconstruct(final RegisterManager registerManager, final BindingResult binding) {
+		final Manager result = this.create();
+
+		Assert.isTrue(registerManager.getAccept());
+
+		result.getUserAccount().setUsername(registerManager.getUsername());
+		result.getUserAccount().setPassword(registerManager.getPassword());
+
+		result.setName(registerManager.getName());
+		result.setSurname(registerManager.getSurname());
+		result.setPostalAddress(registerManager.getPostalAddress());
+		result.setPhoneNumber(registerManager.getPhoneNumber());
+		result.setEmail(registerManager.getEmail());
+		result.setVAT(registerManager.getVAT());
+		result.setAdult(registerManager.getAdult());
+
+		return result;
 	}
 
 }

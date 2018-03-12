@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -6,9 +7,7 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -25,51 +24,55 @@ public class Benefit extends DomainEntity {
 	private String	description;
 	private String	picture;
 	private String	flag;
-	
+
+
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
+
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
-	
+
 	@URL
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getPicture() {
-		return picture;
+		return this.picture;
 	}
-	public void setPicture(String picture) {
+	public void setPicture(final String picture) {
 		this.picture = picture;
 	}
-	
+
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@Pattern(regexp = "^(CANCELLED|ACTIVE)$")
 	public String getFlag() {
-		return flag;
+		return this.flag;
 	}
-	public void setFlag(String flag) {
+	public void setFlag(final String flag) {
 		this.flag = flag;
 	}
-	
-	private Collection<Rendezvous> rendezvouses;
+
+
+	// RELATIONSHIPS  ----------------------------------------------------
+	private Collection<Rendezvous>	rendezvouses;
+
 
 	@Valid
 	@ManyToMany(mappedBy = "rendezvous")
 	public Collection<Rendezvous> getRendezvouses() {
-		return rendezvouses;
+		return this.rendezvouses;
 	}
-	public void setRendezvouses(Collection<Rendezvous> rendezvouses) {
+	public void setRendezvouses(final Collection<Rendezvous> rendezvouses) {
 		this.rendezvouses = rendezvouses;
 	}
 }

@@ -1,3 +1,4 @@
+
 package domain;
 
 import javax.persistence.Access;
@@ -16,6 +17,8 @@ public class Request extends DomainEntity {
 
 	// Attributes
 	private String	comment;
+	private Benefit	benefit;
+
 
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getComment() {
@@ -24,8 +27,6 @@ public class Request extends DomainEntity {
 	public void setComment(final String comment) {
 		this.comment = comment;
 	}
-	
-	private Benefit	benefit;
 
 	@NotNull
 	@Valid
