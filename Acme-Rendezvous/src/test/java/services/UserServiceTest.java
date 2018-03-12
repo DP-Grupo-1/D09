@@ -33,7 +33,7 @@ public class UserServiceTest extends AbstractTest {
 	//Tests----------------------------------------------------------
 
 	@Test
-	public void driverCreation1() {
+	public void driverCreation() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un User.
 				"userNameNuevo", "passwordNuevo", "nombreNuevo", "apellidoNuevo", 53039, "correonuevo@bien.com", "954678342", false, null
@@ -56,20 +56,20 @@ public class UserServiceTest extends AbstractTest {
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (boolean) testingData[i][7],
-				(Class<?>) testingData[i][8]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(boolean) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
 	@Test
 	public void driverCreationPostalNull() {
 		final Object testingData[][] = {
 			{		// Creación correcta de un User: código postal vacío.
-				"userNameNuevo", "passwordNuevo", "nombreNuevo", "apellidoNuevo", "", "correonuevo@bien.com", "954678342", false, null
+				"userNameNuevo", "passwordNuevo", "nombreNuevo", "apellidoNuevo", null, "correonuevo@bien.com", "954678342", false, null
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (boolean) testingData[i][7],
-				(Class<?>) testingData[i][8]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(boolean) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
 	@Test
@@ -80,8 +80,8 @@ public class UserServiceTest extends AbstractTest {
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (boolean) testingData[i][7],
-				(Class<?>) testingData[i][8]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(boolean) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
 	@Test
@@ -92,8 +92,8 @@ public class UserServiceTest extends AbstractTest {
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (int) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6], (boolean) testingData[i][7],
-				(Class<?>) testingData[i][8]);
+			this.templateCreation((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Integer) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(boolean) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class UserServiceTest extends AbstractTest {
 	}
 
 	// Templates ----------------------------------------------------------
-	protected void templateCreation(final String username, final String password, final String name, final String surname, final int postal, final String email, final String phone, final boolean adult, final Class<?> expected) {
+	protected void templateCreation(final String username, final String password, final String name, final String surname, final Integer postal, final String email, final String phone, final boolean adult, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
 		try {
