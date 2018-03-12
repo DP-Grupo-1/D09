@@ -53,29 +53,33 @@ public class CommentService {
 	public Comment save(final Comment comment) {
 		Assert.notNull(comment);
 		Comment res;
-		final User user = this.userService.findByPrincipal();
-		Assert.notNull(user);
-		final Collection<Comment> comments = user.getComments();
+		final User logged = this.userService.findByPrincipal();
+		Assert.notNull(logged);
+
+		final Collection<Comment> comments = logged.getComments();
 
 		if (comment.getId() == 0) {
 
 			res = this.commentRepository.save(comment);
 			comments.add(res);
-			user.setComments(comments);
-			this.userService.save(user);
-		} else
+			logged.setComments(comments);
+			this.userService.save(logged);
+		} else {
 			res = this.commentRepository.save(comment);
+			final User user = this.userService.findByCommentId(comment.getId());
+			Assert.notNull(user);
+			Assert.isTrue(logged.getId() == user.getId());
+		}
+
 		return res;
 	}
 
 	public void delete(final Comment comment) {
-		
+
 		Assert.notNull(comment);
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 		this.quitarCommentReply(comment);
-
-
 
 		this.commentRepository.delete(comment);
 	}
@@ -109,7 +113,6 @@ public class CommentService {
 		return replies;
 	}
 
-	
 	//DASHBOARD
 	public Double avgRepliesPerComment() {
 		Double res;
@@ -121,22 +124,24 @@ public class CommentService {
 		res = this.commentRepository.stdevRepliesPerComment();
 		return res;
 	}
-	
-	
-	public Comment reconstruct(final Comment comment, final BindingResult binding) {
-        Comment res;
-        if (comment.getId() == 0)
-            res = comment;
-        else {
-            res = this.commentRepository.findOne(comment.getId());
-            res.setText(comment.getText());
-            res.setPicture(comment.getPicture());
-            res.setMoment(comment.getMoment());
-            //Se supone que hace falta
-            //res.setReplies(comment.getReplies());
 
-        }
-	return res;
+	public Comment reconstruct(final Comment comment, final BindingResult binding) {
+		Comment res;
+		if (comment.getId() == 0)
+			res = comment;
+		else {
+			res = this.commentRepository.findOne(comment.getId());
+			res.setText(comment.getText());
+			res.setPicture(comment.getPicture());
+			res.setMoment(comment.getMoment());
+			//Se supone que hace falta
+			//res.setReplies(comment.getReplies());
+
+		}
+		return res;
 	}
-	
+	public void flush() {
+		this.commentRepository.flush();
+	}
+
 }
