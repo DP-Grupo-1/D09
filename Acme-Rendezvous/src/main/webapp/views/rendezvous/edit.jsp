@@ -32,6 +32,7 @@
 	<form:hidden path="rendezvouses" />
 	<form:hidden path="comments" />
 	<form:hidden path="announcements" />
+	<form:hidden path="categories"/>
 	
 	<script>
 	function tester(moment) {

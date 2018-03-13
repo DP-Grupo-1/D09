@@ -62,15 +62,15 @@ public class ReplyService {
 
 	public void delete(final Reply reply) {
 		Assert.notNull(reply);
-		
+
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
-		User user= userService.findByReplyId(reply.getId());
+		final User user = this.userService.findByReplyId(reply.getId());
 		Assert.notNull(user);
-		
+		System.out.println("replies del usuario antes:" + user.getReplies());
 		user.getReplies().remove(reply);
-		userService.save(user);
-			
+		System.out.println("replies del usuario despues:" + user.getReplies());
+		this.userService.save(user);
 
 		this.replyRepository.delete(reply);
 	}
