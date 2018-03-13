@@ -42,7 +42,7 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
-		<jstl:if test="${row.flag != 'CANCELLED'">
+		<jstl:if test="${row.flag != 'CANCELLED'}">
 			<display:column>
 				<a href="benefit/administrator/cancel.do?benefitId=${row.id}"><spring:message code="benefit.cancel"/></a>
 			</display:column>

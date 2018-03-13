@@ -8,15 +8,12 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -47,7 +44,7 @@ public class Rendezvous extends DomainEntity {
 	private User						creator;
 	private Collection<User>			attendants;
 	private Collection<Announcement>	announcements;
-	private Collection<Category> categories;
+	private Collection<Category>		categories;
 
 
 	//-----------------------------Getters y Setters Atributos----------------------------------
@@ -70,7 +67,6 @@ public class Rendezvous extends DomainEntity {
 		this.description = description;
 	}
 
-	
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -189,15 +185,14 @@ public class Rendezvous extends DomainEntity {
 		this.announcements = announcements;
 	}
 
-	
 	@NotNull
 	@Valid
 	@ManyToMany
 	public Collection<Category> getCategories() {
-		return categories;
+		return this.categories;
 	}
 
-	public void setCategories(Collection<Category> categories) {
+	public void setCategories(final Collection<Category> categories) {
 		this.categories = categories;
 	}
 }

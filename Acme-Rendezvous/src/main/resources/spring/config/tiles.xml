@@ -31,6 +31,7 @@
 		<value>/views/announcement/tiles.xml</value>
 		<!-- <value>/views/answer/tiles.xml</value> -->
 		<value>/views/comment/tiles.xml</value>
+		<value>/views/benefit/tiles.xml</value>
 		<value>/views/question/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
 		<value>/views/rendezvous/tiles.xml</value>
