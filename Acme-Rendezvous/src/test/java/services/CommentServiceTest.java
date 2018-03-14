@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Comment;
 import domain.Rendezvous;
+import domain.Reply;
 import domain.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -124,10 +126,10 @@ public class CommentServiceTest extends AbstractTest {
 			{
 				"user1", "comment1", "a", "foto", ConstraintViolationException.class
 			},
-		//			//Un usuario intentando actualizar el comment de otro usuario
-		//			{
-		//				"user2", "comment1", "a", "http://www.picture.com", IllegalArgumentException.class
-		//			}
+			//			//Un usuario intentando actualizar el comment de otro usuario
+			{
+				"user2", "comment1", "a", "http://www.picture.com", IllegalArgumentException.class
+			}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -138,7 +140,7 @@ public class CommentServiceTest extends AbstractTest {
 
 		caught = null;
 		try {
-			super.authenticate(username);// actualizar un comment que no existe
+			super.authenticate(username);
 			final Comment comment = this.commentService.findOne(commentId);
 			comment.setText(text);
 			comment.setPicture(picture);
@@ -186,5 +188,24 @@ public class CommentServiceTest extends AbstractTest {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expected, caught);
+	}
+
+	@Test
+	public void testFindByCommentId() {
+		final Collection<Reply> replies = this.commentService.findByCommentId(super.getEntityId("comment1"));
+		Assert.notNull(replies);
+		System.out.println("Replies del comment1: " + replies);
+	}
+	@Test
+	public void testAvgRepliesPerComment() {
+		final Double avg = this.commentService.avgRepliesPerComment();
+		Assert.notNull(avg);
+		System.out.println("Media de replies por comentario: " + avg);
+	}
+	@Test
+	public void testStdevRepliesPerComment() {
+		final Double stdev = this.commentService.stdevRepliesPerComment();
+		Assert.notNull(stdev);
+		System.out.println("Desviacion estandar de replies por comentario: " + stdev);
 	}
 }

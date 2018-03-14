@@ -104,5 +104,12 @@ public class ManagerService {
 
 		return result;
 	}
+	public Collection<Manager> managersWithMoreBenefits() {
+		return this.managerRepository.managersWithMoreBenefits();
+
+	}
+	public Collection<Manager> managersWithMoreBenefitsCancelled() {
+		return this.managerRepository.managersWithMoreBenefits();
+	}
 
 }

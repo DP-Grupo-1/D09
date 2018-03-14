@@ -1,9 +1,8 @@
+
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 
 import javax.transaction.Transactional;
 
@@ -11,36 +10,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import controllers.AbstractController;
-
 import repositories.BenefitRepository;
-import repositories.CreditCardRepository;
+import controllers.AbstractController;
 import domain.Administrator;
 import domain.Benefit;
-import domain.CreditCard;
 import domain.Manager;
 import domain.Rendezvous;
 import domain.Request;
-import domain.User;
 
 @Service
 @Transactional
-public class BenefitService extends AbstractController{
+public class BenefitService extends AbstractController {
 
 	@Autowired
-	private BenefitRepository	benefitRepository;
+	private BenefitRepository		benefitRepository;
 
 	@Autowired
 	private UserService				userService;
-	
+
 	@Autowired
-	private AdministratorService				administratorService;
-	
+	private AdministratorService	administratorService;
+
 	@Autowired
-	private RequestService				requestService;
-	
+	private RequestService			requestService;
+
 	@Autowired
-	private ManagerService				managerService;
+	private ManagerService			managerService;
 
 
 	public BenefitService() {
@@ -50,18 +45,18 @@ public class BenefitService extends AbstractController{
 	public Benefit create() {
 		Benefit result;
 		result = new Benefit();
-		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+		final Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
 		result.setRendezvouses(rendezvouses);
-		
+
 		return result;
 	}
 	public Benefit findOne(final int benefitId) {
 		Assert.isTrue(benefitId != 0);
-		
+
 		Benefit result;
 
 		result = this.benefitRepository.findOne(benefitId);
-		Manager principal = this.managerService.findByPrincipal();
+		final Manager principal = this.managerService.findByPrincipal();
 		Assert.isTrue(principal.getBenefits().contains(result));
 		Assert.notNull(result);
 
@@ -70,35 +65,35 @@ public class BenefitService extends AbstractController{
 
 	public Benefit save(final Benefit benefit) {
 		Assert.notNull(benefit);
-		Manager principal = this.managerService.findByPrincipal();
-		
-		if(benefit.getId()==0){
+		final Manager principal = this.managerService.findByPrincipal();
+
+		if (benefit.getId() == 0) {
 			benefit.setFlag("ACTIVE");
-			Collection<Benefit> benefits = principal.getBenefits();
+			final Collection<Benefit> benefits = principal.getBenefits();
 			benefits.add(benefit);
 			principal.setBenefits(benefits);
 			this.managerService.save(principal);
 		}
 		Assert.isTrue(principal.getBenefits().contains(benefit));
-		Benefit result = this.benefitRepository.save(benefit);
+		final Benefit result = this.benefitRepository.save(benefit);
 
 		return result;
 	}
-	
+
 	public Benefit saveByAdmin(final Benefit benefit) {
 		Assert.notNull(benefit);
-		Administrator principal = this.administratorService.findByPrincipal();
+		final Administrator principal = this.administratorService.findByPrincipal();
 		Assert.notNull(principal);
-		Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
+		final Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
 		Assert.isTrue(requests.isEmpty());
- 
-		Benefit result = this.benefitRepository.save(benefit);
+
+		final Benefit result = this.benefitRepository.save(benefit);
 		return result;
 	}
 
 	public void delete(final Benefit benefit) {
-		Manager principal = this.managerService.findByPrincipal();
-		Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
+		final Manager principal = this.managerService.findByPrincipal();
+		final Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
 		Assert.isTrue(requests.isEmpty());
 		Assert.isTrue(principal.getBenefits().contains(benefit));
 		Assert.isTrue(principal.getBenefits().contains(benefit));
@@ -114,15 +109,15 @@ public class BenefitService extends AbstractController{
 	public void flush() {
 		this.benefitRepository.flush();
 	}
-	
-	public void cancelBenefit(Benefit benefit){
-		Administrator principal = this.administratorService.findByPrincipal();
+
+	public void cancelBenefit(final Benefit benefit) {
+		final Administrator principal = this.administratorService.findByPrincipal();
 		Assert.notNull(principal);
 		Assert.notNull(benefit);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
 		benefit.setFlag("CANCELLED");
 		this.saveByAdmin(benefit);
-		
+
 	}
 
 	public Collection<Benefit> findAll() {
@@ -130,8 +125,11 @@ public class BenefitService extends AbstractController{
 		return this.benefitRepository.findAll();
 	}
 
-	public Collection<Benefit> findAllRequestedByRendezvous(Rendezvous rendezvous) {
+	public Collection<Benefit> findAllRequestedByRendezvous(final Rendezvous rendezvous) {
 		// TODO Auto-generated method stub
 		return this.benefitRepository.findAllRequestedByRendezvous(rendezvous);
+	}
+	public Collection<Benefit> bestSellings() {
+		return this.benefitRepository.bestSellings();
 	}
 }
