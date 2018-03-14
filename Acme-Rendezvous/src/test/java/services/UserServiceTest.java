@@ -100,19 +100,49 @@ public class UserServiceTest extends AbstractTest {
 	public void driverDisplaying() {
 		final Object testingData[][] = {
 			{		// Display correcto de un User ya creado y logueado como tal. 
-				"user1", 60, null
+				"user1", 217, null
 			}, {	// Display correcto de un User distinto al que está logueado.
-				"user1", 61, null
+				"user1", 218, null
 			}, {	// Display correcto de un User, sin estar logueado en el sistema.
-				null, 60, null
+				null, 217, null
 			}, {	// Display erróneo de un User que no existe con uno logueado.
-				"user1", 100, IllegalArgumentException.class
+				"user1", 300, IllegalArgumentException.class
 			}, {		// Display erróneo de un User que no existe sin estar logueado.
-				null, 100, IllegalArgumentException.class
+				null, 300, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
 			this.templateDisplaying((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	@Test
+	public void driverFindByReplyId() {
+		final Object testingData[][] = {
+			{
+				"user1", 202, null
+			}, {
+				"admin", 204, null
+			}, {
+				null, 202, null
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateFindByReplyId((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	@Test
+	public void driverFindByCommentId() {
+		final Object testingData[][] = {
+			{
+				"user1", 201, null
+			}, {
+				"admin", 203, null
+			}, {
+				null, 201, null
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateFindByCommentId((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
 	// Templates ----------------------------------------------------------
@@ -151,6 +181,31 @@ public class UserServiceTest extends AbstractTest {
 		try {
 			this.authenticate(username);
 			final User u = this.userService.findOne(userId);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateFindByReplyId(final String username, final Integer replyId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			this.authenticate(username);
+			final User u = this.userService.findByReplyId(replyId);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+
+	protected void templateFindByCommentId(final String username, final Integer commentId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+
+		try {
+			this.authenticate(username);
+			final User u = this.userService.findByCommentId(commentId);
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
