@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.Collection;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,29 +57,16 @@ public class RendezvousServiceTest extends AbstractTest {
 	@Test
 	public void testFindByCreatorId() {
 		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorId(super.getEntityId("user1"));
-		System.out.println("Rendezvouses del user1: " + rendezvouses);
+		System.out.println("Rendezvouses que ha creado  user1: " + rendezvouses);
 	}
 	@Test
-	public void testSave() {//normal
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		rendezvous.setDescription("sample description");
-		rendezvous.setPicture("http://www.samplepicture.com");
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setLocationLatitude(62.6);
-		rendezvous.setLocationLongitude(56.2);
-		rendezvous.setFinalMode(true);
-		rendezvous.setAdultOnly(false);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-
-		super.authenticate(null);
-
+	public void testFindByUserId() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByUserId(super.getEntityId("user1"));
+		System.out.println("Rendezvouses que ha confirmado user1: " + rendezvouses);
 	}
-	@Test
-	public void testSave2() {//intentar modificar un rendezvous que esta en final mode
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSave() {//intentar modificar un rendezvous que esta en final mode
 
 		super.authenticate("user1");
 		final Rendezvous a = this.rendezvousService.findOneOnly(super.getEntityId("rendezvous1"));
@@ -91,102 +79,9 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate(null);
 
 	}
-	@Test
-	public void testSave3() {//normal sin locations
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		rendezvous.setDescription("sample description");
-		rendezvous.setPicture("http://www.samplepicture.com");
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setFinalMode(false);
-		rendezvous.setAdultOnly(false);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
 
-	}
-	@Test
-	public void testSave4() {//con el nombre vacio
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		//	rendezvous.setName("");
-		rendezvous.setDescription("sample description");
-		rendezvous.setPicture("http://www.samplepicture.com");
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setFinalMode(false);
-		rendezvous.setAdultOnly(false);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
-
-	}
-	@Test
-	public void testSave5() {//con el description vacio
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		//rendezvous.setDescription("");
-		rendezvous.setPicture("http://www.samplepicture.com");
-		rendezvous.setFinalMode(false);
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setAdultOnly(false);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
-
-	}
-	@Test
-	public void testSave6() {//el picture no esta en formato url
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		rendezvous.setDescription("sample description");
-		rendezvous.setPicture("sample picture");
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setFinalMode(false);
-		rendezvous.setAdultOnly(true);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
-
-	}
-	@Test
-	public void testSave7() {//no tiene picture
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		rendezvous.setDescription("sample description");
-		final Date moment = new Date(System.currentTimeMillis() + 5000);
-		rendezvous.setMoment(moment);
-		rendezvous.setFinalMode(false);
-		rendezvous.setAdultOnly(true);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
-
-	}
-	@Test
-	public void testSave8() {//no tiene moment
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.create();
-		rendezvous.setName("sample name");
-		rendezvous.setDescription("sample description");
-		rendezvous.setPicture("http://www.picture.com");
-
-		rendezvous.setFinalMode(false);
-		rendezvous.setAdultOnly(true);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save));
-		super.authenticate(null);
-
-	}
-	@Test
-	public void testSave9() {//guardar teniendo el flag en delete
+	@Test(expected = IllegalArgumentException.class)
+	public void testSave2() {//guardar teniendo el flag en delete
 		super.authenticate("user1");
 		final Rendezvous rendezvous = this.rendezvousService.create();
 		rendezvous.setName("sample name");
@@ -203,6 +98,22 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	}
 	@Test
+	public void testSave3() {//al guardar en pasado el flag deberia ser PASSED
+		super.authenticate("user1");
+		final Rendezvous rendezvous = this.rendezvousService.create();
+		rendezvous.setName("sample name");
+		rendezvous.setDescription("sample description");
+		rendezvous.setPicture("http://www.samplepicture.com");
+		final Date moment = new Date(System.currentTimeMillis() - 5000);
+		rendezvous.setMoment(moment);
+		rendezvous.setFinalMode(false);
+		rendezvous.setAdultOnly(false);
+		final Rendezvous save = this.rendezvousService.save(rendezvous);
+		Assert.isTrue(this.rendezvousService.findAll().contains(save));
+		Assert.isTrue(save.getFlag().equals(Flag.PASSED));
+		super.authenticate(null);
+	}
+	@Test()
 	public void testDelete() {//un admin borra un rendezvous
 		super.authenticate("admin");
 		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
@@ -213,26 +124,8 @@ public class RendezvousServiceTest extends AbstractTest {
 		super.authenticate(null);
 	}
 
-	@Test
-	public void testDelete2() {//un usuario borra un rendezvous de otro usuario 
-		super.authenticate("user2");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		this.rendezvousService.deleteByUser(rendezvous);
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-		super.authenticate(null);
-	}
-	@Test
-	public void testDelete3() {//un usuario borra un rendezvous 
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		this.rendezvousService.deleteByUser(rendezvous);
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-		super.authenticate(null);
-	}
-	@Test
-	public void testDelete4() {//un usuario borra un rendezvous que esta en final mode
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete2() {//un usuario borra un rendezvous que esta en final mode
 		super.authenticate("user1");
 		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
 		rendezvous.setFinalMode(true);
@@ -242,16 +135,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate(null);
 	}
-	@Test
-	public void testDelete5() {//un usuario sin autentificar borra un rendezvous 
-		super.authenticate(null);
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		this.rendezvousService.deleteByUser(rendezvous);
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-	}
-	@Test
-	public void testDelete6() {//un usuario borra un rendezvous que tiene un flag a DELETE
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete3() {//un usuario borra un rendezvous que tiene un flag a DELETE
 		super.authenticate("user1");
 		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
 		this.rendezvousService.deleteByUser(rendezvous);
@@ -261,8 +146,8 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate(null);
 	}
-	@Test
-	public void testDelete7() {//un admin borra un rendezvous que tiene un flag a DELETE
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete4() {//un admin borra un rendezvous que tiene un flag a DELETE
 		super.authenticate("admin");
 		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
 		this.rendezvousService.deleteByUser(rendezvous);
@@ -280,13 +165,98 @@ public class RendezvousServiceTest extends AbstractTest {
 		Assert.isTrue(rendezvous.getAttendants().contains(this.userService.findByPrincipal()));
 		super.authenticate(null);
 	}
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testRSVP2() {//rsvp un manager
 		super.authenticate("manager");
 		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
 		this.rendezvousService.rsvp(rendezvous);
 		Assert.isTrue(rendezvous.getAttendants().contains(this.userService.findByPrincipal()));
 		super.authenticate(null);
+	}
+	@Test
+	public void driverSave() {
+		final Object testingData[][] = {
+			{//normal
+				"user1", "sample name", "sample description", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, null
+			}, {//normal sin locations
+				"user1", "sample name", "sample description", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), null, null, true, false, null
+			}, {//test negativo: el nombre vacio
+				"user1", "", "sample description", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, ConstraintViolationException.class
+			}, {//test negativo: el description vacio
+				"user1", "sample name", "", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, ConstraintViolationException.class
+			}, {//test negativo: el picture vacio
+				"user1", "sample name", "sample description", "", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, ConstraintViolationException.class
+			}, {//test negativo: el picture sin formato url
+				"user1", "sample name", "sample description", "sample picture", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, ConstraintViolationException.class
+			}, {//test negativo: sin moment
+				"user1", "sample name", "sample description", "http://www.samplepicture.com", null, 62.6, 56.2, true, false, ConstraintViolationException.class
+			}, {//test negativo: el que guarda un rendezvous es un manager
+				"manager", "sample name", "sample description", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, IllegalArgumentException.class
+			}, {//test negativo: el que guarda un rendezvous es un usuario sin registrar
+				null, "sample name", "sample description", "http://www.samplepicture.com", new Date(System.currentTimeMillis() + 5000), 62.6, 56.2, true, false, IllegalArgumentException.class
+			}
+
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSave((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Date) testingData[i][4], (Double) testingData[i][5], (Double) testingData[i][6], (Boolean) testingData[i][7],
+				(Boolean) testingData[i][8], (Class<?>) testingData[i][9]);
+	}
+
+	protected void templateSave(final String username, final String name, final String description, final String picture, final Date moment, final Double llatitude, final Double llongitude, final Boolean finalMode, final Boolean adultOnly,
+		final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+			super.authenticate(username);
+			final Rendezvous rendezvous = this.rendezvousService.create();
+			rendezvous.setName(name);
+			rendezvous.setDescription(description);
+			rendezvous.setPicture(picture);
+			rendezvous.setMoment(moment);
+			rendezvous.setLocationLatitude(llatitude);
+			rendezvous.setLocationLongitude(llongitude);
+			rendezvous.setFinalMode(finalMode);
+			rendezvous.setAdultOnly(adultOnly);
+			final Rendezvous save = this.rendezvousService.save(rendezvous);
+			Assert.isTrue(this.rendezvousService.findAll().contains(save));
+
+			super.authenticate(null);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+	@Test
+	public void driverDelete() {
+		final Object testingData[][] = {
+
+			{//normal
+				"user1", "rendezvous1", null
+			}, {//test negativo:un usuario intenta borrar un rendezvous de otro usuario
+				"user2", "rendezvous1", IllegalArgumentException.class
+			}, {//test negativo:un usuario sin autenticar intenta borrar un rendezvous
+				null, "rendezvous2", IllegalArgumentException.class
+			}
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDelete((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateDelete(final String username, final int rendezvousId, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			super.authenticate(username);
+			final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+			this.rendezvousService.deleteByUser(rendezvous);
+			Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
+
+			super.authenticate(null);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
 	}
 
 }
