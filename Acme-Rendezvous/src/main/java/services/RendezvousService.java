@@ -15,11 +15,11 @@ import org.springframework.validation.Validator;
 import repositories.RendezvousRepository;
 import domain.Administrator;
 import domain.Announcement;
-import domain.Category;
 import domain.Comment;
 import domain.Flag;
 import domain.Rendezvous;
 import domain.User;
+
 
 @Service
 @Transactional
@@ -38,6 +38,7 @@ public class RendezvousService {
 	@Autowired
 	private AdministratorService	administratorService;
 
+
 	@Autowired
 	private Validator				validator;
 
@@ -52,7 +53,6 @@ public class RendezvousService {
 		final Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
 		final Collection<Comment> comments = new ArrayList<Comment>();
 		final Collection<Announcement> announcements = new ArrayList<Announcement>();
-		final Collection<Category> categories = new ArrayList<>();
 
 		result.setAnnouncements(announcements);
 		result.setAttendants(attendants);
@@ -61,7 +61,6 @@ public class RendezvousService {
 		result.setFinalMode(false);
 		result.setAdultOnly(false);
 		result.setCreator(user);
-		result.setCategories(categories);
 		result.setFlag(Flag.ACTIVE);
 
 		return result;
@@ -88,8 +87,8 @@ public class RendezvousService {
 			this.findByCreatorId(user.getId()).add(result);
 
 		} else
-			Assert.isTrue(rendezvous.getFinalMode() == false);
-		result = this.rendezvousRepository.save(rendezvous);
+			
+			result = this.rendezvousRepository.save(rendezvous);
 
 		return result;
 	}
@@ -122,30 +121,31 @@ public class RendezvousService {
 
 		final User user = this.userService.findByPrincipal();
 		Assert.notNull(user);
-		Assert.isTrue(user.getId() == rendezvous.getCreator().getId());
+
 		Assert.isTrue(rendezvous.getFinalMode() == false);
 		Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
 		rendezvous.setFlag(Flag.DELETED);
 		this.onlySave(rendezvous);
 	}
-
+	
+	
 	public void deleteByAdmin(final Rendezvous rendezvous) {
 
 		Assert.notNull(rendezvous);
 
-		final Administrator admin = this.administratorService.findByPrincipal();
+        final Administrator admin = this.administratorService.findByPrincipal();
 
-		Assert.notNull(admin);
+        Assert.notNull(admin);
 
-		try {
-			Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
+        try {
+            Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
 
-			rendezvous.setFlag(Flag.DELETED);
-			this.onlySave(rendezvous);
+            rendezvous.setFlag(Flag.DELETED);
+            this.onlySave(rendezvous);
 
-		} catch (final Exception oops) {
-			System.out.println(oops.getMessage());
-		}
+        } catch(final Exception oops) {
+            System.out.println(oops.getMessage());
+        }
 	}
 
 	public Collection<Rendezvous> findAll() {
@@ -212,6 +212,7 @@ public class RendezvousService {
 		return result;
 	}
 
+
 	//3.1
 	public Double avgUsersPerRendezvous() {
 		final Double result = this.rendezvousRepository.avgUsersPerRendezvous();
@@ -263,6 +264,8 @@ public class RendezvousService {
 		return result;
 	}
 
+
+
 	//COMMENT
 
 	public Collection<Comment> findByRendezvous(final Integer rendezvousId) {
@@ -284,64 +287,80 @@ public class RendezvousService {
 		final Rendezvous res = this.rendezvousRepository.findByAnnouncementId(announcementId);
 		return res;
 	}
-
+	
+	
 	//Requisito 6.3 punto 2
-	public Double ratioUsersSinRendezvous() {
-		final Double ratio = 1 - this.ratioCreators();
-		return ratio;
-	}
-	//Requisito 6.3 punto 1: la desviación estándar de reuniones creadas por usuario.
-	public Double stddevRendezvousPerUser() {
-		Double stddev = 0.0;
+    public Double ratioUsersSinRendezvous() {
+        final Double ratio = 1 - this.ratioCreators();
+        return ratio;
+    }
+    //Requisito 6.3 punto 1: la desviación estándar de reuniones creadas por usuario.
+   public Double stddevRendezvousPerUser() {
+        Double stddev = 0.0;
 
-		stddev = Math.sqrt(this.sumRendezvouses() / this.numRendezvouses() - this.avgRendezvousPerUser() * this.avgRendezvousPerUser());
+        stddev = Math.sqrt(this.sumRendezvouses() / this.numRendezvouses() - this.avgRendezvousPerUser() * this.avgRendezvousPerUser());
 
-		return stddev;
-	}
+        return stddev;
+    }
 
-	private Integer numRendezvouses() {
-		Integer numRendezvouses = 0;
-		for (final User u1 : this.userService.findAll()) {
-			final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u1.getId());
-			numRendezvouses = numRendezvouses + rendezvouses.size();
-		}
-		return numRendezvouses;
-	}
+    private Integer numRendezvouses() {
+        Integer numRendezvouses = 0;
+        for (final User u1 : this.userService.findAll()) {
+            final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u1.getId());
+            numRendezvouses = numRendezvouses + rendezvouses.size();
+        }
+        return numRendezvouses;
+    }
 
-	private Integer sumRendezvouses() {
-		Integer sumRendezvouses = 0;
-		for (final User u2 : this.userService.findAll()) {
-			final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u2.getId());
-			sumRendezvouses = sumRendezvouses + rendezvouses.size() * rendezvouses.size();
-		}
-		return sumRendezvouses;
-	}
+    private Integer sumRendezvouses() {
+        Integer sumRendezvouses = 0;
+        for (final User u2 : this.userService.findAll()) {
+            final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u2.getId());
+            sumRendezvouses = sumRendezvouses + rendezvouses.size() * rendezvouses.size();
+        }
+        return sumRendezvouses;
+    }
+	
+	
+	
 
+	
 	public Rendezvous reconstruct(final Rendezvous rendezvous, final BindingResult binding) {
-		Rendezvous res;
-		if (rendezvous.getId() == 0)
-			res = rendezvous;
-		else {
-			res = this.rendezvousRepository.findOne(rendezvous.getId());
-			res.setName(rendezvous.getName());
-			res.setDescription(rendezvous.getDescription());
-			res.setMoment(rendezvous.getMoment());
-			res.setPicture(rendezvous.getPicture());
-			res.setLocationLatitude(rendezvous.getLocationLatitude());
-			res.setLocationLongitude(rendezvous.getLocationLongitude());
-			res.setFinalMode(rendezvous.getFinalMode());
-			res.setAdultOnly(rendezvous.getAdultOnly());
-			//             cosas necesarias
-			//            res.setCreator(rendezvous.getCreator());
-			//            res.setFlag(rendezvous.getFlag());
-			//            res.setRendezvouses(rendezvous.getRendezvouses());
-			//            res.setComments(rendezvous.getComments());
-			//            res.setAttendants(rendezvous.getAttendants());
-			//            res.setAnnouncements(rendezvous.getAnnouncements());
-			this.validator.validate(res, binding);
-		}
+        Rendezvous res;
+        if (rendezvous.getId() == 0)
+            res = rendezvous;
+        else {
+            res = this.rendezvousRepository.findOne(rendezvous.getId());
+            res.setName(rendezvous.getName());
+            res.setDescription(rendezvous.getDescription());
+            res.setMoment(rendezvous.getMoment());
+            res.setPicture(rendezvous.getPicture());
+            res.setLocationLatitude(rendezvous.getLocationLatitude());
+            res.setLocationLongitude(rendezvous.getLocationLongitude());
+            res.setFinalMode(rendezvous.getFinalMode());
+            res.setAdultOnly(rendezvous.getAdultOnly());
+            //             cosas necesarias
+            //            res.setCreator(rendezvous.getCreator());
+            //            res.setFlag(rendezvous.getFlag());
+            //            res.setRendezvouses(rendezvous.getRendezvouses());
+            //            res.setComments(rendezvous.getComments());
+            //            res.setAttendants(rendezvous.getAttendants());
+            //            res.setAnnouncements(rendezvous.getAnnouncements());
+            this.validator.validate(res, binding);
+        }
 
-		return res;
+        return res;
+    }
+
+	
+	public Collection<Rendezvous> findByCategory(final int categoryId) {
+		
+		return this.rendezvousRepository.findByCategoryId(categoryId);
 	}
+	
+	
+
+	
+
 
 }
