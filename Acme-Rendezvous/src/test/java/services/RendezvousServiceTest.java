@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Comment;
 import domain.Flag;
 import domain.Rendezvous;
 
@@ -53,16 +54,6 @@ public class RendezvousServiceTest extends AbstractTest {
 		Assert.notNull(rendezvous.getCategories());
 
 		super.authenticate(null);
-	}
-	@Test
-	public void testFindByCreatorId() {
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorId(super.getEntityId("user1"));
-		System.out.println("Rendezvouses que ha creado  user1: " + rendezvouses);
-	}
-	@Test
-	public void testFindByUserId() {
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByUserId(super.getEntityId("user1"));
-		System.out.println("Rendezvouses que ha confirmado user1: " + rendezvouses);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -257,6 +248,91 @@ public class RendezvousServiceTest extends AbstractTest {
 			caught = oops.getClass();
 		}
 		this.checkExceptions(expected, caught);
+	}
+
+	@Test
+	public void testFindByCreatorId() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorId(super.getEntityId("user1"));
+		System.out.println("Rendezvouses que ha creado  user1: " + rendezvouses);
+	}
+	@Test
+	public void testFindByUserId() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByUserId(super.getEntityId("user1"));
+		System.out.println("Rendezvouses que ha confirmado user1: " + rendezvouses);
+	}
+	@Test
+	public void testAvgRendezvousPerUser() {
+		final Double avg = this.rendezvousService.avgRendezvousPerUser();
+		Assert.notNull(avg);
+		System.out.println("Media de rendezvouses por usuario: " + avg);
+	}
+	@Test
+	public void testStddevUsersPerRendezvous() {
+		final Double stdev = this.rendezvousService.stddevRendezvousPerUser();
+		Assert.notNull(stdev);
+		System.out.println("Desviacion estandar de rendezvous por usuario: " + stdev);
+	}
+	@Test
+	public void testAvgRSVPsPerUser() {
+		final Double avg = this.rendezvousService.avgRSVPsPerUser();
+		Assert.notNull(avg);
+		System.out.println("Media de confirmaciones por usuario: " + avg);
+	}
+	@Test
+	public void testStddevRSVPsPerUser() {
+		final Double stdev = this.rendezvousService.stddevRSVPsPerUser();
+		Assert.notNull(stdev);
+		System.out.println("Desviacion estandar de confirmaciones por usuario: " + stdev);
+	}
+	@Test
+	public void testTop10RendezvousesByRSVPs() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.top10RendezvousesByRSVPs();
+		Assert.notNull(rendezvouses);
+		System.out.println("10 Rendezvouses con mas confirmaciones: " + rendezvouses);
+	}
+	@Test
+	public void testAbove75AverageOfAnnouncementsPerRendezvous() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.above75AverageOfAnnouncementsPerRendezvous();
+		Assert.notNull(rendezvouses);
+		System.out.println("Rendezvouses cuyo numero de anuncions es superior al 75% de la media" + rendezvouses);
+
+	}
+	@Test
+	public void testLinkedGreaterAveragePlus10() {
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.LinkedGreaterAveragePlus10();
+		Assert.notNull(rendezvouses);
+		System.out.println("Rendezvouses vinculado a un nº de rendezvouses mayor a la media en un 10%: " + rendezvouses);
+	}
+
+	@Test
+	public void testFindByRendezvous() {
+		final Collection<Comment> comments = this.rendezvousService.findByRendezvous(super.getEntityId("rendezvous1"));
+		Assert.notNull(comments);
+		System.out.println("Comentarios del rendezvous 1: " + comments);
+	}
+	@Test
+	public void testFindByCommentId() {
+		final Rendezvous rendezvous = this.rendezvousService.findByCommentId(super.getEntityId("comment1"));
+		Assert.notNull(rendezvous);
+		System.out.println("Rendezvous del comment1: " + rendezvous);
+	}
+	@Test
+	public void testFindByAnnouncementId() {
+		final Rendezvous rendezvous = this.rendezvousService.findByAnnouncementId(super.getEntityId("announcement1"));
+		Assert.notNull(rendezvous);
+		System.out.println("Rendezvous del announcement1: " + rendezvous);
+	}
+	@Test
+	public void testRatioUsersSinRendezvous() {
+		final Double ratio = this.rendezvousService.ratioUsersSinRendezvous();
+		Assert.notNull(ratio);
+		System.out.println("Ratio de usuarios sin rendezvous creados:" + ratio);
+	}
+	@Test
+	public void testStddevRendezvousPerUser() {
+		final Double stddev = this.rendezvousService.stddevRendezvousPerUser();
+		Assert.notNull(stddev);
+		System.out.println("Desviacion estandar de los rendezvouses creados por usuario: " + stddev);
 	}
 
 }
