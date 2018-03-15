@@ -31,7 +31,7 @@ public class StringToManagerConverter implements Converter<String, Manager> {
 				id = Integer.valueOf(text);
 				result = this.managerRepository.findOne(id);
 			}
-		} catch (final Throwable error) {
+		} catch (Throwable error) {
 			throw new IllegalArgumentException(error);
 		}
 

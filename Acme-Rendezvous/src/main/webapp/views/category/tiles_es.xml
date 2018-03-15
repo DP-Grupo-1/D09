@@ -23,7 +23,7 @@
 	
 	<definition name="category/administrator/edit" extends="master.page">	
 		<put-attribute name="title" value="Editar Categoria" />
-		<put-attribute name="body" value="/views/categoria/edit.jsp" />
+		<put-attribute name="body" value="/views/category/edit.jsp" />
 	</definition>
 	
 	<definition name="category/administrator/create" extends="master.page">	

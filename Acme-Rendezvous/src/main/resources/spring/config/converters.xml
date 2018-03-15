@@ -28,8 +28,10 @@
 		<bean class="converters.AuthorityToStringConverter" />
 		<bean class="converters.AnnouncementToStringConverter" />
 		<bean class="converters.AnswerToStringConverter" />
-		<bean class="converters.CategoryToStringConverter"/>
+		<bean class="converters.BenefitToStringConverter" />
+		<bean class="converters.CategoryToStringConverter" />
 		<bean class="converters.CommentToStringConverter" />
+		<bean class="converters.CreditCardToStringConverter" />
 		<bean class="converters.ManagerToStringConverter" />
 		<bean class="converters.QuestionToStringConverter" />
 		<bean class="converters.RendezvousToStringConverter" />
@@ -42,8 +44,10 @@
 		<bean class="converters.StringToAuthorityConverter" />
 		<bean class="converters.StringToAnnouncementConverter" />
 		<bean class="converters.StringToAnswerConverter" />
-		<bean class="converters.StringToCategoryConverter"/>
-		<bean class="converters.StringToCommentConverter" /> 
+		<bean class="converters.StringToBenefitConverter" />
+		<bean class="converters.StringToCategoryConverter" />
+		<bean class="converters.StringToCreditCardConverter" />
+		<bean class="converters.StringToCommentConverter" />
 		<bean class="converters.StringToManagerConverter" /> 
 		<bean class="converters.StringToQuestionConverter" />
 		<bean class="converters.StringToRendezvousConverter" /> 

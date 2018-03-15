@@ -8,21 +8,20 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import repositories.CategoryRepository;
-import domain.Category;
-
+import repositories.BenefitRepository;
+import domain.Benefit;
 
 @Transactional
 @Component
-public class StringToCategoryConverter implements Converter<String, Category> {
+public class StringToBenefitConverter implements Converter<String, Benefit> {
 
 	@Autowired
-	CategoryRepository	categoryRepository;
+	BenefitRepository	benefitRepository;
 
 
 	@Override
-	public Category convert(final String text) {
-		Category result;
+	public Benefit convert(final String text) {
+		Benefit result;
 		int id;
 
 		try {
@@ -30,7 +29,7 @@ public class StringToCategoryConverter implements Converter<String, Category> {
 				result = null;
 			else {
 				id = Integer.valueOf(text);
-				result = this.categoryRepository.findOne(id);
+				result = this.benefitRepository.findOne(id);
 			}
 		} catch (Throwable error) {
 			throw new IllegalArgumentException(error);

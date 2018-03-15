@@ -19,8 +19,8 @@
 <%@taglib prefix="security"	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
-<security:authorize access="hasRole('ADMINISTRATOR')">
-<form:form action="category/administrator/edit.do" modelAttribute="category">
+<security:authorize access="hasRole('ADMIN')">
+<form:form action="category/administrator/edit.do?categoryId=${categoryId}" modelAttribute="category">
 
 	<form:hidden path="id" />
 	<form:hidden path="version" />
@@ -28,23 +28,21 @@
 	<form:hidden path="benefits" />
 	
 	
-
-	
-	
-	
+	<br>
 			<form:label path="name">
 				<spring:message code="category.name" />:
 			</form:label>
 			<form:input path="name" />
 			<form:errors cssClass="error" path="name" />
 			
+	<br>
 			<form:label path="description">
 				<spring:message code="category.description" />:
 			</form:label>
 			<form:input path="description" />
 			<form:errors cssClass="error" path="description" />
 			
-			
+		<br>	
 			
 			<form:label path="parent">
 				<spring:message code="category.parents" />:
@@ -56,7 +54,7 @@
 			<form:errors cssClass="error" path="parent" />
 	
 	
-
+<br>
 	
 	<input type="submit" name="save"
 		value="<spring:message code="category.save" />" />&nbsp; 

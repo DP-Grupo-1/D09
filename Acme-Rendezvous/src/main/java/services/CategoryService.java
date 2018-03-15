@@ -150,7 +150,7 @@ public class CategoryService {
 	}
 	
 	
-public Collection<Category> findByBenefit(final int benefitId) {
+public Collection<Category> findByBenefitId(final int benefitId) {
 		
 		return this.categoryRepository.findByBenefitId(benefitId);
 	}
