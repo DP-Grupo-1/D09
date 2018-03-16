@@ -26,6 +26,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select u.attendances from User u where u.id = ?1")
 	Collection<Rendezvous> findByUserId(int userId);
 
+	@Query("select r from Rendezvous r where r.creator.id=?1 and r not in (?2)")
+	Collection<Rendezvous> findByCreatorIdAndRendezvouses(int creatorId, Collection<Rendezvous> rendezvouses);
+
 	@Query("select r from Rendezvous r where r.creator.id=?1")
 	Collection<Rendezvous> findByCreatorId(int creatorId);
 

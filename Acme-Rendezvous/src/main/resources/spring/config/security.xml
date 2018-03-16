@@ -74,9 +74,10 @@
 		<security:intercept-url pattern="/comment/list.do" access="permitAll" />
 		<security:intercept-url pattern="/comment/display.do" access="permitAll" />
 		
-		<security:intercept-url pattern="/request/user/create.do" access="hasRole('USER')" />
+		<security:intercept-url pattern="/request/user/requestService.do" access="hasRole('USER')" />
 		
 		<security:intercept-url pattern="/benefit/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/benefit/listRequested.do" access="isAuthenticated()" />
 		
 		<security:intercept-url pattern="/reply/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/reply/list.do" access="permitAll" />

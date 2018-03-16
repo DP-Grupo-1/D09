@@ -56,8 +56,6 @@ public class BenefitService extends AbstractController {
 		Benefit result;
 
 		result = this.benefitRepository.findOne(benefitId);
-		final Manager principal = this.managerService.findByPrincipal();
-		Assert.isTrue(principal.getBenefits().contains(result));
 		Assert.notNull(result);
 
 		return result;

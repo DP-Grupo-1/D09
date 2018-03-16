@@ -90,6 +90,10 @@
 			<a href="user/list.do?rendezvousId=${row.id}"><spring:message code="rendezvous.attendants" /></a>
         </display:column>
         
+        <display:column>
+				<a href="benefit/listRequested.do?rendezvousId=${row.id}"><spring:message code="requested.list"/></a>
+	</display:column>
+        
 
 
 		

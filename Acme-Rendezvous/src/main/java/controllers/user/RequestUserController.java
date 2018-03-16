@@ -1,6 +1,8 @@
 
 package controllers.user;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import services.RequestService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Benefit;
+import domain.Rendezvous;
 import domain.Request;
 import domain.User;
 import forms.RequestBenefit;
@@ -38,13 +41,14 @@ public class RequestUserController extends AbstractController {
 	private BenefitService		benefitService;
 
 
-	@RequestMapping(value = "/requestBenefit", method = RequestMethod.GET)
+	@RequestMapping(value = "/requestService", method = RequestMethod.GET)
 	public ModelAndView requestBenefit(@RequestParam final int benefitId) {
 
 		ModelAndView result;
 
 		final Benefit benefit = this.benefitService.findOne(benefitId);
 		final User principal = this.userService.findByPrincipal();
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorIdAndRendezvouses(principal.getId(), benefit);
 		final RequestBenefit requestBenefit = new RequestBenefit();
 
 		requestBenefit.setBenefit(benefit);
@@ -60,12 +64,13 @@ public class RequestUserController extends AbstractController {
 
 		result = this.createEditModelAndView(requestBenefit);
 		result.addObject("requestBenefit", requestBenefit);
-		result.addObject("requestURI", "request/user/requestBenefit.do?benefitId=" + benefitId);
+		result.addObject("rendezvouses", rendezvouses);
+		result.addObject("requestURI", "request/user/requestService.do?benefitId=" + benefitId);
 
 		return result;
 	}
 
-	@RequestMapping(value = "/requestBenefit", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/requestService", method = RequestMethod.POST, params = "save")
 	public ModelAndView requestBenefit(@Valid final RequestBenefit requestBenefit, final BindingResult binding) {
 
 		ModelAndView result = null;
@@ -97,7 +102,7 @@ public class RequestUserController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final RequestBenefit requestBenefit, final String messageCode) {
 		ModelAndView result;
 
-		result = new ModelAndView("request/user/requestBenefit");
+		result = new ModelAndView("request/user/requestService");
 		result.addObject("requestBenefit", requestBenefit);
 		result.addObject("message", messageCode);
 		return result;

@@ -40,8 +40,8 @@ public class RendezvousUserController extends AbstractController {
 	//Listing ----------------------------------------------------
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
-		
-		Date actualMoment = new Date(System.currentTimeMillis() - 1000);
+
+		final Date actualMoment = new Date(System.currentTimeMillis() - 1000);
 		ModelAndView result;
 		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
 		final User logged = this.userService.findByPrincipal();
@@ -102,20 +102,19 @@ public class RendezvousUserController extends AbstractController {
 		Rendezvous rendezvous;
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
 		try {
-	
-		Assert.notNull(rendezvous);
-		Assert.isTrue(!rendezvous.getFinalMode());
 
-		result = this.createEditModelAndView(rendezvous);
-		result.addObject("rendezvous", rendezvous);
-		
+			Assert.notNull(rendezvous);
+			Assert.isTrue(!rendezvous.getFinalMode());
+
+			result = this.createEditModelAndView(rendezvous);
+			result.addObject("rendezvous", rendezvous);
+
 		} catch (final Throwable error) {
 			System.out.println(error);
 			result = this.createEditModelAndView(rendezvous, "rendezvous.commit.error");
 		}
-	return result;
-}
-		
+		return result;
+	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid Rendezvous rendezvous, final BindingResult binding) {
@@ -126,7 +125,7 @@ public class RendezvousUserController extends AbstractController {
 			result = this.createEditModelAndView(rendezvous);
 		} else
 			try {
-				
+
 				final Rendezvous saved = this.rendezvousService.save(rendezvous);
 				result = new ModelAndView("redirect:../display.do?rendezvousId=" + saved.getId());
 			} catch (final Throwable error) {
@@ -196,7 +195,7 @@ public class RendezvousUserController extends AbstractController {
 			attendances.remove(rendezvous);
 			user.setAttendances(attendances);
 			this.userService.onlySave(user);
-			
+
 			Collection<User> attendants = new ArrayList<User>();
 			attendants = rendezvous.getAttendants();
 			attendants.remove(user);
@@ -221,7 +220,7 @@ public class RendezvousUserController extends AbstractController {
 	@RequestMapping(value = "/rendezvouses", method = RequestMethod.GET)
 	public ModelAndView rendezvouses(@RequestParam final int rendezvousId, final RedirectAttributes redirectAttrs) {
 		ModelAndView result;
-		
+
 		try {
 			Rendezvous rendezvous;
 			Collection<Rendezvous> rendezvouses;
@@ -234,13 +233,13 @@ public class RendezvousUserController extends AbstractController {
 			rendezvouses = this.rendezvousService.findAll();
 			rendezvouses.remove(rendezvous);
 			Assert.notNull(rendezvouses);
-			
+
 			result = new ModelAndView("rendezvous/user/rendezvouses");
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("rendezvousId", rendezvousId);
 			result.addObject("userId", u.getId());
 			result.addObject("rendezvouses", rendezvouses);
-			
+
 			redirectAttrs.addFlashAttribute("message", "rendezvous.commit.ok");
 			redirectAttrs.addFlashAttribute("msgType", "success");
 		} catch (final Throwable oops) {
@@ -249,19 +248,17 @@ public class RendezvousUserController extends AbstractController {
 			redirectAttrs.addFlashAttribute("message", "rendezvous.commit.error");
 			redirectAttrs.addFlashAttribute("msgType", "danger");
 		}
-		
+
 		result = new ModelAndView("redirect:list.do");
-		
 
 		return result;
 	}
 
 	@RequestMapping(value = "/link", method = RequestMethod.GET)
 	public ModelAndView link(@RequestParam final int rendezvousId, @RequestParam final int rendezvousLinkId, final RedirectAttributes redirectAttrs) {
-			ModelAndView result;
+		ModelAndView result;
 		try {
-			
-			
+
 			final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 			Assert.notNull(rendezvous);
 			Assert.isTrue(!(rendezvous.getFlag().equals(Flag.DELETED)), "The rendezvous is deleted");

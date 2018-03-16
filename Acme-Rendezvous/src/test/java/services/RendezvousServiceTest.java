@@ -252,7 +252,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 	@Test
 	public void testFindByCreatorId() {
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorId(super.getEntityId("user1"));
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByUserId(super.getEntityId("user1"));
 		System.out.println("Rendezvouses que ha creado  user1: " + rendezvouses);
 	}
 	@Test

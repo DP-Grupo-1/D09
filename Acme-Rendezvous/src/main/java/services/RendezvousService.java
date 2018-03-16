@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 import repositories.RendezvousRepository;
 import domain.Administrator;
 import domain.Announcement;
+import domain.Benefit;
 import domain.Category;
 import domain.Comment;
 import domain.Flag;
@@ -83,7 +84,7 @@ public class RendezvousService {
 			//			result.setCreator(user);
 			result.getAttendants().add(user);
 
-			this.findByCreatorId(user.getId()).add(result);
+			this.findByUserId(user.getId()).add(result);
 
 		} else {
 			Assert.isTrue(rendezvous.getFinalMode() == false);
@@ -186,8 +187,8 @@ public class RendezvousService {
 			}
 		return result;
 	}
-	public Collection<Rendezvous> findByCreatorId(final int userId) {
-		final Collection<Rendezvous> res = this.rendezvousRepository.findByCreatorId(userId);
+	public Collection<Rendezvous> findByCreatorIdAndRendezvouses(final int userId, final Benefit benefit) {
+		final Collection<Rendezvous> res = this.rendezvousRepository.findByCreatorIdAndRendezvouses(userId, benefit.getRendezvouses());
 		for (final Rendezvous r : res)
 			if (r.getMoment().before(new Date()) && r.getFlag() == Flag.ACTIVE) {
 				r.setFlag(Flag.PASSED);
@@ -195,6 +196,10 @@ public class RendezvousService {
 
 			}
 		return res;
+	}
+
+	public Collection<Rendezvous> findByCreatorId(final int creatorId) {
+		return this.rendezvousRepository.findByCreatorId(creatorId);
 	}
 
 	//--------------------------------------------- DASHBOARD ---------------------------------------------------------
@@ -300,7 +305,7 @@ public class RendezvousService {
 	private Integer numRendezvouses() {
 		Integer numRendezvouses = 0;
 		for (final User u1 : this.userService.findAll()) {
-			final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u1.getId());
+			final Collection<Rendezvous> rendezvouses = this.findByUserId(u1.getId());
 			numRendezvouses = numRendezvouses + rendezvouses.size();
 		}
 		return numRendezvouses;
@@ -309,7 +314,7 @@ public class RendezvousService {
 	private Integer sumRendezvouses() {
 		Integer sumRendezvouses = 0;
 		for (final User u2 : this.userService.findAll()) {
-			final Collection<Rendezvous> rendezvouses = this.findByCreatorId(u2.getId());
+			final Collection<Rendezvous> rendezvouses = this.findByUserId(u2.getId());
 			sumRendezvouses = sumRendezvouses + rendezvouses.size() * rendezvouses.size();
 		}
 		return sumRendezvouses;

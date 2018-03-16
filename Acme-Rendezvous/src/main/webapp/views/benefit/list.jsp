@@ -28,10 +28,12 @@
 	<security:authorize access="hasRole('USER')">
 		<jstl:if test="${row.flag != 'CANCELLED'}">
 			<display:column>
-				<a href="request/user/create.do?benefitId=${row.id}"><spring:message code="request.create"/></a>
+				<a href="request/user/requestService.do?benefitId=${row.id}"><spring:message code="request.create"/></a>
 			</display:column>
 		</jstl:if>
+		
 	</security:authorize>
+	
 	
 	<security:authorize access="hasRole('MANAGER')">
 		<jstl:if test="${row.flag != 'CANCELLED' and loggedactor.benefits.contains(row)}">

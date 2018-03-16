@@ -1,3 +1,4 @@
+
 package controllers.any;
 
 import java.util.Collection;
@@ -9,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
-
 import services.BenefitService;
+import services.RendezvousService;
 import services.UserService;
+import controllers.AbstractController;
 import domain.Benefit;
 import domain.Rendezvous;
 
@@ -21,35 +22,39 @@ import domain.Rendezvous;
 public class BenefitController extends AbstractController {
 
 	//Services------------------------------------------------------------------
-		@Autowired
-		UserService			userService;
+	@Autowired
+	UserService			userService;
 
-		@Autowired
-		BenefitService	benefitService;
+	@Autowired
+	BenefitService		benefitService;
+
+	@Autowired
+	RendezvousService	rendezvousService;
 
 
-		//	List--------------------------------------------------------------------------
-		@RequestMapping(value = "/list", method = RequestMethod.GET)
-		public ModelAndView list() {
-			ModelAndView res;
-			final Collection<Benefit> benefits = this.benefitService.findAll();
+	//	List--------------------------------------------------------------------------
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView res;
+		final Collection<Benefit> benefits = this.benefitService.findAll();
 
-			res = new ModelAndView("benefit/list");
-				res.addObject("requestURI", "benefit/list.do");
-				res.addObject("benefits", benefits);
+		res = new ModelAndView("benefit/list");
+		res.addObject("requestURI", "benefit/list.do");
+		res.addObject("benefits", benefits);
 
-			return res;
-		}
-		
-		@RequestMapping(value = "/listRequested", method = RequestMethod.GET)
-		public ModelAndView list(@RequestParam Rendezvous rendezvous) {
-			ModelAndView res;
-			final Collection<Benefit> benefits = this.benefitService.findAllRequestedByRendezvous(rendezvous);
+		return res;
+	}
 
-			res = new ModelAndView("benefit/list");
-				res.addObject("requestURI", "benefit/listRequested.do");
-				res.addObject("benefits", benefits);
+	@RequestMapping(value = "/listRequested", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int rendezvousId) {
+		ModelAndView res;
+		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+		final Collection<Benefit> benefits = this.benefitService.findAllRequestedByRendezvous(rendezvous);
 
-			return res;
-		}
+		res = new ModelAndView("benefit/list");
+		res.addObject("requestURI", "benefit/listRequested.do");
+		res.addObject("benefits", benefits);
+
+		return res;
+	}
 }
