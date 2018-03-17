@@ -219,7 +219,7 @@ public class RendezvousUserController extends AbstractController {
 
 	@RequestMapping(value = "/rendezvouses", method = RequestMethod.GET)
 	public ModelAndView rendezvouses(@RequestParam final int rendezvousId, final RedirectAttributes redirectAttrs) {
-		ModelAndView result;
+		ModelAndView result = null;
 
 		try {
 			Rendezvous rendezvous;
@@ -248,8 +248,6 @@ public class RendezvousUserController extends AbstractController {
 			redirectAttrs.addFlashAttribute("message", "rendezvous.commit.error");
 			redirectAttrs.addFlashAttribute("msgType", "danger");
 		}
-
-		result = new ModelAndView("redirect:list.do");
 
 		return result;
 	}
