@@ -82,7 +82,9 @@
     
     <acme:textbox code="rendezvous.description" path="description"/>
     
-    <acme:textbox code="rendezvous.moment" path="moment" id="momentId" />
+    <spring:message code="rendezvous.moment.format" var="momentFormat"/>
+    
+    <acme:textbox code="rendezvous.moment" path="moment" id="momentId" placeholder="${momentFormat}"/>
     
     <acme:textbox code="rendezvous.picture" path="picture"/>
     
