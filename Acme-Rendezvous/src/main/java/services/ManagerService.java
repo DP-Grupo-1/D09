@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import repositories.ManagerRepository;
 import security.Authority;
@@ -27,8 +26,6 @@ public class ManagerService {
 	//Managed repository------------------------------------------------------
 	@Autowired
 	private ManagerRepository	managerRepository;
-	@Autowired
-	private Validator			validator;
 
 
 	//CRUD methods--------------------------------------------------------
@@ -107,23 +104,6 @@ public class ManagerService {
 
 		return result;
 	}
-	public Manager reconstruct(final Manager manager, final BindingResult binding) {
-		Manager res;
-		if (manager.getId() == 0)
-			res = manager;
-		else {
-			res = this.managerRepository.findOne(manager.getId());
-			res.setName(manager.getName());
-			res.setSurname(manager.getSurname());
-			res.setPostalAddress(manager.getPostalAddress());
-			res.setPhoneNumber(manager.getPhoneNumber());
-			res.setEmail(manager.getEmail());
-			res.setVAT(manager.getVAT());
-			this.validator.validate(res, binding);
-
-		}
-		return res;
-	}
 	public Collection<Manager> managersWithMoreBenefits() {
 		return this.managerRepository.managersWithMoreBenefits();
 
@@ -131,5 +111,7 @@ public class ManagerService {
 	public Collection<Manager> managersWithMoreBenefitsCancelled() {
 		return this.managerRepository.managersWithMoreBenefits();
 	}
+	
+	
 
 }

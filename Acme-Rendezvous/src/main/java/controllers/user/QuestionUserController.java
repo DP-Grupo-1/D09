@@ -165,7 +165,7 @@ public class QuestionUserController extends AbstractController {
 					
 				}
 
-				catch (final Throwable oops) {
+			catch (final Throwable oops) {
 					result = this.createEditModelAndViewAnswer(answerQuestions, "question.comit.error");
 				}
 

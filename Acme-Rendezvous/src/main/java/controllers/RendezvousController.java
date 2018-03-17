@@ -80,6 +80,7 @@ public class RendezvousController extends AbstractController {
                 result.addObject("adult", adult);
 
             }
+            result.addObject("flag", rendezvous.getFlag());
             result.addObject("hasUserRSVPd", hasUserRSVPd);
 
         } catch (final Throwable oops) {

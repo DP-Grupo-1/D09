@@ -53,7 +53,7 @@ public class RendezvousService {
 		final Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
 		final Collection<Comment> comments = new ArrayList<Comment>();
 		final Collection<Announcement> announcements = new ArrayList<Announcement>();
-		final Collection<Category> categories = new ArrayList<>();
+		final Collection<Category> categories = new ArrayList<Category>();
 
 		result.setAnnouncements(announcements);
 		result.setAttendants(attendants);
@@ -74,9 +74,8 @@ public class RendezvousService {
 
 		final User user = this.userService.findByPrincipal();
 		Assert.notNull(user);
-
+		Assert.isTrue(rendezvous.getFinalMode()!= true);
 		Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
-		//	Assert.isTrue(rendezvous.getFinalMode() == false);
 
 		if (rendezvous.getId() == 0) {
 
@@ -87,8 +86,10 @@ public class RendezvousService {
 
 			this.findByUserId(user.getId()).add(result);
 
-		} else
+		} else {
+			
 			result = this.rendezvousRepository.save(rendezvous);
+		}
 		return result;
 	}
 
@@ -101,6 +102,7 @@ public class RendezvousService {
 	public Rendezvous rsvp(final Rendezvous rendezvous) {
 		final Collection<User> attendants = rendezvous.getAttendants();
 		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getFlag()== Flag.ACTIVE);
 		attendants.add(principal);
 		rendezvous.setAttendants(attendants);
 		Rendezvous saved;

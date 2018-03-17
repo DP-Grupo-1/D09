@@ -11,7 +11,7 @@
 
 <display:table pagesize="10" class="displaytag" keepStatus="true"
 	name="questions" requestURI="${requestURI}" id="row">
-	<%-- <security:authentication property="principal" var ="loggedactor"/> --%>
+	 <security:authentication property="principal" var ="loggedactor"/> 
 	
 	<spring:message code="question.questionToAnswer" var="questionToAnswerHeader" />
 	<display:column property="questionToAnswer" title="${questionToAnswerHeader}" sortable="true" />

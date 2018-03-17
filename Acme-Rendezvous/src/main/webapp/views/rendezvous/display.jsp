@@ -95,12 +95,12 @@
 	</display:column>
     <security:authorize access="hasRole('USER')">
     	<jstl:if test="${row.creator.userAccount.username != pageContext.request.userPrincipal.name}">
-	    	 <jstl:if test="${noQuestions eq false && rsvped eq false}">
+	    	 <jstl:if test="${noQuestions eq false && rsvped eq false && flag=='ACTIVE'}">
 	    	 	<display:column>
 					<a href="question/user/answerQuestions.do?rendezvousId=${row.id}"><spring:message code="rsvp.create"/></a>
 				</display:column>
 	    	 </jstl:if>
-	    	 <jstl:if test="${noQuestions eq true && rsvped eq false}">
+	    	 <jstl:if test="${noQuestions eq true && rsvped eq false && flag=='ACTIVE'}">
 	    	 	<display:column>
 					<a href="rendezvous/user/attend.do?rendezvousId=${row.id}">
 		  			<spring:message code="rsvp.create" />

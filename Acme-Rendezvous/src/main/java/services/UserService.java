@@ -19,6 +19,7 @@ import security.UserAccount;
 import domain.Comment;
 import domain.Rendezvous;
 import domain.Reply;
+import domain.Request;
 import domain.User;
 import forms.Register;
 
@@ -45,6 +46,7 @@ public class UserService {
 		final Collection<Reply> replies = new ArrayList<>();
 		final UserAccount userAccount = new UserAccount();
 		final Authority authority = new Authority();
+		Collection<Request> requests = new ArrayList<Request>();
 		authority.setAuthority(Authority.USER);
 
 		Collection<Authority> authorities;
@@ -56,6 +58,7 @@ public class UserService {
 		res.setAttendances(attendances);
 		res.setReplies(replies);
 		res.setUserAccount(userAccount);
+		res.setRequests(requests);
 		return res;
 	}
 	public User save(final User user) {

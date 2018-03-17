@@ -83,7 +83,7 @@ public class ReplyUserController extends AbstractController {
 				
 				c.setReplies(replies);
 				
-				commentService.save(c);
+				commentService.onlySave(c);
 					
 					
 

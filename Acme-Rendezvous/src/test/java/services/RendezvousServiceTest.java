@@ -57,6 +57,21 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
+	public void testSave() {//intentar modificar un rendezvous que esta en final mode
+
+		super.authenticate("user1");
+		final Rendezvous a = this.rendezvousService.findOneOnly(super.getEntityId("rendezvous1"));
+		a.setFinalMode(true);
+		final Rendezvous save = this.rendezvousService.save(a);
+		save.setName("random");
+		final Rendezvous save2 = this.rendezvousService.save(save);
+		Assert.isTrue(this.rendezvousService.findAll().contains(save2));
+
+		super.authenticate(null);
+
+	}
+
+	@Test(expected = IllegalArgumentException.class)
 	public void testSave2() {//guardar teniendo el flag en delete
 		super.authenticate("user1");
 		final Rendezvous rendezvous = this.rendezvousService.create();

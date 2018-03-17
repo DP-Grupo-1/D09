@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.ArrayList;
@@ -11,11 +10,12 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.CategoryRepository;
 import domain.Administrator;
 import domain.Benefit;
 import domain.Category;
 import domain.Rendezvous;
+
+import repositories.CategoryRepository;
 
 @Service
 @Transactional
@@ -23,33 +23,36 @@ public class CategoryService {
 
 	//Managed repository ----------------------------
 	@Autowired
-	private CategoryRepository	categoryRepository;
-
+	private CategoryRepository categoryRepository;
+	
+	
 	//Supporting services--------------------------------
 	@Autowired
 	public AdministratorService	administratorService;
-
+	
 	@Autowired
 	public RendezvousService	rendezvousService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
-
+	
+	
 	//Simple CRUD methods ------------------------
 
+	
 	public Category create() {
-		final Administrator administrator = this.administratorService.findByPrincipal();
+		Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 		final Category res = new Category();
-		final Collection<Category> childrens = new ArrayList<Category>();
-		final Collection<Benefit> benefits = new ArrayList<Benefit>();
-
+		Collection<Category> childrens = new ArrayList<Category>();
+		Collection<Benefit> benefits = new ArrayList<Benefit>();
+		
 		res.setChildrens(childrens);
 		res.setBenefits(benefits);
-		return res;
+		return res;	
 	}
-
+	
 	public Category save(final Category category) {
 
 		Assert.notNull(category);
@@ -66,10 +69,11 @@ public class CategoryService {
 		if (category.getParent() == null)
 			category.setParent(this.findCATEGORY());
 
-		if (category.getId() != 0) {
-			final Category bd = this.categoryRepository.findOne(category.getId());
+		if (category.getId() != 0){
+			Category bd = this.categoryRepository.findOne(category.getId());
 			Assert.notNull(bd);
 			Assert.isTrue(!this.hasABrotherWithSameName(category.getId(), category.getName()));
+			
 
 		}
 		//Authority
@@ -81,16 +85,17 @@ public class CategoryService {
 		return result;
 
 	}
-
+	
 	public void delete(final Category category) {
 
 		Assert.notNull(category);
-		final Category bd = this.categoryRepository.findOne(category.getId());
+		Category bd = this.categoryRepository.findOne(category.getId());
 		Assert.notNull(bd);
 
 		//No se puede borrar la categoría CATEGORY
 		Assert.isTrue(!(category.equals(this.findCATEGORY())));
 
+		
 		//Authority
 		final Administrator a = this.administratorService.findByPrincipal();
 		Assert.notNull(a);
@@ -100,9 +105,10 @@ public class CategoryService {
 		for (final Rendezvous r : rendezvouses)
 			r.getCategories().remove(category);
 		parent.getChildrens().remove(category);
-
+		
 		this.categoryRepository.delete(category);
 	}
+
 
 	public Collection<Category> findAll() {
 		return this.categoryRepository.findAll();
@@ -142,28 +148,31 @@ public class CategoryService {
 
 		return res;
 	}
-
-	public Collection<Category> findByBenefitId(final int benefitId) {
-
+	
+	
+public Collection<Category> findByBenefitId(final int benefitId) {
+		
 		return this.categoryRepository.findByBenefitId(benefitId);
 	}
 
-	public Category reconstruct(final Category category, final BindingResult binding) {
-		Category res;
-		if (category.getId() == 0)
-			res = category;
-		else {
-			res = this.categoryRepository.findOne(category.getId());
-			res.setName(category.getName());
-			res.setDescription(category.getDescription());
-			//			res.setChildrens(category.getChildrens());
-			//			res.setBenefits(category.getBenefits());
-			//			res.setParent(category.getParent());
 
-			this.validator.validate(res, binding);
-		}
 
-		return res;
-	}
+public Category reconstruct(final Category category, final BindingResult binding) {
+    Category res;
+    if (category.getId() == 0)
+        res = category;
+    else {
+        res = this.categoryRepository.findOne(category.getId());
+        res.setName(category.getName());
+        res.setDescription(category.getDescription());
+        res.setChildrens(category.getChildrens());
+        res.setBenefits(category.getBenefits());
+        res.setParent(category.getParent());
+   
+        this.validator.validate(res, binding);
+    }
+
+    return res;
+}
 
 }

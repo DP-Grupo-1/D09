@@ -23,6 +23,7 @@
 <form:hidden path="attendances"/>
 <form:hidden path="comments"/>
 <form:hidden path="replies"/>
+<form:hidden path="creditCard"/>
 
 
 

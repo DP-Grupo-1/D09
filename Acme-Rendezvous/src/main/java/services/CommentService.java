@@ -50,6 +50,13 @@ public class CommentService {
 
 	}
 
+	public Comment onlySave(final Comment comment) {
+		Comment saved;
+		saved = this.commentRepository.save(comment);
+		return saved;
+	}
+
+	
 	public Comment save(final Comment comment) {
 		Assert.notNull(comment);
 		Comment res;

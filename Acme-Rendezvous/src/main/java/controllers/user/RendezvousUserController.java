@@ -85,6 +85,8 @@ public class RendezvousUserController extends AbstractController {
 			result = this.createEditModelAndView(rendezvous);
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("adult", user.getAdult());
+			result.addObject("finalMode", rendezvous.getFinalMode());
+			
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/");
 			System.out.println(oops);
@@ -104,10 +106,11 @@ public class RendezvousUserController extends AbstractController {
 		try {
 
 			Assert.notNull(rendezvous);
-			Assert.isTrue(!rendezvous.getFinalMode());
+			Assert.isTrue(rendezvous.getFinalMode()==false);
 
 			result = this.createEditModelAndView(rendezvous);
 			result.addObject("rendezvous", rendezvous);
+			result.addObject("finalMode", rendezvous.getFinalMode());
 
 		} catch (final Throwable error) {
 			System.out.println(error);
@@ -160,6 +163,7 @@ public class RendezvousUserController extends AbstractController {
 			final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 			Assert.notNull(user);
 			Assert.notNull(rendezvous);
+			
 
 			this.rendezvousService.rsvp(rendezvous);
 

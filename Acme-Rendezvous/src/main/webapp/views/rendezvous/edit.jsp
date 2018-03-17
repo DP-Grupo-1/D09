@@ -23,7 +23,7 @@
 
 <security:authorize access="hasRole('USER')">
 <form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
-
+<jstl:if test="${finalMode == false}">
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="flag" />
@@ -122,6 +122,6 @@
 		value="<spring:message code="rendezvous.cancel" />"
 		onclick="javascript: relativeRedir('rendezvous/user/list.do');" />
 	<br />
-
+</jstl:if>
 </form:form>
 </security:authorize>

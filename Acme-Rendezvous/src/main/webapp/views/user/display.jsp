@@ -94,9 +94,6 @@
 	<display:column>
 		  <a href="rendezvous/display.do?rendezvousId=${row.id}"><spring:message code="rendezvous.list.display" /></a>
 	 </display:column>
-	 <display:column>
-	 <a href="question/list.do?rendezvousId=${row.id }"><spring:message code="question" /></a>
-	 </display:column>
 
     
      <security:authorize access="hasRole('ADMIN')">   

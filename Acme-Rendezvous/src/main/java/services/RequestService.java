@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -23,7 +22,7 @@ public class RequestService {
 	private RequestRepository	requestRepository;
 
 	@Autowired
-	private UserService			userService;
+	private UserService				userService;
 
 
 	public RequestService() {
@@ -52,18 +51,18 @@ public class RequestService {
 		Assert.notNull(benefit);
 		Assert.notNull(rendezvous);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
-
+		
 		Request result;
 		request.setBenefit(benefit);
-
+		
 		result = this.requestRepository.save(request);
 		final User principal = this.userService.findByPrincipal();
 		Assert.isTrue(rendezvous.getCreator().equals(principal));
-		final Collection<Request> requests = principal.getRequests();
+		Collection<Request> requests = principal.getRequests();
 		requests.add(result);
 		principal.setRequests(requests);
 		this.userService.save(principal);
-		final Collection<Rendezvous> rendezvouses = benefit.getRendezvouses();
+		Collection<Rendezvous> rendezvouses = benefit.getRendezvouses();
 		rendezvouses.add(rendezvous);
 		benefit.setRendezvouses(rendezvouses);
 
@@ -75,25 +74,14 @@ public class RequestService {
 	public void flush() {
 		this.requestRepository.flush();
 	}
-
-	public Collection<Request> findAllByBenefit(final int benefitId) {
+	
+	public Collection<Request> findAllByBenefit(int benefitId){
 		return this.requestRepository.findAllByBenefit(benefitId);
 	}
 
-	public Collection<Request> findAllByBenefit(final Benefit benefit) {
+	public Collection<Request> findAllByBenefit(Benefit benefit) {
 		// TODO Auto-generated method stub
 		return this.requestRepository.findAllByBenefit(benefit.getId());
 	}
-	//	public Request reconstruct(final Request request, final BindingResult binding) {
-	//		Request res;
-	//		if (request.getId() == 0)
-	//			res = request;
-	//		else {
-	//			res = this.requestRepository.findOne(request.getId());
-	//			res.setComment(request.getComment());
-	//		}
-	//		return res;
-	//
-	//	}
 
 }
