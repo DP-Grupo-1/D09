@@ -25,7 +25,7 @@
 
 
 <display:table name="announcements" id="row" pagesize="5"
-	requestURI="${requestURI}" class="displaytag" keepStatus="true" defaultorder="descending">
+	requestURI="${requestURI}" class="displaytag" keepStatus="true" defaultorder="ascending" defaultsort="1">
 
 
 	
@@ -40,7 +40,7 @@
 	
 	<!-- Attributes -->
 	<spring:message code="announcement.moment" var="momentHeader" />
-	<display:column property="moment" format="{0,date,yyyy/MM/dd HH:mm}" title="${momentHeader}"  />
+	<display:column property="moment" format="{0,date,yyyy/MM/dd HH:mm}" title="${momentHeader}"/>
 
 	
 

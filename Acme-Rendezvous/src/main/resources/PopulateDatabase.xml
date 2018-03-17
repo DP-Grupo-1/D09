@@ -325,7 +325,7 @@
 	</bean>
 
 	<bean id="announcement2" class="domain.Announcement">
-		<property name="moment" value="2018/05/10 20:00" />
+		<property name="moment" value="2018/05/02 15:00" />
 		<property name="title" value="announcement2" />
 		<property name="description" value="description2" />
 	</bean>
