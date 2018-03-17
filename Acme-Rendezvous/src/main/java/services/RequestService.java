@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.Validator;
 
 import repositories.RequestRepository;
 import domain.Benefit;
@@ -22,7 +24,9 @@ public class RequestService {
 	private RequestRepository	requestRepository;
 
 	@Autowired
-	private UserService				userService;
+	private UserService			userService;
+	@Autowired
+	private Validator			validator;
 
 
 	public RequestService() {
@@ -51,18 +55,18 @@ public class RequestService {
 		Assert.notNull(benefit);
 		Assert.notNull(rendezvous);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
-		
+
 		Request result;
 		request.setBenefit(benefit);
-		
+
 		result = this.requestRepository.save(request);
 		final User principal = this.userService.findByPrincipal();
 		Assert.isTrue(rendezvous.getCreator().equals(principal));
-		Collection<Request> requests = principal.getRequests();
+		final Collection<Request> requests = principal.getRequests();
 		requests.add(result);
 		principal.setRequests(requests);
 		this.userService.save(principal);
-		Collection<Rendezvous> rendezvouses = benefit.getRendezvouses();
+		final Collection<Rendezvous> rendezvouses = benefit.getRendezvouses();
 		rendezvouses.add(rendezvous);
 		benefit.setRendezvouses(rendezvouses);
 
@@ -74,14 +78,25 @@ public class RequestService {
 	public void flush() {
 		this.requestRepository.flush();
 	}
-	
-	public Collection<Request> findAllByBenefit(int benefitId){
+
+	public Collection<Request> findAllByBenefit(final int benefitId) {
 		return this.requestRepository.findAllByBenefit(benefitId);
 	}
 
-	public Collection<Request> findAllByBenefit(Benefit benefit) {
+	public Collection<Request> findAllByBenefit(final Benefit benefit) {
 		// TODO Auto-generated method stub
 		return this.requestRepository.findAllByBenefit(benefit.getId());
 	}
+	//	public Request reconstruct(final Request request, final BindingResult binding) {
+	//		Request res;
+	//		if (request.getId() == 0)
+	//			res = request;
+	//		else {
+	//			res = this.requestRepository.findOne(request.getId());
+	//			res.setComment(request.getComment());
+	//		}
+	//		return res;
+	//
+	//	}
 
 }

@@ -11,10 +11,13 @@
 
 <display:table pagesize="10" class="displaytag" keepStatus="true"
 	name="questions" requestURI="${requestURI}" id="row">
+	<spring:message code="question.questionToAnswer" var="questionToAnswerHeader" />
+
+	<display:column property="questionToAnswer" title="${questionToAnswerHeader}" sortable="true" />
+	<security:authorize access="hasRole('USER')">
 	 <security:authentication property="principal" var ="loggedactor"/> 
 	
-	<spring:message code="question.questionToAnswer" var="questionToAnswerHeader" />
-	<display:column property="questionToAnswer" title="${questionToAnswerHeader}" sortable="true" />
+	
 	
 	<jstl:if test="${row.creator.userAccount.username==loggedactor.username}">
 	<display:column>
@@ -23,7 +26,9 @@
 	
 	
 	</display:column>
+	
 	</jstl:if>	
+</security:authorize>
 	
 	
 	<display:column>

@@ -116,7 +116,7 @@
 		<property name="picture" value="http://www.google.com/pictures" />
 		<property name="locationLatitude" value="20.5" />
 		<property name="locationLongitude" value="70.0" />
-		<property name="flag" value="PASSED" />
+		<property name="flag" value="ACTIVE" />
 		
 		<property name="announcements">
 			<list>

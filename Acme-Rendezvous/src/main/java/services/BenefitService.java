@@ -9,6 +9,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.BenefitRepository;
 import controllers.AbstractController;
@@ -36,6 +38,8 @@ public class BenefitService extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+	@Autowired
+	private Validator				validator;
 
 
 	public BenefitService() {
@@ -117,7 +121,20 @@ public class BenefitService extends AbstractController {
 		this.saveByAdmin(benefit);
 
 	}
-
+	public Benefit reconstruct(final Benefit benefit, final BindingResult binding) {
+		Benefit res;
+		if (benefit.getId() == 0)
+			res = benefit;
+		else {
+			res = this.benefitRepository.findOne(benefit.getId());
+			res.setName(benefit.getName());
+			res.setDescription(benefit.getDescription());
+			res.setPicture(benefit.getPicture());
+			res.setFlag(benefit.getFlag());
+			this.validator.validate(res, binding);
+		}
+		return res;
+	}
 	public Collection<Benefit> findAll() {
 		// TODO Auto-generated method stub
 		return this.benefitRepository.findAll();
