@@ -68,11 +68,13 @@ public class UserController {
 		Assert.notNull(userId);
 		ModelAndView res;
 		final User user = this.userService.findOne(userId);
+
 		final Collection<Rendezvous> attendances = user.getAttendances();
 
 		res = new ModelAndView("user/display");
 		res.addObject("user", user);
 		res.addObject("rendezvouses", attendances);
+
 		res.addObject("requestURI", "user/display.do");
 		return res;
 	}
