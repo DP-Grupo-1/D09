@@ -76,6 +76,7 @@ public class RendezvousService {
 		Assert.notNull(user);
 
 		Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
+		//	Assert.isTrue(rendezvous.getFinalMode() == false);
 
 		if (rendezvous.getId() == 0) {
 
@@ -86,10 +87,8 @@ public class RendezvousService {
 
 			this.findByUserId(user.getId()).add(result);
 
-		} else {
-			Assert.isTrue(rendezvous.getFinalMode() == false);
+		} else
 			result = this.rendezvousRepository.save(rendezvous);
-		}
 		return result;
 	}
 
