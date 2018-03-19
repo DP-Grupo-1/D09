@@ -76,40 +76,7 @@ public class BenefitServiceTest extends AbstractTest {
 		Assert.isTrue(this.benefitService.findAll().contains(save2));
 		super.authenticate(null);
 	}
-	@Test
-	public void driverSave2() {
-		final Object testingData[][] = {
-			//intentar modificar un benefit que tiene requests
-			{
-				"manager1", "benefit1", "sample description", IllegalArgumentException.class
-			},//un manager intentando actualizar un benefit que no es suyo
-			{
-				"manager1", "benefit2", "sample description", IllegalArgumentException.class
-			},
-			//un administrador intentando actualizar un benefit
-			{
-				"admin", "benefit2", "sample description", IllegalArgumentException.class
-			}
 
-		};
-		for (int i = 0; i < testingData.length; i++)
-			this.templateSave2((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Class<?>) testingData[i][3]);
-	}
-	protected void templateSave2(final String username, final int benefitId, final String description, final Class<?> expected) {
-		Class<?> caught;
-		caught = null;
-		try {
-			super.authenticate(username);
-			final Benefit benefit = this.benefitService.findOne(benefitId);
-			benefit.setDescription(description);
-			final Benefit save = this.benefitService.save(benefit);
-			Assert.isTrue(this.benefitService.findAll().contains(save));
-			super.authenticate(null);
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-		this.checkExceptions(expected, caught);
-	}
 	@Test
 	public void driverSave() {
 		final Object testingData[][] = {
@@ -148,6 +115,42 @@ public class BenefitServiceTest extends AbstractTest {
 			benefit.setDescription(description);
 			benefit.setPicture(picture);
 			final Benefit save = this.benefitService.save(benefit);
+			this.benefitService.flush();
+			Assert.isTrue(this.benefitService.findAll().contains(save));
+			super.authenticate(null);
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expected, caught);
+	}
+	@Test
+	public void driverSave2() {
+		final Object testingData[][] = {
+			//intentar modificar un benefit que tiene requests
+			{
+				"manager1", "benefit1", "sample description", IllegalArgumentException.class
+			},//un manager intentando actualizar un benefit que no es suyo
+			{
+				"manager1", "benefit2", "sample description", IllegalArgumentException.class
+			},
+			//un administrador intentando actualizar un benefit
+			{
+				"admin", "benefit2", "sample description", IllegalArgumentException.class
+			}
+
+		};
+		for (int i = 0; i < testingData.length; i++)
+			this.templateSave2((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+	protected void templateSave2(final String username, final int benefitId, final String description, final Class<?> expected) {
+		Class<?> caught;
+		caught = null;
+		try {
+			super.authenticate(username);
+			final Benefit benefit = this.benefitService.findOne(benefitId);
+			benefit.setDescription(description);
+			final Benefit save = this.benefitService.save(benefit);
+			this.benefitService.flush();
 			Assert.isTrue(this.benefitService.findAll().contains(save));
 			super.authenticate(null);
 		} catch (final Throwable oops) {

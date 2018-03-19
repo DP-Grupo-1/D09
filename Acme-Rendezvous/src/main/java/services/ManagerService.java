@@ -132,4 +132,9 @@ public class ManagerService {
 		return this.managerRepository.managersWithMoreBenefits();
 	}
 
+	public void flush() {
+		this.managerRepository.flush();
+
+	}
+
 }
