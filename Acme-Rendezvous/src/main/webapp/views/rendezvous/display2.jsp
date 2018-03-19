@@ -192,7 +192,7 @@
 	<display:column property="adultOnly" title="${rendezvousAdultOnlyHeader}" sortable="true" />
 			
 	<spring:message code="rendezvous.flag" var="rendezvousFlagHeader" />
-	<display:column property="flag" class="indicador" title="${rendezvousFlagHeader}" sortable="true" />
+	<display:column property="flag" title="${rendezvousFlagHeader}" sortable="true" />
 	
 	<spring:message code="rendezvous.creator" var="rendezvousCreatorHeader" />
     <display:column title="${rendezvousCreatorHeader}" sortable="true">
