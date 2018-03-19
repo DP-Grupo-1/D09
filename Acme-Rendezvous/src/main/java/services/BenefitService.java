@@ -16,6 +16,7 @@ import repositories.BenefitRepository;
 import controllers.AbstractController;
 import domain.Administrator;
 import domain.Benefit;
+import domain.Category;
 import domain.Manager;
 import domain.Rendezvous;
 import domain.Request;
@@ -40,6 +41,8 @@ public class BenefitService extends AbstractController {
 	private ManagerService			managerService;
 	@Autowired
 	private Validator				validator;
+	@Autowired
+	private CategoryService			categoryService;
 
 
 	public BenefitService() {
@@ -68,20 +71,38 @@ public class BenefitService extends AbstractController {
 	public Benefit save(final Benefit benefit) {
 		Assert.notNull(benefit);
 		final Manager principal = this.managerService.findByPrincipal();
-
+		Benefit result;
 		if (benefit.getId() == 0) {
 			benefit.setFlag("ACTIVE");
-			final Collection<Benefit> benefits = principal.getBenefits();
-			benefits.add(benefit);
-			principal.setBenefits(benefits);
-			this.managerService.save(principal);
-		}
-		Assert.isTrue(principal.getBenefits().contains(benefit));
-		final Benefit result = this.benefitRepository.save(benefit);
+			//			final Collection<Benefit> benefits = principal.getBenefits();
+			//			benefits.add(benefit);
+			//			principal.setBenefits(benefits);
+			//			this.managerService.save(principal);
+			result = this.benefitRepository.save(benefit);
+			this.addBenefitToManager(result);
+			Assert.isTrue(principal.getBenefits().contains(result));
 
+		} else {
+			final Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
+			//no se puede actualizar un benefit que este solicitado
+			Assert.isTrue(requests.isEmpty());
+			result = this.benefitRepository.save(benefit);
+		}
 		return result;
 	}
-
+	public Benefit onlySave(final Benefit benefit) {
+		Assert.notNull(benefit);
+		Benefit res;
+		res = this.benefitRepository.save(benefit);
+		return res;
+	}
+	private void addBenefitToManager(final Benefit benefit) {
+		final Manager manager = this.managerService.findByPrincipal();
+		final Collection<Benefit> benefits = manager.getBenefits();
+		benefits.add(benefit);
+		manager.setBenefits(benefits);
+		this.managerService.save(manager);
+	}
 	public Benefit saveByAdmin(final Benefit benefit) {
 		Assert.notNull(benefit);
 		final Administrator principal = this.administratorService.findByPrincipal();
@@ -94,18 +115,22 @@ public class BenefitService extends AbstractController {
 	}
 
 	public void delete(final Benefit benefit) {
-		final Manager principal = this.managerService.findByPrincipal();
-		final Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
-		Assert.isTrue(requests.isEmpty());
-		Assert.isTrue(principal.getBenefits().contains(benefit));
-		Assert.isTrue(principal.getBenefits().contains(benefit));
 		Assert.notNull(benefit);
 		Assert.isTrue(benefit.getId() != 0);
 		Assert.isTrue(this.benefitRepository.exists(benefit.getId()));
+		final Manager principal = this.managerService.findByPrincipal();
+		final Collection<Request> requests = this.requestService.findAllByBenefit(benefit.getId());
+		Assert.isTrue(requests.isEmpty());
+		final Collection<Category> categories = this.categoryService.findByBenefitId(benefit.getId());
+		for (final Category c : categories)
+			c.getBenefits().remove(benefit);
+		//		for (final Request r : requests)
+		//			this.requestService.delete(r);
 
+		//	Assert.isTrue(principal.getBenefits().contains(benefit));
+		principal.getBenefits().remove(benefit);
 		this.benefitRepository.delete(benefit);
 	}
-
 	// Auxiliary Methods
 
 	public void flush() {
@@ -118,7 +143,7 @@ public class BenefitService extends AbstractController {
 		Assert.notNull(benefit);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
 		benefit.setFlag("CANCELLED");
-		this.saveByAdmin(benefit);
+		this.onlySave(benefit);
 
 	}
 	public Benefit reconstruct(final Benefit benefit, final BindingResult binding) {
@@ -147,4 +172,5 @@ public class BenefitService extends AbstractController {
 	public Collection<Benefit> bestSellings() {
 		return this.benefitRepository.bestSellings();
 	}
+
 }

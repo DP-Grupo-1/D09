@@ -87,6 +87,12 @@ public class RequestService {
 		// TODO Auto-generated method stub
 		return this.requestRepository.findAllByBenefit(benefit.getId());
 	}
+	public void delete(final Request request) {
+		Assert.notNull(request);
+		final User u = this.userService.findByRequestId(request.getId());
+		u.getRequests().remove(request);
+		this.requestRepository.delete(request);
+	}
 	//	public Request reconstruct(final Request request, final BindingResult binding) {
 	//		Request res;
 	//		if (request.getId() == 0)

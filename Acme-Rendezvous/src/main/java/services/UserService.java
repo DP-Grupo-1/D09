@@ -46,7 +46,7 @@ public class UserService {
 		final Collection<Reply> replies = new ArrayList<>();
 		final UserAccount userAccount = new UserAccount();
 		final Authority authority = new Authority();
-		Collection<Request> requests = new ArrayList<Request>();
+		final Collection<Request> requests = new ArrayList<Request>();
 		authority.setAuthority(Authority.USER);
 
 		Collection<Authority> authorities;
@@ -73,10 +73,10 @@ public class UserService {
 		return res;
 
 	}
-	
-	public User onlySave(final User user){
+
+	public User onlySave(final User user) {
 		User saved;
-		
+
 		saved = this.userRepository.save(user);
 		return saved;
 	}
@@ -112,6 +112,11 @@ public class UserService {
 		Assert.notNull(replyId);
 		User res;
 		res = this.userRepository.findByReplyId(replyId);
+		return res;
+	}
+	public User findByRequestId(final Integer requestId) {
+		Assert.notNull(requestId);
+		final User res = this.userRepository.findByRequestId(requestId);
 		return res;
 	}
 	public User findByCommentId(final Integer commentId) {
