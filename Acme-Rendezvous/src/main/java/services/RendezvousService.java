@@ -154,21 +154,38 @@ public class RendezvousService {
 				r.setFlag(Flag.PASSED);
 				this.onlySave(r);
 
+			} else if (r.getMoment().after(new Date()) && r.getFlag() == Flag.PASSED) {
+				r.setFlag(Flag.ACTIVE);
+				this.onlySave(r);
 			}
 		return result;
 	}
 
 	public Rendezvous findOne(final int rendezvousId) {
 		final Rendezvous res = this.findOneOnly(rendezvousId);
+
 		if (res.getMoment().before(new Date()) && res.getFlag() == Flag.ACTIVE) {
 			res.setFlag(Flag.PASSED);
 			this.onlySave(res);
+		} else if (res.getMoment().after(new Date()) && res.getFlag() == Flag.PASSED) {
+			res.setFlag(Flag.ACTIVE);
+			this.onlySave(res);
 		}
+
 		return res;
 	}
 
 	public Rendezvous findOneOnly(final int rendezvousId) {
 		final Rendezvous res = this.rendezvousRepository.findOne(rendezvousId);
+
+		if (res.getMoment().before(new Date()) && res.getFlag() == Flag.ACTIVE) {
+			res.setFlag(Flag.PASSED);
+			this.onlySave(res);
+		} else if (res.getMoment().after(new Date()) && res.getFlag() == Flag.PASSED) {
+			res.setFlag(Flag.ACTIVE);
+			this.onlySave(res);
+		}
+
 		return res;
 	}
 
@@ -183,6 +200,9 @@ public class RendezvousService {
 				r.setFlag(Flag.PASSED);
 				this.onlySave(r);
 
+			} else if (r.getMoment().after(new Date()) && r.getFlag() == Flag.PASSED) {
+				r.setFlag(Flag.ACTIVE);
+				this.onlySave(r);
 			}
 		return result;
 	}
@@ -193,12 +213,28 @@ public class RendezvousService {
 				r.setFlag(Flag.PASSED);
 				this.onlySave(r);
 
+			} else if (r.getMoment().after(new Date()) && r.getFlag() == Flag.PASSED) {
+				r.setFlag(Flag.ACTIVE);
+				this.onlySave(r);
 			}
 		return res;
 	}
 
 	public Collection<Rendezvous> findByCreatorId(final int creatorId) {
-		return this.rendezvousRepository.findByCreatorId(creatorId);
+
+		final Collection<Rendezvous> res = this.rendezvousRepository.findByCreatorId(creatorId);
+
+		for (final Rendezvous r : res)
+			if (r.getMoment().before(new Date()) && r.getFlag() == Flag.ACTIVE) {
+				r.setFlag(Flag.PASSED);
+				this.onlySave(r);
+
+			} else if (r.getMoment().after(new Date()) && r.getFlag() == Flag.PASSED) {
+				r.setFlag(Flag.ACTIVE);
+				this.onlySave(r);
+			}
+
+		return res;
 	}
 
 	//--------------------------------------------- DASHBOARD ---------------------------------------------------------
@@ -278,12 +314,30 @@ public class RendezvousService {
 	public Rendezvous findByCommentId(final Integer commentId) {
 		Assert.notNull(commentId);
 		final Rendezvous res = this.rendezvousRepository.findByCommentId(commentId);
+
+		if (res.getMoment().before(new Date()) && res.getFlag() == Flag.ACTIVE) {
+			res.setFlag(Flag.PASSED);
+			this.onlySave(res);
+		} else if (res.getMoment().after(new Date()) && res.getFlag() == Flag.PASSED) {
+			res.setFlag(Flag.ACTIVE);
+			this.onlySave(res);
+		}
+
 		return res;
 	}
 
 	public Rendezvous findByAnnouncementId(final Integer announcementId) {
 		Assert.notNull(announcementId);
 		final Rendezvous res = this.rendezvousRepository.findByAnnouncementId(announcementId);
+
+		if (res.getMoment().before(new Date()) && res.getFlag() == Flag.ACTIVE) {
+			res.setFlag(Flag.PASSED);
+			this.onlySave(res);
+		} else if (res.getMoment().after(new Date()) && res.getFlag() == Flag.PASSED) {
+			res.setFlag(Flag.ACTIVE);
+			this.onlySave(res);
+		}
+
 		return res;
 	}
 
