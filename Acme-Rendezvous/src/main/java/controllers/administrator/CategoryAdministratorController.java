@@ -41,10 +41,13 @@ public class CategoryAdministratorController extends AbstractController {
 		try {
 			final Administrator administrator = this.administratorService.findByPrincipal();
 			Assert.notNull(administrator);
+			final Collection<Category> categories = this.categoryService.findAll();
+
 			final Category category = this.categoryService.create();
 
 			result = this.createEditModelAndView(category);
 			result.addObject("category", category);
+			result.addObject("categories", categories);
 
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/");

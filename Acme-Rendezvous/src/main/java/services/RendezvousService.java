@@ -74,7 +74,7 @@ public class RendezvousService {
 
 		final User user = this.userService.findByPrincipal();
 		Assert.notNull(user);
-		Assert.isTrue(rendezvous.getFinalMode()!= true);
+		//	Assert.isTrue(rendezvous.getFinalMode()!= true);
 		Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
 
 		if (rendezvous.getId() == 0) {
@@ -86,10 +86,8 @@ public class RendezvousService {
 
 			this.findByUserId(user.getId()).add(result);
 
-		} else {
-			
+		} else
 			result = this.rendezvousRepository.save(rendezvous);
-		}
 		return result;
 	}
 
@@ -102,7 +100,7 @@ public class RendezvousService {
 	public Rendezvous rsvp(final Rendezvous rendezvous) {
 		final Collection<User> attendants = rendezvous.getAttendants();
 		final User principal = this.userService.findByPrincipal();
-		Assert.isTrue(rendezvous.getFlag()== Flag.ACTIVE);
+		Assert.isTrue(rendezvous.getFlag() == Flag.ACTIVE);
 		attendants.add(principal);
 		rendezvous.setAttendants(attendants);
 		Rendezvous saved;

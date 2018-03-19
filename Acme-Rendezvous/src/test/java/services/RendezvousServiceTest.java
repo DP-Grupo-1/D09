@@ -57,21 +57,6 @@ public class RendezvousServiceTest extends AbstractTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSave() {//intentar modificar un rendezvous que esta en final mode
-
-		super.authenticate("user1");
-		final Rendezvous a = this.rendezvousService.findOneOnly(super.getEntityId("rendezvous1"));
-		a.setFinalMode(true);
-		final Rendezvous save = this.rendezvousService.save(a);
-		save.setName("random");
-		final Rendezvous save2 = this.rendezvousService.save(save);
-		Assert.isTrue(this.rendezvousService.findAll().contains(save2));
-
-		super.authenticate(null);
-
-	}
-
-	@Test(expected = IllegalArgumentException.class)
 	public void testSave2() {//guardar teniendo el flag en delete
 		super.authenticate("user1");
 		final Rendezvous rendezvous = this.rendezvousService.create();
@@ -164,6 +149,7 @@ public class RendezvousServiceTest extends AbstractTest {
 		Assert.isTrue(rendezvous.getAttendants().contains(this.userService.findByPrincipal()));
 		super.authenticate(null);
 	}
+
 	@Test
 	public void driverSave() {
 		final Object testingData[][] = {
@@ -192,7 +178,6 @@ public class RendezvousServiceTest extends AbstractTest {
 			this.templateSave((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Date) testingData[i][4], (Double) testingData[i][5], (Double) testingData[i][6], (Boolean) testingData[i][7],
 				(Boolean) testingData[i][8], (Class<?>) testingData[i][9]);
 	}
-
 	protected void templateSave(final String username, final String name, final String description, final String picture, final Date moment, final Double llatitude, final Double llongitude, final Boolean finalMode, final Boolean adultOnly,
 		final Class<?> expected) {
 		Class<?> caught;

@@ -1,3 +1,4 @@
+
 package domain;
 
 import java.util.Collection;
@@ -17,67 +18,59 @@ import org.hibernate.validator.constraints.NotBlank;
 @Access(AccessType.PROPERTY)
 public class Category extends DomainEntity {
 
-	
-	private String name;
-	private String description;
-	
-	
+	private String					name;
+	private String					description;
+
 	//Relationships
-	
-	private Category parent;
-	private Collection<Category> childrens;
-	private Collection<Benefit> benefits;
-	
-	
+
+	private Category				parent;
+	private Collection<Category>	childrens;
+	private Collection<Benefit>		benefits;
+
+
 	@NotBlank
 	public String getName() {
-		return name;
+		return this.name;
 	}
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
-	
-	
+
 	@NotBlank
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = true)
 	@NotNull
 	public Category getParent() {
-		return parent;
+		return this.parent;
 	}
-	public void setParent(Category parent) {
+	public void setParent(final Category parent) {
 		this.parent = parent;
 	}
-	
+
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "parent")
 	public Collection<Category> getChildrens() {
-		return childrens;
+		return this.childrens;
 	}
-	public void setChildrens(Collection<Category> childrens) {
+	public void setChildrens(final Collection<Category> childrens) {
 		this.childrens = childrens;
 	}
-	
+
 	@Valid
 	@ManyToMany
 	@NotNull
 	public Collection<Benefit> getBenefits() {
-		return benefits;
+		return this.benefits;
 	}
-	public void setBenefits(Collection<Benefit> benefits) {
+	public void setBenefits(final Collection<Benefit> benefits) {
 		this.benefits = benefits;
 	}
 }
-
-
-
-
-
