@@ -62,6 +62,7 @@
 		<security:intercept-url pattern="/rendezvous/display2.do" access="permitAll" />
 		
 		<security:intercept-url pattern="/manager/register.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/manager/manager/edit.do" access="hasRole('MANAGER')" />
 		
 		<security:intercept-url pattern="/category/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/category/administrator/delete.do" access="hasRole('ADMIN')" />

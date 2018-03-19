@@ -24,8 +24,10 @@
 <acme:password code="user.password" path="password"/>
 <acme:textbox code="user.name" path="name"/>
 <acme:textbox code="user.surname" path="surname"/>
-<acme:textbox code="user.postalAddress" path="postalAddress"/>
-<acme:textbox code="user.phoneNumber" path="phoneNumber"/>
+
+<spring:message code="user.optional" var="optional" />
+<acme:textbox code="user.postalAddress" path="postalAddress" placeholder="${optional}" />
+<acme:textbox code="user.phoneNumber" path="phoneNumber" placeholder="${optional}"/>
 <acme:textbox code="user.email" path="email"/>
 
 <spring:message code="user.adult" /> <form:checkbox path="adult"/>

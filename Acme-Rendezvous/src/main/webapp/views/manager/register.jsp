@@ -24,8 +24,10 @@
 <acme:password code="manager.password" path="password"/>
 <acme:textbox code="manager.name" path="name"/>
 <acme:textbox code="manager.surname" path="surname"/>
-<acme:textbox code="manager.postalAddress" path="postalAddress"/>
-<acme:textbox code="manager.phoneNumber" path="phoneNumber"/>
+
+<spring:message code="manager.optional" var="optional" /> 
+<acme:textbox code="manager.postalAddress" path="postalAddress" placeholder="${optional}"/>
+<acme:textbox code="manager.phoneNumber" path="phoneNumber" placeholder="${optional}"/>
 <acme:textbox code="manager.vat" path="VAT"/>
 <acme:textbox code="manager.email" path="email"/>
 

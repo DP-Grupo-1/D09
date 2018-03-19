@@ -86,11 +86,13 @@
     
     <acme:textbox code="rendezvous.moment" path="moment" id="momentId" placeholder="${momentFormat}"/>
     
-    <acme:textbox code="rendezvous.picture" path="picture"/>
+    <spring:message code="rendezvous.optional" var="optional"/>
     
-    <acme:textbox code="rendezvous.locationLatitude" path="locationLatitude"/>
+    <acme:textbox code="rendezvous.picture" path="picture" placeholder="${optional}"/>
     
-    <acme:textbox code="rendezvous.locationLongitude" path="locationLongitude"/>
+    <acme:textbox code="rendezvous.locationLatitude" path="locationLatitude" placeholder="${optional}"/>
+    
+    <acme:textbox code="rendezvous.locationLongitude" path="locationLongitude" placeholder="${optional}"/>
 	
 	<spring:message code="rendezvous.finalMode" />:
 	<input type="checkbox" name="finalMode"

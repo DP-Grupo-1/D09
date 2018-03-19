@@ -45,7 +45,6 @@
 					<li><a href="rendezvous/user/listRsvps.do"><span><spring:message code="master.page.user.action2" /></span></a></li>
 					<li><a href="rendezvous/user/list.do"><span><spring:message code="master.page.user.action3" /></span></a></li>
 					<li><a href="announcement/user/list.do"><span><spring:message code="master.page.user.action4" /></span></a></li>			
-					<li><a href="user/user/edit.do"><span><spring:message code="master.page.user.edit"/></span></a></li>
 				</ul></div>
 			</li>
 		</security:authorize>
@@ -67,7 +66,14 @@
 		<security:authorize access="isAuthenticated()">
 		<li><a href="#" class="parent"><span><spring:message code="master.page.profile" /> (<security:authentication property="principal.username" />)</span></a>
 			<div><ul>
+				<security:authorize access="hasRole('USER')">
+				<li><a href="user/user/edit.do"><span><spring:message code="master.page.user.edit"/></span></a></li>
+				</security:authorize>
+				<security:authorize access="hasRole('MANAGER')">
+				<li><a href="manager/manager/edit.do"><span><spring:message code="master.page.user.edit"/></span></a></li>
+				</security:authorize>
 				<li><a href="j_spring_security_logout"><span><spring:message code="master.page.logout" /></span></a></li>
+
 			</ul></div>
 		</li>
 		</security:authorize>

@@ -15,26 +15,26 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<form:form action="user/user/edit.do" modelAttribute="user">
+<form:form action="manager/manager/edit.do" modelAttribute="manager">
 
 <form:hidden path="id"/>
 <form:hidden path="version"/>
 <form:hidden path="userAccount"/>
-<form:hidden path="attendances"/>
-<form:hidden path="comments"/>
-<form:hidden path="replies"/>
 <form:hidden path="benefits"/>
 
 
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 
-<acme:textbox code="user.name" path="name"/>
-<acme:textbox code="user.surname" path="surname"/>
-<acme:textbox code="user.postalAddress" path="postalAddress"/>
-<acme:textbox code="user.phoneNumber" path="phoneNumber"/>
-<acme:textbox code="user.email" path="email"/>
+<acme:textbox code="manager.name" path="name"/>
+<acme:textbox code="manager.surname" path="surname"/>
 
-<acme:submit name="save" code="user.save"/>
-<acme:cancel url="welcome/index.do" code="user.cancel"/>
+<spring:message code="manager.optional" var="optional" /> 
+<acme:textbox code="manager.postalAddress" path="postalAddress" placeholder="${optional}"/>
+<acme:textbox code="manager.phoneNumber" path="phoneNumber" placeholder="${optional}"/>
+<acme:textbox code="manager.vat" path="VAT"/>
+<acme:textbox code="manager.email" path="email"/>
+
+<acme:submit name="save" code="manager.save"/>
+<acme:cancel url="welcome/index.do" code="manager.cancel"/>
 </form:form>
