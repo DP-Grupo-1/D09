@@ -170,7 +170,7 @@
 	
 	<spring:message code="rendezvous.moment" var="rendezvousMomentHeader" />
     <spring:message code="rendezvous.moment.format" var="rendezvousMomentFormat" />
-	<display:column property="moment" class="fecha" title="${rendezvousMomentHeader}" 
+	<display:column property="moment" title="${rendezvousMomentHeader}" 
 	    titleKey="rendezvous.moment"
 		sortable="true" format="{0,date,${rendezvousMomentFormat }}" />
 		
@@ -178,7 +178,7 @@
 	<display:column property="adultOnly" title="${rendezvousAdultOnlyHeader}" sortable="true" />
 			
 	<spring:message code="rendezvous.flag" var="rendezvousFlagHeader" />
-	<display:column property="flag" class="indicador" title="${rendezvousFlagHeader}" sortable="true" />
+	<display:column property="flag" title="${rendezvousFlagHeader}" sortable="true" />
 	
 	<spring:message code="rendezvous.creator" var="rendezvousCreatorHeader" />
     <display:column title="${rendezvousCreatorHeader}" sortable="true">

@@ -39,7 +39,7 @@
 
     <spring:message code="rendezvous.moment" var="momentHeader" />
     <spring:message code="rendezvous.moment.format" var="rendezvousMomentFormat" />
-	<display:column property="moment" title="${momentHeader}" class="fecha" sortable="true" format="{0,date,${rendezvousMomentFormat}}">
+	<display:column property="moment" title="${momentHeader}" sortable="true" format="{0,date,${rendezvousMomentFormat}}">
 	</display:column>
 
 	<spring:message code="rendezvous.picture" var="pictureHeader" />
@@ -64,7 +64,7 @@
 		<display:column property="adultOnly" title="${adultOnlyHeader}" sortable="true" />
 	
 	<spring:message code="rendezvous.flag" var="flagHeader" />
-	<display:column property="flag" class="indicador" title="${flagHeader}" sortable="true">
+	<display:column property="flag" title="${flagHeader}" sortable="true">
 	</display:column>
 	
 	<spring:message code="rendezvous.creator" var="creatorHeader" />
@@ -146,60 +146,7 @@
 </display:table>
 
 
-<script>	
-		window.onload = function prueba() {
-			
-			var actualFlag = document.getElementsByClassName("indicador");
-			var rendezvousDate = document.getElementsByClassName("fecha");
-			
-			
-			var d = new Date();
-			
-			var minutos = d.getMinutes();
-			var hora = d.getHours();
-			
-			var dia = d.getDate();
-			var mes = d.getMonth() +1;
-			var ano = d.getFullYear().toString().substr(-2);
-			
-			var i;
-			
-			
-			for (i = 0; i < actualFlag.length; i++) {
-				
-			if(actualFlag[i].textContent != "DELETED"){
-				var campos = rendezvousDate[i].textContent.split(' ');
-				
-				// 18/05/23
-				//dates[0] = 18, dates[1] = 05, dates[2] = 23
-				var dates = campos[0].split("/");
-				
-				// 13:30
-				//horas[0] = 13, horas[1] = 30
-				var horas = campos[1].split(":");
-				
-				if(dates[0] > ano){
-					actualFlag[i].innerHTML = "ACTIVE";
-				} else if((dates[0] == ano) && dates[1] > mes){
-					actualFlag[i].innerHTML = "ACTIVE";
-				} else if((dates[0] == ano) && (dates[1] == mes) && dates[2] > dia){
-					actualFlag[i].innerHTML = "ACTIVE";
-				} else if((dates[0] == ano) && (dates[1] == mes) && (dates[2] == dia) && horas[0] > hora){
-					actualFlag[i].innerHTML = "ACTIVE";
-			} else if((dates[0] == ano) && (dates[1] == mes) && (dates[2] == dia) && (horas[0] == hora) && (horas[1] > minutos)){
-					actualFlag[i].innerHTML = "ACTIVE";
-				} else {
-					actualFlag[i].innerHTML = "PASSED";
-				}
-			}
-			
-			}
-		};
-		</script>
 
-
-
- 
 
 <jstl:if test="${row.flag != 'DELETED'}">
 	<security:authorize access="hasRole('ADMIN')">

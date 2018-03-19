@@ -82,7 +82,7 @@
 			
 
 		<spring:message code="rendezvous.flag" var="flagHeader" />
-		<display:column property="flag" class="indicador" title="${flagHeader}" sortable="true" />
+		<display:column property="flag" title="${flagHeader}" sortable="true" />
 		
 
 		
