@@ -82,7 +82,7 @@ public class RequestUserController extends AbstractController {
 			try {
 				final Request request = this.requestService.create();
 				this.requestService.save(request, requestBenefit.getBenefit(), requestBenefit.getRendezvous());
-
+				result = new ModelAndView("redirect:/welcome/index.do");
 			}
 
 			catch (final Throwable oops) {

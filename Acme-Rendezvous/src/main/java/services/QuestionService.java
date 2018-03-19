@@ -74,15 +74,6 @@ public class QuestionService {
 		return saved;
 	}
 
-	public void deleteByAdmin(final Question question) {
-
-		Assert.notNull(question);
-
-		final Administrator administrator = this.administratorService.findByPrincipal();
-		Assert.notNull(administrator);
-		this.questionRepository.delete(question);
-	}
-
 	public void deleteByUser(final Question question) {
 
 		Assert.notNull(question);

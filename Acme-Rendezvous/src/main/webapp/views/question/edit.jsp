@@ -22,6 +22,12 @@
 	<input type="submit" name="save"
 	value="<spring:message code="question.save" />" />&nbsp; 
 	
+	 <jstl:if test="${question.id != 0}">
+		<input type="submit" name="delete"
+			value="<spring:message code="question.delete" />"
+			onclick="return confirm('<spring:message code="question.confirm.delete" />')" />&nbsp;
+	</jstl:if>
+	
 	<input type="button" name="cancel"
 		value="<spring:message code="question.cancel" />"
 		onclick="location.href = ('welcome/index.do');" />
