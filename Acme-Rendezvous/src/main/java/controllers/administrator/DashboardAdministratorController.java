@@ -81,7 +81,19 @@ public class DashboardAdministratorController {
 		//3
 		final Double avgRepliesPerComment = this.commentService.avgRepliesPerComment();
 		final Double stdevRepliesPerComment = this.commentService.stdevRepliesPerComment();
-
+		
+		final Double avgCategoriesPerRendezvous = rendezvousService.avgCategoriesPerRendezvous();
+		
+		final Double avgServInCategory = rendezvousService.avgServInCategory();
+		
+		final Double avgServPerRendezvous = rendezvousService.avgServPerRendezvous();
+		
+		final Double minServPerRendezvous = rendezvousService.minServPerRendezvous();
+		
+		final Double maxServPerRendezvous = rendezvousService.maxServPerRendezvous();
+		
+//		final Double stdevServPerRendezvous = rendezvousService.stdevServPerRendezvous();
+		
 		//1
 		res.addObject("avgRendezvousPerUser", avgRendezvousPerUser);
 		
@@ -120,6 +132,14 @@ public class DashboardAdministratorController {
 		res.addObject("stdevQuestionsPerRendezvous", stdevQuestionsPerRendezvous);
 		res.addObject("avgAnswersPerQuestions", avgAnswersPerQuestions);
 		res.addObject("stdevAnswersPerQuestions", stdevAnswersPerQuestions);
+		
+		res.addObject("avgCategoriesPerRendezvous", avgCategoriesPerRendezvous);
+		res.addObject("avgServInCategory", avgServInCategory);
+		res.addObject("avgServPerRendezvous",avgServPerRendezvous);
+		res.addObject("minServPerRendezvous", minServPerRendezvous);
+		res.addObject("maxServPerRendezvous", maxServPerRendezvous);
+//		res.addObject("stdevServPerRendezvous", stdevServPerRendezvous);
+		
 		return res;
 	}
 }

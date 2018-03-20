@@ -96,7 +96,7 @@ public class CategoryService {
 		Assert.notNull(a);
 
 		final Category parent = category.getParent();
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCategory(category.getId());
+		final Collection<Rendezvous> rendezvouses = this.rendezvousService.sortedByCategory(category.getId());
 		for (final Rendezvous r : rendezvouses)
 			r.getCategories().remove(category);
 		parent.getChildrens().remove(category);

@@ -91,6 +91,24 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	Rendezvous findByAnnouncementId(int announcementId);
 
 	@Query("select r from Rendezvous r join r.categories c where c.id=?1")
-	Collection<Rendezvous> findByCategoryId(int categoryId);
-
+	Collection<Rendezvous> sortedByCategoryId(int categoryId);
+	
+	@Query("select avg(r.categories.size)from Rendezvous r")
+	Double avgCategoriesPerRendezvous();
+	
+	@Query("select avg(c.benefits.size)from Category c")
+	Double avgServInCategory();
+	
+	@Query("select avg(b.rendezvouses.size) from Benefit b")
+	Double avgServPerRendezvous();
+	
+	@Query("select min(b.rendezvouses.size) from Benefit b")
+	Double minServPerRendezvous();
+	
+	@Query("select max(b.rendezvouses.size) from Benefit b")
+	Double maxServPerRendezvous();
+	
+//	@Query("select sqrt(sum(b.rendezvouses.size*b.rendezvouses.size)/count(b.rendezvouses.size)-avg(b.rendezvouses.size)*avg(b.rendezvouses.size)))from Benefit b")
+//	Double stdevServPerRendezvous();
+//	
 }

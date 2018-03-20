@@ -110,7 +110,5 @@
     </security:authorize>
     
     
-    <div>
-    <a href = "rendezvous/sorted.do?categoryId=${categoryId}"><spring:message code = "rendezvous.sorted" /></a>
-    </div>
+    
     

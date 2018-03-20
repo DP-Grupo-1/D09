@@ -54,6 +54,12 @@
 	<tr> <td><spring:message code="dashboard.22.1.4" /> </td> <td> <jstl:out value="${stdevAnswersPerQuestions}"/> </td>	</tr>
 	<tr> <td><spring:message code="dashboard.22.1.5" /> </td> <td> <jstl:out value="${avgRepliesPerComment}"/> </td>	</tr>	
 	<tr> <td><spring:message code="dashboard.22.1.6" /> </td> <td> <jstl:out value="${stdevRepliesPerComment}"/> </td>	</tr>							
-							
+		<tr> <td><spring:message code="dashboard.22.1.7" /> </td> <td> <jstl:out value="${avgCategoriesPerRendezvous}"/> </td>	</tr>							
+		<tr> <td><spring:message code="dashboard.22.1.8" /> </td> <td> <jstl:out value="${avgServInCategory}"/> </td>	</tr>							
+		<tr> <td><spring:message code="dashboard.22.1.9" /> </td> <td> <jstl:out value="${avgServPerRendezvous}"/> </td>	</tr>							
+		<tr> <td><spring:message code="dashboard.22.1.10" /> </td> <td> <jstl:out value="${minServPerRendezvous}"/> </td>	</tr>							
+		<tr> <td><spring:message code="dashboard.22.1.11" /> </td> <td> <jstl:out value="${maxServPerRendezvous}"/> </td>	</tr>							
+<%-- 		<tr> <td><spring:message code="dashboard.22.1.12" /> </td> <td> <jstl:out value="${stdevServPerRendezvous}"/> </td>	</tr>							
+ --%>						
 </table>
 </security:authorize>

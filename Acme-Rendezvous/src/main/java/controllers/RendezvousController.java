@@ -12,9 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.LoginService;
 import security.UserAccount;
+import services.CategoryService;
 import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
+import domain.Category;
 import domain.Question;
 import domain.Rendezvous;
 import domain.User;
@@ -26,6 +28,8 @@ public class RendezvousController extends AbstractController {
 	//Services ----------------------------------------------------------
 	@Autowired
 	RendezvousService	rendezvousService;
+	@Autowired
+	CategoryService	categoryService;
 
 	@Autowired
 	UserService			userService;
@@ -140,6 +144,36 @@ public class RendezvousController extends AbstractController {
 
 		return result;
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/sorted", method = RequestMethod.GET)
+    public ModelAndView Sorted(@RequestParam final Integer categoryId) {                                                        //Listeo de viajes
+        ModelAndView result;
+      
+        result = new ModelAndView("rendezvous/sorted");
+        Collection<Rendezvous> sortedByCategory = rendezvousService.sortedByCategory(categoryId);
+
+        try {
+            	
+                result.addObject("sortedByCategory", sortedByCategory);
+
+            }
+            
+
+         catch (final Throwable oops) {
+        }
+
+       
+       
+        result.addObject("requestURI", "rendezvous/sorted.do");
+
+        return result;
+    }
+
 
 	//Creation ----------------------------------------------------------
 
