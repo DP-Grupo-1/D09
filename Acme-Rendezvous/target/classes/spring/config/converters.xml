@@ -38,6 +38,7 @@
 		<bean class="converters.ReplyToStringConverter" />
 		<bean class="converters.UserAccountToStringConverter"/>
 		<bean class="converters.UserToStringConverter" />
+		<bean class="converters.SystemConfigurationToStringConverter" />
 		
 		<bean class="converters.StringToActorConverter" /> 
 		<bean class="converters.StringToAdministratorConverter" /> 
@@ -54,6 +55,7 @@
 		<bean class="converters.StringToReplyConverter" /> 
 		<bean class="converters.StringToUserAccountConverter"/>
 		<bean class="converters.StringToUserConverter" />
+		<bean class="converters.StringToSystemConfigurationConverter" />
 	</util:list>
 	
 </beans>

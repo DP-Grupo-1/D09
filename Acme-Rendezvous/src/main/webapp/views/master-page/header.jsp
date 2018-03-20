@@ -37,6 +37,8 @@
 				<li><a href="dashboard/administrator/list.do"><span><spring:message code="master.page.administrator.action1" /></span></a></li>
 			</ul></div>
 		</li>
+		
+		<li><a class="fNiv" href="systemConfiguration/administrator/display.do"><spring:message code="master.page.systemConfiguration.display" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('USER')">

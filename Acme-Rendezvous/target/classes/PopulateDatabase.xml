@@ -457,5 +457,18 @@
 		<property name="comment" value="hey que tal holaaa" />
 		<property name="benefit" ref="benefit2" />
 	</bean>
+	
+	<!-- System Configuration #System Configuration -->
+
+	<bean id="systemConfiguration" class="domain.SystemConfiguration">
+		<property name="name"
+			value="Adventure meetups" />
+		<property name="bannerUrl"
+			value="https://tinyurl.com/adventure-meetup" />
+		<property name="welcomeMessageEnglish"
+			value="Your place to organise your adventure meetups!" />
+		<property name="welcomeMessageSpanish"
+			value="Tu sitio para organizar quedadas de aventura" />
+	</bean>
 
 </beans>

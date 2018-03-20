@@ -77,4 +77,25 @@ public class ActorService {
 		return null;
 
 	}
+	
+	public boolean checkAuthority(final String authority) {
+		boolean result;
+		Actor actor;
+		Collection<Authority> authorities;
+		result = false;
+
+		try {
+			actor = this.findByPrincipal();
+			authorities = actor.getUserAccount().getAuthorities();
+
+			for (final Authority a : authorities)
+				if (a.getAuthority().equalsIgnoreCase(authority)) {
+					result = true;
+					break;
+				}
+		} catch (final IllegalArgumentException e) {
+			result = false;
+		}
+		return result;
+	}
 }

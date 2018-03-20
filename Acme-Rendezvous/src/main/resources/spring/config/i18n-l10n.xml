@@ -40,6 +40,7 @@
 		<value>/views/rendezvous/messages</value>
 		<value>/views/reply/messages</value>
 		<value>/views/terms/messages</value>
+		<value>/views/systemConfiguration/messages</value>
 	</util:list>
 
 </beans>
