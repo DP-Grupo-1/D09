@@ -26,31 +26,31 @@
 	<display:column property="flag" title="${flagHeader}" sortable="true" />
 	
 	<security:authorize access="hasRole('USER')">
-		<jstl:if test="${row.flag != 'CANCELLED'}">
-			<display:column>
-				<a href="request/user/requestService.do?benefitId=${row.id}"><spring:message code="request.create"/></a>
-			</display:column>
-		</jstl:if>
+		<display:column>
+			<jstl:if test="${row.flag != 'CANCELLED'}">
+				<a href="request/user/requestService.do?benefitId=${row.id}"><spring:message code="request.create"/></a>	
+			</jstl:if>
+		</display:column>
 		
 	</security:authorize>
 	
 	
 	<security:authorize access="hasRole('MANAGER')">
-		<jstl:forEach var="item" items="${principalBenefits}">
-			<jstl:if test="${row.flag eq 'ACTIVE' and item == row}">
-				<display:column>
-					<a href="benefit/manager/edit.do?benefitId=${row.id}"><spring:message code="benefit.edit"/></a>
-				</display:column>
-			</jstl:if>
-		</jstl:forEach>
+		<display:column>
+			<jstl:forEach var="item" items="${principalBenefits}">
+				<jstl:if test="${row.flag eq 'ACTIVE' and item == row}">
+						<a href="benefit/manager/edit.do?benefitId=${row.id}"><spring:message code="benefit.edit"/></a>
+				</jstl:if>
+			</jstl:forEach>
+		</display:column>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
-		<jstl:if test="${row.flag != 'CANCELLED'}">
-			<display:column>
+		<display:column>
+			<jstl:if test="${row.flag != 'CANCELLED'}">
 				<a href="benefit/administrator/cancel.do?benefitId=${row.id}"><spring:message code="benefit.cancel"/></a>
-			</display:column>
-		</jstl:if>
+			</jstl:if>
+		</display:column>
 	</security:authorize>
 </display:table>
 <br/>
