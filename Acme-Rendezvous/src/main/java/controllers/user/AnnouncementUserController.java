@@ -53,7 +53,7 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView create(@RequestParam final Integer rendezvousId) {
 		ModelAndView result;
 
-		final Announcement announcement = this.announcementService.create();
+		final Announcement announcement = this.announcementService.create(rendezvousId);
 
 		result = this.createEditModelAndView(announcement);
 		result.addObject("rendezvousId", rendezvousId);
