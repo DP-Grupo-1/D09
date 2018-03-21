@@ -22,7 +22,7 @@
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <security:authorize access="hasRole('USER')">
-<form:form action="rendezvous/user/edit.do" modelAttribute="rendezvous">
+<form:form action="${requestURI}" modelAttribute="rendezvous">
 <jstl:if test="${finalMode == false}">
 	<form:hidden path="id" />
 	<form:hidden path="version" />

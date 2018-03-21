@@ -22,5 +22,15 @@
 		<put-attribute name="body" value="/views/benefit/list.jsp" />
 	</definition>
 	
+	<definition name="benefit/listRequested" extends="master.page">
+		<put-attribute name="title" value="Listar Servicios" />
+		<put-attribute name="body" value="/views/benefit/list.jsp" />
+	</definition>
+	
+	<definition name="benefit/edit" extends="master.page">
+		<put-attribute name="title" value="Editar Servicio" />
+		<put-attribute name="body" value="/views/benefit/edit.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>

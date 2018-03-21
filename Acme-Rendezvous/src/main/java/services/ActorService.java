@@ -30,6 +30,9 @@ public class ActorService {
 
 	@Autowired
 	UserService				userService;
+	
+	@Autowired
+	ManagerService				managerService;
 
 
 	//CRUD methods
@@ -73,6 +76,9 @@ public class ActorService {
 
 		case Authority.USER:
 			return this.userService.findByPrincipal();
+			
+		case Authority.MANAGER:
+			return this.managerService.findByPrincipal();
 		}
 		return null;
 
@@ -96,6 +102,24 @@ public class ActorService {
 		} catch (final IllegalArgumentException e) {
 			result = false;
 		}
+		return result;
+	}
+	
+	public boolean checkActorWithAuthority(final Actor actor, final String authority) {
+		Assert.notNull(actor);
+		Assert.notNull(actor.getUserAccount().getUsername());
+		Assert.notNull(actor.getUserAccount().getPassword());
+
+		Assert.notNull(authority);
+
+		boolean result = true;
+
+		for (final Authority a : actor.getUserAccount().getAuthorities())
+			if (!a.getAuthority().equals(authority)) {
+				result = false;
+				break;
+			}
+
 		return result;
 	}
 }

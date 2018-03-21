@@ -5,17 +5,20 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.BenefitService;
 import services.ManagerService;
 import services.RendezvousService;
 import controllers.AbstractController;
 import domain.Benefit;
+import domain.Manager;
 
 @Controller
 @RequestMapping("/benefit/manager")
@@ -29,6 +32,9 @@ public class BenefitManagerController extends AbstractController {
 
 	@Autowired
 	private RendezvousService	rendezvousService;
+	
+	@Autowired
+	private ActorService	actorService;
 
 
 	//Creation--------------------------
@@ -47,8 +53,17 @@ public class BenefitManagerController extends AbstractController {
 	//Edit----------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int benefitId) {
+		
 		final ModelAndView res;
 		final Benefit benefit = this.benefitService.findOne(benefitId);
+		Manager principal = this.managerService.findByPrincipal();
+		if(benefit.getId()!=0){
+			Assert.isTrue(principal.getBenefits().contains(benefit));
+		}
+		else{
+			Assert.isTrue(this.actorService.checkActorWithAuthority(principal, "MANAGER"));
+		}
+		
 		res = this.createEditModelAndView(benefit);
 		return res;
 	}
@@ -80,7 +95,7 @@ public class BenefitManagerController extends AbstractController {
 	public ModelAndView delete(@Valid final Benefit benefit, final BindingResult binding) {
 
 		ModelAndView result;
-
+		Assert.isTrue(benefit.getRendezvouses().isEmpty());
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(benefit);
 		else

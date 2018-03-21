@@ -86,6 +86,7 @@ public class RendezvousUserController extends AbstractController {
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("adult", user.getAdult());
 			result.addObject("finalMode", rendezvous.getFinalMode());
+			result.addObject("requestURI", "rendezvous/user/edit.do");
 			
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/");

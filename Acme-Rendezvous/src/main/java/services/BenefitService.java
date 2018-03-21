@@ -54,7 +54,7 @@ public class BenefitService extends AbstractController {
 		result = new Benefit();
 		final Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
 		result.setRendezvouses(rendezvouses);
-
+		result.setFlag("ACTIVE");
 		return result;
 	}
 	public Benefit findOne(final int benefitId) {

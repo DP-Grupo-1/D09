@@ -36,11 +36,13 @@
 	
 	
 	<security:authorize access="hasRole('MANAGER')">
-		<jstl:if test="${row.flag != 'CANCELLED' and loggedactor.benefits.contains(row)}">
-			<display:column>
-				<a href="benefit/manager/edit.do?benefitId=${row.id}"><spring:message code="benefit.edit"/></a>
-			</display:column>
-		</jstl:if>
+		<jstl:forEach var="item" items="${principalBenefits}">
+			<jstl:if test="${row.flag eq 'ACTIVE' and item == row}">
+				<display:column>
+					<a href="benefit/manager/edit.do?benefitId=${row.id}"><spring:message code="benefit.edit"/></a>
+				</display:column>
+			</jstl:if>
+		</jstl:forEach>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('ADMIN')">
@@ -51,3 +53,7 @@
 		</jstl:if>
 	</security:authorize>
 </display:table>
+<br/>
+<security:authorize access="hasRole('MANAGER')">
+	<a href="benefit/manager/create.do"><spring:message code="benefit.create"/></a>
+</security:authorize>
