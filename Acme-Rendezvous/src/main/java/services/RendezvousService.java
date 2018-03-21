@@ -86,8 +86,10 @@ public class RendezvousService {
 
 			this.findByUserId(user.getId()).add(result);
 
-		} else
+		} else {
+			Assert.isTrue(rendezvous.getCreator() == user);
 			result = this.rendezvousRepository.save(rendezvous);
+		}
 		return result;
 	}
 
@@ -354,41 +356,37 @@ public class RendezvousService {
 
 		return stddev;
 	}
-	
-	//Requisito 11.2a : The average number of categories per rendezvous
-	public Double avgCategoriesPerRendezvous(){
-		return rendezvousRepository.avgCategoriesPerRendezvous();
-	}
-	
-	//Requisito 11.2b : The average ratio of services in each category
-	public Double avgServInCategory(){
-		return rendezvousRepository.avgServInCategory();
-	}
-	
-	
-	//Requisito 11.2c: The average of services requested per rendezvous
-	public Double avgServPerRendezvous(){
-		return rendezvousRepository.avgServPerRendezvous();
-	}
-	
-	//Requisito 11.2c: The minimum of services requested per rendezvous
-	public Double minServPerRendezvous(){
-		return rendezvousRepository.minServPerRendezvous();
-	}
-	
-	
-	//Requisito 11.2c: The maximum of services requested per rendezvous
-		public Double maxServPerRendezvous(){
-			return rendezvousRepository.maxServPerRendezvous();
-		}
-		
-//	//Requisito 11.2c: The stdev of services requested per rendezvous
-//		public Double stdevServPerRendezvous(){
-//			return rendezvousRepository.stdevServPerRendezvous();
-//		}
 
-	
-		
+	//Requisito 11.2a : The average number of categories per rendezvous
+	public Double avgCategoriesPerRendezvous() {
+		return this.rendezvousRepository.avgCategoriesPerRendezvous();
+	}
+
+	//Requisito 11.2b : The average ratio of services in each category
+	public Double avgServInCategory() {
+		return this.rendezvousRepository.avgServInCategory();
+	}
+
+	//Requisito 11.2c: The average of services requested per rendezvous
+	public Double avgServPerRendezvous() {
+		return this.rendezvousRepository.avgServPerRendezvous();
+	}
+
+	//Requisito 11.2c: The minimum of services requested per rendezvous
+	public Double minServPerRendezvous() {
+		return this.rendezvousRepository.minServPerRendezvous();
+	}
+
+	//Requisito 11.2c: The maximum of services requested per rendezvous
+	public Double maxServPerRendezvous() {
+		return this.rendezvousRepository.maxServPerRendezvous();
+	}
+
+	//	//Requisito 11.2c: The stdev of services requested per rendezvous
+	//		public Double stdevServPerRendezvous(){
+	//			return rendezvousRepository.stdevServPerRendezvous();
+	//		}
+
 	private Integer numRendezvouses() {
 		Integer numRendezvouses = 0;
 		for (final User u1 : this.userService.findAll()) {

@@ -89,6 +89,17 @@ public class RendezvousServiceTest extends AbstractTest {
 		Assert.isTrue(save.getFlag().equals(Flag.PASSED));
 		super.authenticate(null);
 	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testSave4() {
+		//un user intentando editar el rendezvous de otro user
+		super.authenticate("user1");
+		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous2"));
+		rendezvous.setName("asdf");
+		final Rendezvous save = this.rendezvousService.save(rendezvous);
+		Assert.isTrue(this.rendezvousService.findAll().contains(save));
+
+		super.authenticate(null);
+	}
 	@Test()
 	public void testDelete() {//un admin borra un rendezvous
 		super.authenticate("admin");
