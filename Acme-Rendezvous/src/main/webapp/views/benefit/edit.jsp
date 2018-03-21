@@ -34,7 +34,7 @@
 		<button type="submit" name="save" class="btn btn-primary" id="save">
 			<spring:message code="benefit.save" />
 		</button>
-		<jstl:if test="${benefit.id != 0 and benefir.rendezvouses.isEmpty()}">
+		<jstl:if test="${benefit.id != 0 and benefit.rendezvouses.isEmpty()}">
 		<input type="submit" name="delete"
 			value="<spring:message code="benefit.delete" />"
 			onclick="return confirm('<spring:message code="benefit.confirm.delete" />')" />&nbsp;
