@@ -180,4 +180,10 @@ public class QuestionService {
 		return res;
 	}
 
+	public void flush() {
+		this.questionRepository.flush();
+		// TODO Auto-generated method stub
+
+	}
+
 }
