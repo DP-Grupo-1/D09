@@ -100,50 +100,7 @@ public class RendezvousServiceTest extends AbstractTest {
 
 		super.authenticate(null);
 	}
-	@Test()
-	public void testDelete() {//un admin borra un rendezvous
-		super.authenticate("admin");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
 
-		this.rendezvousService.deleteByAdmin(rendezvous);
-
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-		super.authenticate(null);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testDelete2() {//un usuario borra un rendezvous que esta en final mode
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		rendezvous.setFinalMode(true);
-		final Rendezvous save = this.rendezvousService.save(rendezvous);
-		this.rendezvousService.deleteByUser(save);
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-		super.authenticate(null);
-	}
-	@Test(expected = IllegalArgumentException.class)
-	public void testDelete3() {//un usuario borra un rendezvous que tiene un flag a DELETE
-		super.authenticate("user1");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		this.rendezvousService.deleteByUser(rendezvous);
-		this.rendezvousService.deleteByUser(rendezvous);
-
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-		super.authenticate(null);
-	}
-	@Test(expected = IllegalArgumentException.class)
-	public void testDelete4() {//un admin borra un rendezvous que tiene un flag a DELETE
-		super.authenticate("admin");
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		this.rendezvousService.deleteByUser(rendezvous);
-		this.rendezvousService.deleteByUser(rendezvous);
-
-		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
-
-		super.authenticate(null);
-	}
 	@Test
 	public void testRSVP() {//normal
 		super.authenticate("user2");
@@ -330,5 +287,68 @@ public class RendezvousServiceTest extends AbstractTest {
 		Assert.notNull(stddev);
 		System.out.println("Desviacion estandar de los rendezvouses creados por usuario: " + stddev);
 	}
+	@Test()
+	public void testDelete() {//un admin borra un rendezvous sin nada
+		super.authenticate("user1");
+		final Rendezvous rendezvous = this.rendezvousService.create();
+		rendezvous.setName("sample name");
+		rendezvous.setDescription("sample description");
+		rendezvous.setPicture("http://www.samplepicture.com");
+		final Date moment = new Date(System.currentTimeMillis() + 5000);
+		rendezvous.setMoment(moment);
+		rendezvous.setFinalMode(false);
+		rendezvous.setAdultOnly(false);
+		final Rendezvous save = this.rendezvousService.save(rendezvous);
+		Assert.isTrue(this.rendezvousService.findAll().contains(save));
+		super.authenticate(null);
+		super.authenticate("admin");
+		this.rendezvousService.deleteByAdmin(save);
+		this.rendezvousService.flush();
 
+		//	Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
+		Assert.isTrue(!this.rendezvousService.findAll().contains(save));
+		super.authenticate(null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete2() {//un usuario borra un rendezvous que esta en final mode
+		super.authenticate("user1");
+		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
+		rendezvous.setFinalMode(true);
+		final Rendezvous save = this.rendezvousService.save(rendezvous);
+		this.rendezvousService.deleteByUser(save);
+		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
+
+		super.authenticate(null);
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete3() {//un usuario borra un rendezvous que tiene un flag a DELETE
+		super.authenticate("user1");
+		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
+		this.rendezvousService.deleteByUser(rendezvous);
+		this.rendezvousService.deleteByUser(rendezvous);
+
+		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
+
+		super.authenticate(null);
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testDelete4() {//un admin borra un rendezvous que tiene un flag a DELETE
+		super.authenticate("admin");
+		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
+		this.rendezvousService.deleteByUser(rendezvous);
+		this.rendezvousService.deleteByUser(rendezvous);
+
+		Assert.isTrue(rendezvous.getFlag() == Flag.DELETED);
+
+		super.authenticate(null);
+	}
+	@Test
+	public void testDelete5() {
+		super.authenticate("admin");
+		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
+		this.rendezvousService.deleteByAdmin(rendezvous);
+		Assert.isTrue(!this.rendezvousService.findAll().contains(rendezvous));
+		super.authenticate(null);
+	}
 }

@@ -19,7 +19,9 @@ import domain.Benefit;
 import domain.Category;
 import domain.Comment;
 import domain.Flag;
+import domain.Question;
 import domain.Rendezvous;
+import domain.Reply;
 import domain.User;
 
 @Service
@@ -38,6 +40,16 @@ public class RendezvousService {
 
 	@Autowired
 	private AdministratorService	administratorService;
+
+	@Autowired
+	private CommentService			commentService;
+	@Autowired
+	private BenefitService			benefitService;
+
+	@Autowired
+	private QuestionService			questionService;
+	@Autowired
+	private AnnouncementService		announcementService;
 
 	@Autowired
 	private Validator				validator;
@@ -134,20 +146,51 @@ public class RendezvousService {
 		Assert.notNull(rendezvous);
 
 		final Administrator admin = this.administratorService.findByPrincipal();
+		final Collection<User> attendans = rendezvous.getAttendants();
+		final Collection<Comment> comments = rendezvous.getComments();
+		final Benefit benefit = this.benefitService.findByRendezvousId(rendezvous.getId());
+		final Collection<Question> questions = this.questionService.findAllByRendezvous(rendezvous.getId());
+		final Collection<Announcement> announcements = rendezvous.getAnnouncements();
 
 		Assert.notNull(admin);
 
-		try {
-			Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
+		//		try {
+		Assert.isTrue(rendezvous.getFlag() != Flag.DELETED);
+		for (final Comment c : comments) {
+			final Collection<Reply> replies = c.getReplies();
+			if (!replies.isEmpty())
+				for (final Reply r : replies)
+					this.userService.findByReplyId(r.getId()).getReplies().remove(r);
+			this.userService.findByCommentId(c.getId()).getComments().remove(c);
 
-			rendezvous.setFlag(Flag.DELETED);
-			this.onlySave(rendezvous);
-
-		} catch (final Exception oops) {
-			System.out.println(oops.getMessage());
 		}
-	}
+		//		if (!attendans.isEmpty())
+		//			for (final User u : attendans)
+		//				u.getAttendances().remove(rendezvous);
+		//this.userService.onlySave(u);
+		//		if (!announcements.isEmpty())
+		//			for (final Announcement a : announcements)
+		//				announcements.remove(a);
+		if (!questions.isEmpty()) {
+			System.out.println("questions de un rendezvous: " + questions);
+			for (final Question q : questions) {
 
+				questions.remove(q.getCreator());
+				questions.remove(q.getRendezvous());
+			}
+		}
+
+		//		this.onlySave(rendezvous);
+		if (benefit != null)
+			benefit.getRendezvouses().remove(rendezvous);
+
+		//		rendezvous.setFlag(Flag.DELETED);
+		//		this.onlySave(rendezvous);
+		this.rendezvousRepository.delete(rendezvous);
+		//		} catch (final Exception oops) {
+		//			System.out.println(oops.getMessage());
+		//		}
+	}
 	public Collection<Rendezvous> findAll() {
 		final Collection<Rendezvous> result = this.rendezvousRepository.findAll();
 
@@ -435,6 +478,10 @@ public class RendezvousService {
 	public Collection<Rendezvous> sortedByCategory(final int categoryId) {
 
 		return this.rendezvousRepository.sortedByCategoryId(categoryId);
+	}
+
+	public void flush() {
+		this.rendezvousRepository.flush();
 	}
 
 }
