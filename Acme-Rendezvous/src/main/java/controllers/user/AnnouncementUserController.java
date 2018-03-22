@@ -57,7 +57,7 @@ public class AnnouncementUserController extends AbstractController {
 		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 		final User principal = this.userService.findByPrincipal();
 		Assert.isTrue(rendezvous.getCreator().equals(principal));
-		final Announcement announcement = this.announcementService.create();
+		final Announcement announcement = this.announcementService.create(rendezvousId);
 
 		result = this.createEditModelAndView(announcement);
 		result.addObject("rendezvousId", rendezvousId);

@@ -19,4 +19,7 @@ public interface BenefitRepository extends JpaRepository<Benefit, Integer> {
 	@Query("select b from Benefit b order by b.rendezvouses.size desc")
 	Collection<Benefit> bestSellings();
 
+	@Query("select b from Benefit b join b.rendezvouses r where r.id=?1")
+	Benefit findByRendezvoudId(int rendezvousId);
+
 }

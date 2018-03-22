@@ -15,6 +15,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Administrator;
 import domain.Announcement;
+import domain.Rendezvous;
 
 @Service
 @Transactional
@@ -31,9 +32,16 @@ public class AnnouncementService {
 	@Autowired
 	AdministratorService	administratorService;
 
+	@Autowired
+	RendezvousService		rendezvousService;
+
 
 	//CRUD methods
-	public Announcement create() {
+	public Announcement create(final int rendezvousId) {
+
+		final Rendezvous r = this.rendezvousService.findOne(rendezvousId);
+		Assert.isTrue(this.userService.findByPrincipal().equals(r.getCreator()));
+
 		final Date moment = new Date();
 		final Announcement result = new Announcement();
 		result.setMoment(moment);

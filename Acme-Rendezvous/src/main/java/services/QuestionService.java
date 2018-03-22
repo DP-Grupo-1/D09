@@ -12,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.QuestionRepository;
-import domain.Administrator;
 import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
@@ -83,7 +82,19 @@ public class QuestionService {
 		Assert.isTrue(question.getCreator().equals(user));
 		this.questionRepository.delete(question);
 	}
-	
+	//	public void deleteByAdmin(final Question question) {
+	//		Assert.notNull(question);
+	//		final Administrator administrator = this.administratorService.findByPrincipal();
+	//		Assert.notNull(administrator);
+	//
+	//	}
+	//	public void quitarQuestionAnswer(final Question question) {
+	//		final Collection<Answer> answers = question.getAnswers();
+	//		if (!answers.isEmpty())
+	//			for (final Answer a : answers)
+	//				answers.remove(a.getAnswerer());
+	//
+	//	}
 	public Collection<Question> findAllByPrincipalAndRendezvous(final int principalId, final int rendezvousId) {
 
 		Collection<Question> questions = new ArrayList<Question>();
@@ -141,33 +152,32 @@ public class QuestionService {
 		return res;
 	}
 
-//	//Prune domain object------------------------------------------------------------
-//	public Question reconstruct(final Question question, final BindingResult binding) {
-//		Question res;
-//		if (question.getId() == 0)
-//			res = question;
-//		else {
-//			res = this.questionRepository.findOne(question.getId());
-//			res.setQuestionToAnswer(question.getQuestionToAnswer());
-//			this.validator.validate(res, binding);
-//		}
-//		return res;
-//	}
-	
-	public Question reconstruct(final Question question, final BindingResult binding) {
-        Question res;
-        if (question.getId() == 0)
-            res = question;
-        else {
-            res = this.questionRepository.findOne(question.getId());
-            res.setQuestionToAnswer(question.getQuestionToAnswer());
-         //   res.setAnswers(question.getAnswers());
-           // res.setCreator(question.getCreator());
-           // res.setRendezvous(question.getRendezvous());
-            this.validator.validate(res, binding);
-        }
-        return res;
-    }
+	//	//Prune domain object------------------------------------------------------------
+	//	public Question reconstruct(final Question question, final BindingResult binding) {
+	//		Question res;
+	//		if (question.getId() == 0)
+	//			res = question;
+	//		else {
+	//			res = this.questionRepository.findOne(question.getId());
+	//			res.setQuestionToAnswer(question.getQuestionToAnswer());
+	//			this.validator.validate(res, binding);
+	//		}
+	//		return res;
+	//	}
 
+	public Question reconstruct(final Question question, final BindingResult binding) {
+		Question res;
+		if (question.getId() == 0)
+			res = question;
+		else {
+			res = this.questionRepository.findOne(question.getId());
+			res.setQuestionToAnswer(question.getQuestionToAnswer());
+			//   res.setAnswers(question.getAnswers());
+			// res.setCreator(question.getCreator());
+			// res.setRendezvous(question.getRendezvous());
+			this.validator.validate(res, binding);
+		}
+		return res;
+	}
 
 }

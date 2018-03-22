@@ -66,7 +66,7 @@ public class AnnouncementServiceTest extends AbstractTest {
 	public void driverAnnouncementNoTitle() {
 		final Object testingData[][] = {
 			{   // Creación incorrecta de una Announcement: sin título
-				"user2", new Date(System.currentTimeMillis() - 100), null, "descripción4", ConstraintViolationException.class
+				"user1", new Date(System.currentTimeMillis() - 100), null, "descripción4", ConstraintViolationException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -129,9 +129,10 @@ public class AnnouncementServiceTest extends AbstractTest {
 	protected void templateAnnouncement(final String username, final Date moment, final String title, final String description, final Class<?> expected) {
 		Class<?> caught;
 		caught = null;
+		final int rendezvousId = 227;
 		try {
 			this.authenticate(username);
-			final Announcement a = this.announcementService.create();
+			final Announcement a = this.announcementService.create(rendezvousId);
 			a.setMoment(moment);
 			a.setTitle(title);
 			a.setDescription(description);

@@ -42,7 +42,7 @@ public class BenefitServiceTest extends AbstractTest {
 		Assert.isNull(benefit.getName());
 		Assert.isNull(benefit.getDescription());
 		Assert.isNull(benefit.getPicture());
-		Assert.isNull(benefit.getFlag());
+		Assert.notNull(benefit.getFlag());
 		Assert.notNull(benefit.getRendezvouses());
 	}
 

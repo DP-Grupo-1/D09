@@ -172,5 +172,10 @@ public class BenefitService extends AbstractController {
 	public Collection<Benefit> bestSellings() {
 		return this.benefitRepository.bestSellings();
 	}
+	public Benefit findByRendezvousId(final Integer rendezvousId) {
+		Assert.notNull(rendezvousId);
+		final Benefit b = this.benefitRepository.findByRendezvoudId(rendezvousId);
+		return b;
+	}
 
 }
