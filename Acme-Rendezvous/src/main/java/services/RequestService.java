@@ -55,7 +55,6 @@ public class RequestService {
 		Assert.notNull(benefit);
 		Assert.notNull(rendezvous);
 		Assert.isTrue(benefit.getFlag().equals("ACTIVE"));
-
 		Request result;
 		request.setBenefit(benefit);
 
@@ -86,6 +85,9 @@ public class RequestService {
 	public Collection<Request> findAllByBenefit(final Benefit benefit) {
 		// TODO Auto-generated method stub
 		return this.requestRepository.findAllByBenefit(benefit.getId());
+	}
+	public Collection<Request> findAll() {
+		return this.requestRepository.findAll();
 	}
 	public void delete(final Request request) {
 		Assert.notNull(request);
