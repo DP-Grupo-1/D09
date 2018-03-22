@@ -87,7 +87,7 @@ public class RendezvousUserController extends AbstractController {
 			result.addObject("adult", user.getAdult());
 			result.addObject("finalMode", rendezvous.getFinalMode());
 			result.addObject("requestURI", "rendezvous/user/edit.do");
-			
+
 		} catch (final Throwable oops) {
 			result = new ModelAndView("redirect:/");
 			System.out.println(oops);
@@ -104,14 +104,17 @@ public class RendezvousUserController extends AbstractController {
 		ModelAndView result;
 		Rendezvous rendezvous;
 		rendezvous = this.rendezvousService.findOne(rendezvousId);
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getCreator().equals(principal));
 		try {
 
 			Assert.notNull(rendezvous);
-			Assert.isTrue(rendezvous.getFinalMode()==false);
+			Assert.isTrue(rendezvous.getFinalMode() == false);
 
 			result = this.createEditModelAndView(rendezvous);
 			result.addObject("rendezvous", rendezvous);
 			result.addObject("finalMode", rendezvous.getFinalMode());
+			result.addObject("requestURI", "rendezvous/user/edit.do");
 
 		} catch (final Throwable error) {
 			System.out.println(error);
@@ -121,12 +124,15 @@ public class RendezvousUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Rendezvous rendezvous, final BindingResult binding) {
+	public ModelAndView save(@Valid final Rendezvous rendezvous, final BindingResult binding) {
 		ModelAndView result;
-		rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
+		//rendezvous = this.rendezvousService.reconstruct(rendezvous, binding);
 		if (binding.hasErrors()) {
+			final User user = this.userService.findByPrincipal();
 			System.out.println(binding.getAllErrors());
 			result = this.createEditModelAndView(rendezvous);
+			result.addObject("finalMode", rendezvous.getFinalMode());
+			result.addObject("adult", user.getAdult());
 		} else
 			try {
 
@@ -143,7 +149,8 @@ public class RendezvousUserController extends AbstractController {
 	public ModelAndView delete(@Valid final Rendezvous rendezvous, final BindingResult binding) {
 
 		ModelAndView result;
-
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getCreator().equals(principal));
 		try {
 			this.rendezvousService.deleteByUser(rendezvous);
 			result = new ModelAndView("redirect:../display.do?rendezvousId=" + rendezvous.getId());
@@ -164,7 +171,6 @@ public class RendezvousUserController extends AbstractController {
 			final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
 			Assert.notNull(user);
 			Assert.notNull(rendezvous);
-			
 
 			this.rendezvousService.rsvp(rendezvous);
 

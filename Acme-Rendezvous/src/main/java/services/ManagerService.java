@@ -119,7 +119,7 @@ public class ManagerService {
 			res.setPhoneNumber(manager.getPhoneNumber());
 			res.setEmail(manager.getEmail());
 			res.setVAT(manager.getVAT());
-			this.validator.validate(res, binding);
+			//this.validator.validate(res, binding);
 
 		}
 		return res;

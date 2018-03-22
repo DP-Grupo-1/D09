@@ -32,9 +32,9 @@ public class BenefitManagerController extends AbstractController {
 
 	@Autowired
 	private RendezvousService	rendezvousService;
-	
+
 	@Autowired
-	private ActorService	actorService;
+	private ActorService		actorService;
 
 
 	//Creation--------------------------
@@ -53,17 +53,12 @@ public class BenefitManagerController extends AbstractController {
 	//Edit----------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int benefitId) {
-		
+
 		final ModelAndView res;
 		final Benefit benefit = this.benefitService.findOne(benefitId);
-		Manager principal = this.managerService.findByPrincipal();
-		if(benefit.getId()!=0){
-			Assert.isTrue(principal.getBenefits().contains(benefit));
-		}
-		else{
-			Assert.isTrue(this.actorService.checkActorWithAuthority(principal, "MANAGER"));
-		}
-		
+		final Manager principal = this.managerService.findByPrincipal();
+		Assert.isTrue(principal.getBenefits().contains(benefit));
+		Assert.isTrue(this.actorService.checkActorWithAuthority(principal, "MANAGER"));
 		res = this.createEditModelAndView(benefit);
 		return res;
 	}
@@ -100,6 +95,8 @@ public class BenefitManagerController extends AbstractController {
 			result = this.createEditModelAndView(benefit);
 		else
 			try {
+				final Manager principal = this.managerService.findByPrincipal();
+				Assert.isTrue(principal.getBenefits().contains(benefit));
 				this.benefitService.delete(benefit);
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} catch (final Throwable oops) {

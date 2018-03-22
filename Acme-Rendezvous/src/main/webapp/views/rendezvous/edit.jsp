@@ -116,8 +116,7 @@
 	
 	<jstl:if test="${rendezvous.finalMode==false || rendezvous.flag!=Flag.DELETED}">
 		<input type="submit" name="save"
-			value="<spring:message code="rendezvous.save"/>" onclick="return tester(this.form.momentId.value)"
-/>&nbsp;
+			value="<spring:message code="rendezvous.save"/>"/>&nbsp;
 	<input type="submit" name="delete"
 			value="<spring:message code="rendezvous.delete"/>" />&nbsp;
     </jstl:if> 

@@ -1,10 +1,12 @@
-/* CustomerController.java
+/*
+ * CustomerController.java
  * 
  * Copyright (C) 2017 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the
  * TDG Licence, a copy of which you may download from
- * http://www.tdg-seville.info/License.html */
+ * http://www.tdg-seville.info/License.html
+ */
 
 package controllers.user;
 
@@ -15,19 +17,19 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import controllers.AbstractController;
-
 import security.LoginService;
 import security.UserAccount;
 import services.AnnouncementService;
 import services.RendezvousService;
 import services.UserService;
+import controllers.AbstractController;
 import domain.Announcement;
 import domain.Rendezvous;
 import domain.User;
@@ -36,16 +38,15 @@ import domain.User;
 @RequestMapping("/announcement/user")
 public class AnnouncementUserController extends AbstractController {
 
-
 	//Services ----------------------------------------------------------
 	@Autowired
-	private AnnouncementService		announcementService;
+	private AnnouncementService	announcementService;
 
 	@Autowired
-	private RendezvousService		rendezvousService;
+	private RendezvousService	rendezvousService;
 
 	@Autowired
-	private UserService				userService;
+	private UserService			userService;
 
 
 	// Create ------------------------------------------------
@@ -53,6 +54,9 @@ public class AnnouncementUserController extends AbstractController {
 	public ModelAndView create(@RequestParam final Integer rendezvousId) {
 		ModelAndView result;
 
+		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getCreator().equals(principal));
 		final Announcement announcement = this.announcementService.create();
 
 		result = this.createEditModelAndView(announcement);
@@ -74,7 +78,6 @@ public class AnnouncementUserController extends AbstractController {
 
 		for (final Rendezvous r : u.getAttendances())
 			announcements.addAll(r.getAnnouncements());
-
 
 		res = new ModelAndView("announcement/list");
 		res.addObject("announcements", announcements);
@@ -110,7 +113,6 @@ public class AnnouncementUserController extends AbstractController {
 
 		return result;
 	}
-
 
 	protected ModelAndView createEditModelAndView(final Announcement announcement) {
 		ModelAndView result;

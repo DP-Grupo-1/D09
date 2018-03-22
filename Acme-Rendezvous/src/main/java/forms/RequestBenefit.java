@@ -1,3 +1,4 @@
+
 package forms;
 
 import javax.validation.constraints.Digits;
@@ -15,36 +16,37 @@ import domain.Rendezvous;
 
 public class RequestBenefit {
 
-	private String	holderName;
-	private String	brandName;
-	private String	number;
-	private int		expirationMonth;
-	private int		expirationYear;
-	private int		cvv;
-	private String	comment;
-	private Rendezvous rendezvous;
-	private Benefit benefit;
-	
+	private String		holderName;
+	private String		brandName;
+	private String		number;
+	private int			expirationMonth;
+	private int			expirationYear;
+	private int			cvv;
+	private String		comment;
+	private Rendezvous	rendezvous;
+	private Benefit		benefit;
+
+
 	@NotNull
 	public Benefit getBenefit() {
-		return benefit;
+		return this.benefit;
 	}
-	public void setBenefit(Benefit benefit) {
+	public void setBenefit(final Benefit benefit) {
 		this.benefit = benefit;
 	}
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getComment() {
-		return comment;
+		return this.comment;
 	}
-	public void setComment(String comment) {
+	public void setComment(final String comment) {
 		this.comment = comment;
 	}
-	
+
 	@NotNull
 	public Rendezvous getRendezvous() {
-		return rendezvous;
+		return this.rendezvous;
 	}
-	public void setRendezvous(Rendezvous rendezvous) {
+	public void setRendezvous(final Rendezvous rendezvous) {
 		this.rendezvous = rendezvous;
 	}
 	@NotBlank
@@ -78,20 +80,21 @@ public class RequestBenefit {
 	}
 
 	@Range(min = 1, max = 12)
+	@NotNull
 	public int getExpirationMonth() {
 		return this.expirationMonth;
 	}
 	public void setExpirationMonth(final int expirationMonth) {
 		this.expirationMonth = expirationMonth;
 	}
-
+	@NotNull
 	public int getExpirationYear() {
 		return this.expirationYear;
 	}
 	public void setExpirationYear(final int expirationYear) {
 		this.expirationYear = expirationYear;
 	}
-
+	@NotNull
 	@Range(min = 100, max = 999)
 	public int getCvv() {
 		return this.cvv;

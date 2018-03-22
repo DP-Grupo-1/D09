@@ -36,6 +36,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select count(r)*1.0/(select count(u) from User u) from Rendezvous r")
 	Double avgRendezvousPerUser();
 
+	@Query("select sum((select count(*) from Rendezvous r where r.creator.id = u.id)*(select count(*) from Rendezvous r where r.creator.id = u.id)) from User u")
+	Double sumRendezvousPerUser();
+
 	//@Query("select stddev(u.rendezvouses.size) from User u")
 	//Double stddevRendezvousPerUser()
 

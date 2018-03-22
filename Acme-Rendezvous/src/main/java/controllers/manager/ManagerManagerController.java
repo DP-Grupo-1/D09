@@ -1,4 +1,6 @@
+
 package controllers.manager;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +34,10 @@ public class ManagerManagerController {
 	}
 	//Save----------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid Manager manager, final BindingResult binding) {
+	public ModelAndView save(@Valid final Manager manager, final BindingResult binding) {
 		Assert.notNull(manager);
 		ModelAndView res;
-		manager = this.managerService.reconstruct(manager, binding);
+		//manager = this.managerService.reconstruct(manager, binding);
 		if (binding.hasErrors()) {
 			System.out.println(binding.getAllErrors());
 			res = this.createEditModelAndView(manager);

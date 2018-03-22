@@ -1,6 +1,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -48,7 +49,11 @@ public class RequestUserController extends AbstractController {
 
 		final Benefit benefit = this.benefitService.findOne(benefitId);
 		final User principal = this.userService.findByPrincipal();
-		final Collection<Rendezvous> rendezvouses = this.rendezvousService.findByCreatorIdAndRendezvouses(principal.getId(), benefit);
+		Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+		if (benefit.getRendezvouses().size() > 0)
+			rendezvouses = this.rendezvousService.findByCreatorIdAndRendezvouses(principal.getId(), benefit);
+		else
+			rendezvouses = this.rendezvousService.findByCreatorId(principal.getId());
 		final RequestBenefit requestBenefit = new RequestBenefit();
 
 		requestBenefit.setBenefit(benefit);
@@ -75,10 +80,18 @@ public class RequestUserController extends AbstractController {
 
 		ModelAndView result = null;
 
-		if (binding.hasErrors())
+		if (binding.hasErrors()) {
+			final Benefit benefit = this.benefitService.findOne(requestBenefit.getBenefit().getId());
+			final User principal = this.userService.findByPrincipal();
+			Collection<Rendezvous> rendezvouses = new ArrayList<Rendezvous>();
+			if (benefit.getRendezvouses().size() > 0)
+				rendezvouses = this.rendezvousService.findByCreatorIdAndRendezvouses(principal.getId(), benefit);
+			else
+				rendezvouses = this.rendezvousService.findByCreatorId(principal.getId());
 			result = this.createEditModelAndView(requestBenefit);
-		else
-
+			result.addObject("rendezvouses", rendezvouses);
+			result.addObject("requestURI", "request/user/requestService.do?benefitId=" + benefit.getId());
+		} else
 			try {
 				final Request request = this.requestService.create();
 				this.requestService.save(request, requestBenefit.getBenefit(), requestBenefit.getRendezvous());
@@ -88,10 +101,8 @@ public class RequestUserController extends AbstractController {
 			catch (final Throwable oops) {
 				result = this.createEditModelAndView(requestBenefit, "request.comit.error");
 			}
-
 		return result;
 	}
-
 	protected ModelAndView createEditModelAndView(final RequestBenefit requestBenefit) {
 		ModelAndView result;
 
