@@ -111,6 +111,9 @@ public interface RendezvousRepository extends JpaRepository<Rendezvous, Integer>
 	@Query("select max(b.rendezvouses.size) from Benefit b")
 	Double maxServPerRendezvous();
 
+	@Query("select r from Rendezvous r where r in (?1)")
+	Collection<Rendezvous> findByBenefit(Collection<Rendezvous> rendezvouses);
+
 	//	@Query("select sqrt(sum(b.rendezvouses.size*b.rendezvouses.size)/count(b.rendezvouses.size)-avg(b.rendezvouses.size)*avg(b.rendezvouses.size)))from Benefit b")
 	//	Double stdevServPerRendezvous();
 	//	

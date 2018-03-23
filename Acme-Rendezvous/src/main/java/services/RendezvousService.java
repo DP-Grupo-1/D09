@@ -265,6 +265,11 @@ public class RendezvousService {
 		return res;
 	}
 
+	public Collection<Rendezvous> findByBenefit(final Benefit benefit) {
+
+		final Collection<Rendezvous> res = this.rendezvousRepository.findByBenefit(benefit.getRendezvouses());
+		return res;
+	}
 	public Collection<Rendezvous> findByCreatorId(final int creatorId) {
 
 		final Collection<Rendezvous> res = this.rendezvousRepository.findByCreatorId(creatorId);
@@ -399,8 +404,8 @@ public class RendezvousService {
 		Double stddev = 0.0;
 		final Double sum = this.sumRendezvousPerUser();
 		final Double avg = this.avgRendezvousPerUser();
-		final Double all = this.findAll().size() * 1.0;
-		stddev = Math.pow(((sum / all) - (avg * avg)), 1 / 2);
+		final Double all = this.numRendezvouses();
+		stddev = Math.sqrt(((sum / all) - (avg * avg)));
 
 		return stddev;
 	}
@@ -433,11 +438,12 @@ public class RendezvousService {
 	//			return rendezvousRepository.stdevServPerRendezvous();
 	//		}
 
-	private Integer numRendezvouses() {
-		Integer numRendezvouses = 0;
+	private Double numRendezvouses() {
+		Double numRendezvouses = 0.0;
 		for (final User u1 : this.userService.findAll()) {
 			final Collection<Rendezvous> rendezvouses = this.findByUserId(u1.getId());
-			numRendezvouses += rendezvouses.size();
+			if (rendezvouses.size() > 0)
+				numRendezvouses++;
 		}
 		return numRendezvouses;
 	}

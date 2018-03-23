@@ -11,9 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
 import services.AnnouncementService;
+import services.BenefitService;
 import services.CommentService;
 import services.QuestionService;
 import services.RendezvousService;
+import domain.Benefit;
 import domain.Rendezvous;
 
 @Controller
@@ -26,6 +28,9 @@ public class DashboardAdministratorController {
 
 	@Autowired
 	RendezvousService		rendezvousService;
+
+	@Autowired
+	BenefitService			benefitService;
 
 	@Autowired
 	AnnouncementService		announcementService;
@@ -45,7 +50,7 @@ public class DashboardAdministratorController {
 		//Level C-----------------------------------------------------------------------------------------------------
 		//1
 		final Double avgRendezvousPerUser = this.rendezvousService.avgRendezvousPerUser();
-		Double stddevRendezvousPerUser = this.rendezvousService.stddevRendezvousPerUser();
+		final Double stddevRendezvousPerUser = this.rendezvousService.stddevRendezvousPerUser();
 		//2
 		final Double ratioCreators = this.rendezvousService.ratioCreators();
 		final Double ratioUsersSinRendezvous = this.rendezvousService.ratioUsersSinRendezvous();
@@ -81,22 +86,24 @@ public class DashboardAdministratorController {
 		//3
 		final Double avgRepliesPerComment = this.commentService.avgRepliesPerComment();
 		final Double stdevRepliesPerComment = this.commentService.stdevRepliesPerComment();
-		
-		final Double avgCategoriesPerRendezvous = rendezvousService.avgCategoriesPerRendezvous();
-		
-		final Double avgServInCategory = rendezvousService.avgServInCategory();
-		
-		final Double avgServPerRendezvous = rendezvousService.avgServPerRendezvous();
-		
-		final Double minServPerRendezvous = rendezvousService.minServPerRendezvous();
-		
-		final Double maxServPerRendezvous = rendezvousService.maxServPerRendezvous();
-		
-//		final Double stdevServPerRendezvous = rendezvousService.stdevServPerRendezvous();
-		
+
+		final Double avgCategoriesPerRendezvous = this.rendezvousService.avgCategoriesPerRendezvous();
+
+		final Double avgServInCategory = this.rendezvousService.avgServInCategory();
+
+		final Double avgServPerRendezvous = this.rendezvousService.avgServPerRendezvous();
+
+		final Double minServPerRendezvous = this.rendezvousService.minServPerRendezvous();
+
+		final Double maxServPerRendezvous = this.rendezvousService.maxServPerRendezvous();
+
+		final Double stddevServicesPerRendezvous = this.benefitService.stddevServicesPerRendezvous();
+
+		final Collection<Benefit> bestSelling = this.benefitService.bestSellings();
+
 		//1
 		res.addObject("avgRendezvousPerUser", avgRendezvousPerUser);
-		
+
 		res.addObject("stddevRendezvousPerUser", stddevRendezvousPerUser);
 		//2
 		res.addObject("ratioCreators", ratioCreators);
@@ -104,8 +111,7 @@ public class DashboardAdministratorController {
 
 		//3.1
 		res.addObject("avgUsersPerRendezvous", avgUsersPerRendezvous);
-		
-		
+
 		//3.2
 		res.addObject("stddevUsersPerRendezvous", stddevUsersPerRendezvous);
 
@@ -132,14 +138,15 @@ public class DashboardAdministratorController {
 		res.addObject("stdevQuestionsPerRendezvous", stdevQuestionsPerRendezvous);
 		res.addObject("avgAnswersPerQuestions", avgAnswersPerQuestions);
 		res.addObject("stdevAnswersPerQuestions", stdevAnswersPerQuestions);
-		
+
 		res.addObject("avgCategoriesPerRendezvous", avgCategoriesPerRendezvous);
 		res.addObject("avgServInCategory", avgServInCategory);
-		res.addObject("avgServPerRendezvous",avgServPerRendezvous);
+		res.addObject("avgServPerRendezvous", avgServPerRendezvous);
 		res.addObject("minServPerRendezvous", minServPerRendezvous);
 		res.addObject("maxServPerRendezvous", maxServPerRendezvous);
-//		res.addObject("stdevServPerRendezvous", stdevServPerRendezvous);
-		
+		res.addObject("bestSelling", bestSelling);
+		res.addObject("stddevServicesPerRendezvous", stddevServicesPerRendezvous);
+
 		return res;
 	}
 }

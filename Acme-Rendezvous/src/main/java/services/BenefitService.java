@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -43,6 +44,9 @@ public class BenefitService extends AbstractController {
 	private Validator				validator;
 	@Autowired
 	private CategoryService			categoryService;
+
+	@Autowired
+	private RendezvousService		rendezvousService;
 
 
 	public BenefitService() {
@@ -161,17 +165,49 @@ public class BenefitService extends AbstractController {
 		return res;
 	}
 	public Collection<Benefit> findAll() {
-		// TODO Auto-generated method stub
 		return this.benefitRepository.findAll();
 	}
 
 	public Collection<Benefit> findAllRequestedByRendezvous(final Rendezvous rendezvous) {
-		// TODO Auto-generated method stub
 		return this.benefitRepository.findAllRequestedByRendezvous(rendezvous);
 	}
-	public Collection<Benefit> bestSellings() {
-		return this.benefitRepository.bestSellings();
+	public List<Benefit> bestSellings() {
+		final List<Benefit> result = new ArrayList<Benefit>();
+		final List<Benefit> ordered = this.benefitRepository.bestSellings();
+		result.add(ordered.get(0));
+		result.add(ordered.get(1));
+		result.add(ordered.get(2));
+		return result;
 	}
+
+	public Double sumRendezvousPerService() {
+		return this.benefitRepository.sumRendezvousPerService();
+	}
+
+	public Double numServices() {
+		Double numServices = 0.0;
+		for (final Benefit u1 : this.findAll())
+			if (!(u1.getRendezvouses().isEmpty()))
+				numServices++;
+
+		return numServices;
+	}
+
+	public Double avgServicePerRendezvous() {
+		final Double result = this.benefitRepository.avgServicePerRendezvous();
+		return result;
+	}
+
+	public Double stddevServicesPerRendezvous() {
+		Double stddev = 0.0;
+		final Double sum = this.sumRendezvousPerService();
+		final Double avg = this.avgServicePerRendezvous();
+		final Double all = this.numServices();
+		stddev = Math.sqrt(((sum / all) - (avg * avg)));
+
+		return stddev;
+	}
+
 	public Benefit findByRendezvousId(final Integer rendezvousId) {
 		Assert.notNull(rendezvousId);
 		final Benefit b = this.benefitRepository.findByRendezvoudId(rendezvousId);

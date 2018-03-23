@@ -59,7 +59,11 @@
 		<tr> <td><spring:message code="dashboard.22.1.9" /> </td> <td> <jstl:out value="${avgServPerRendezvous}"/> </td>	</tr>							
 		<tr> <td><spring:message code="dashboard.22.1.10" /> </td> <td> <jstl:out value="${minServPerRendezvous}"/> </td>	</tr>							
 		<tr> <td><spring:message code="dashboard.22.1.11" /> </td> <td> <jstl:out value="${maxServPerRendezvous}"/> </td>	</tr>							
-<%-- 		<tr> <td><spring:message code="dashboard.22.1.12" /> </td> <td> <jstl:out value="${stdevServPerRendezvous}"/> </td>	</tr>							
- --%>						
+		<tr> <td><spring:message code="dashboard.22.1.12" /> </td> <td> <jstl:out value="${stddevServicesPerRendezvous}"/> </td>	</tr>							
+				
+ 		<tr> <td><spring:message code="dashboard.22.1.13" />	</td>
+											<td> <jstl:forEach var="x" items="${bestSelling}" varStatus="status">
+												<a href="rendezvous/display.do?benefitId=${x.id}"><jstl:out value="${x.name}" /></a><jstl:if test="${not status.last}">,</jstl:if> 
+											</jstl:forEach> </td>		
 </table>
 </security:authorize>

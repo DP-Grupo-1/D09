@@ -56,7 +56,6 @@ public class CommentService {
 		return saved;
 	}
 
-	
 	public Comment save(final Comment comment) {
 		Assert.notNull(comment);
 		Comment res;
@@ -71,12 +70,8 @@ public class CommentService {
 			comments.add(res);
 			logged.setComments(comments);
 			this.userService.save(logged);
-		} else {
+		} else
 			res = this.commentRepository.save(comment);
-			final User user = this.userService.findByCommentId(comment.getId());
-			Assert.notNull(user);
-			Assert.isTrue(logged.getId() == user.getId());
-		}
 
 		return res;
 	}

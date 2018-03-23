@@ -20,6 +20,7 @@ import services.RendezvousService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Comment;
+import domain.Flag;
 import domain.Rendezvous;
 import domain.User;
 
@@ -43,6 +44,9 @@ public class CommentUserController extends AbstractController {
 		ModelAndView result = null;
 		Comment comment;
 		final Rendezvous rendezvous = this.rendezvousService.findOne(rendezvousId);
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(rendezvous.getAttendants().contains(principal));
+		Assert.isTrue(!(rendezvous.getFlag().equals(Flag.DELETED)));
 		try {
 			comment = this.commentService.create(rendezvous);
 
@@ -73,28 +77,32 @@ public class CommentUserController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@RequestParam final Integer rendezvousId, @Valid Comment comment, final BindingResult binding) {
+	public ModelAndView save(@RequestParam final Integer rendezvousId, @Valid final Comment comment, final BindingResult binding) {
 
 		ModelAndView result;
-		final Collection<Comment> comments = new ArrayList<Comment>();
-		comment = this.commentService.reconstruct(comment, binding);
+		Collection<Comment> comments = new ArrayList<Comment>();
+		final User principal = this.userService.findByPrincipal();
+		//comment = this.commentService.reconstruct(comment, binding);
 		if (binding.hasErrors()) {
 			result = this.createEditModelAndView(comment);
 			result.addObject("rendezvousId", rendezvousId);
+			result.addObject("requestURI", "comment/user/edit.do?rendezvousId=" + rendezvousId);
 		} else
 			try {
-
+				if (comment.getId() != 0)
+					Assert.isTrue(principal.getComments().contains(comment));
 				this.commentService.save(comment);
 
 				final Rendezvous r = this.rendezvousService.findOne(rendezvousId);
+				if (!(r.getComments().contains(comment))) {
+					comments = r.getComments();
 
-				comments.addAll(r.getComments());
+					comments.add(comment);
 
-				comments.add(comment);
+					r.setComments(comments);
 
-				r.setComments(comments);
-
-				this.rendezvousService.save(r);
+					this.rendezvousService.onlySave(r);
+				}
 
 				result = new ModelAndView("redirect:/rendezvous/user/listRsvps.do");
 
