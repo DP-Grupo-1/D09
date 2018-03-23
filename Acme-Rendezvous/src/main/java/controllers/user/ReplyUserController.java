@@ -76,13 +76,13 @@ public class ReplyUserController extends AbstractController {
 		} else
 			try {
 
-				this.replyService.save(reply);
+				final Reply rep = this.replyService.save(reply);
 
 				final Comment c = this.commentService.findOne(commentId);
 
 				replies.addAll(c.getReplies());
 
-				replies.add(reply);
+				replies.add(rep);
 
 				c.setReplies(replies);
 

@@ -75,6 +75,10 @@ public class ReplyService {
 		this.replyRepository.delete(reply);
 	}
 
+	public void deleteAll(final Collection<Reply> replies) {
+		this.replyRepository.delete(replies);
+	}
+
 	public Reply findOne(final int replyID) {
 		final Reply res = this.replyRepository.findOne(replyID);
 
@@ -85,6 +89,10 @@ public class ReplyService {
 		final Collection<Reply> res = this.replyRepository.findAll();
 		Assert.notNull(res);
 		return res;
+	}
+
+	User findUserByReply(final Reply reply) {
+		return this.replyRepository.findUserByReply(reply);
 	}
 
 }

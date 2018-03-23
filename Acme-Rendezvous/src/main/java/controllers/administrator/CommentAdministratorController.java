@@ -25,15 +25,14 @@ public class CommentAdministratorController {
 		ModelAndView res;
 		Assert.notNull(commentId);
 		final Comment comment = this.commentService.findOne(commentId);
-				try {
-		this.commentService.quitarCommentReply(comment);
-		this.commentService.delete(comment);
-		res = new ModelAndView("redirect:../../welcome/index.do");
+		try {
+			this.commentService.delete(comment);
+			res = new ModelAndView("redirect:../../welcome/index.do");
 
-				} catch (final Throwable error) {
-					res = new ModelAndView("redirect:../../welcome/index.do");
-		
-				}
+		} catch (final Throwable error) {
+			res = new ModelAndView("redirect:../../welcome/index.do");
+
+		}
 
 		return res;
 	}

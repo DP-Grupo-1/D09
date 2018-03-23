@@ -1,8 +1,10 @@
+
 package domain;
 
 import javax.persistence.Access;
-import javax.persistence.Entity;
 import javax.persistence.AccessType;
+import javax.persistence.Entity;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -12,24 +14,22 @@ import org.hibernate.validator.constraints.URL;
 @Access(AccessType.PROPERTY)
 public class SystemConfiguration extends DomainEntity {
 
-	private String				name;
-	private String				bannerUrl;
-	private String				welcomeMessageEnglish;
-	private String				welcomeMessageSpanish;
+	private String	name;
+	private String	bannerUrl;
+	private String	welcomeMessageEnglish;
+	private String	welcomeMessageSpanish;
 
 
-	
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
-	@URL
 	public String getName() {
-		return this.bannerUrl;
+		return this.name;
 	}
 
 	public void setName(final String name) {
 		this.name = name;
 	}
-	
+
 	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	@URL
@@ -61,5 +61,4 @@ public class SystemConfiguration extends DomainEntity {
 		this.welcomeMessageSpanish = welcomeMessageSpanish;
 	}
 
-	
 }

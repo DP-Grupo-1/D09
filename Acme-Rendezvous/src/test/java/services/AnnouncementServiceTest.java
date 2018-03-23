@@ -88,17 +88,17 @@ public class AnnouncementServiceTest extends AbstractTest {
 	public void driverDisplaying() {
 		final Object testingData[][] = {
 			{		// Display correcto de un Announcement logueado como User. 
-				"user1", 205, null
+				"user1", 210, null
 			}, {	// Display correcto de un Announcement logueado como Administrator.
-				"admin", 206, null
+				"admin", 210, null
 			}, {	// Display correcto de un Announcement, sin estar logueado en el sistema.
-				null, 207, null
+				null, 210, null
 			}, {	// Display erróneo de un Announcement que no existe con un User logueado.
-				"user1", 300, IllegalArgumentException.class
+				"user1", 100000, IllegalArgumentException.class
 			}, {	// Display erróneo de un Announcement que no existe con un Administrator logueado.
-				"admin", 300, IllegalArgumentException.class
+				"admin", 100000, IllegalArgumentException.class
 			}, {	// Display erróneo de un Announcement que no existe sin estar logueado.
-				null, 300, IllegalArgumentException.class
+				null, 100000, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
@@ -109,16 +109,16 @@ public class AnnouncementServiceTest extends AbstractTest {
 	public void driverAnnouncementDelete() {
 		final Object testingData[][] = {
 			{	// Delete Announcement correcto.
-				"admin", 205, null
+				"admin", 210, null
 			}, {
 				// Delete Announcement: no logueado
-				null, 206, IllegalArgumentException.class
+				null, 210, IllegalArgumentException.class
 			}, {
 				// Delete Announcement: no administrador
-				"user1", 207, IllegalArgumentException.class
+				"user1", 210, IllegalArgumentException.class
 			}, {
 				// Delete Announcement que no existe
-				"admin", 300, IllegalArgumentException.class
+				"admin", 1000000, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)

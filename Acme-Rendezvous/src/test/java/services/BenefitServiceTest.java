@@ -1,8 +1,6 @@
 
 package services;
 
-import java.util.Collection;
-
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -15,7 +13,6 @@ import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Benefit;
-import domain.Rendezvous;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -255,17 +252,6 @@ public class BenefitServiceTest extends AbstractTest {
 		this.benefitService.cancelBenefit(benefit);
 		Assert.isTrue(benefit.getFlag().equals("CANCELLED"));
 		super.authenticate(null);
-
-	}
-	@Test
-	public void testQuerys() {
-		final Rendezvous rendezvous = this.rendezvousService.findOne(super.getEntityId("rendezvous1"));
-		final Collection<Benefit> benefits1 = this.benefitService.findAllRequestedByRendezvous(rendezvous);
-		Assert.notNull(benefits1);
-		System.out.println("Servicios solicitados por el rendezvous1: " + benefits1);
-		final Collection<Benefit> benefits2 = this.benefitService.bestSellings();
-		Assert.notNull(benefits2);
-		System.out.println("Servicios más solicitados: " + benefits2);
 
 	}
 }

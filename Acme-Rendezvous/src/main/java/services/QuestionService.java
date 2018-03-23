@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.QuestionRepository;
+import domain.Administrator;
 import domain.Answer;
 import domain.Question;
 import domain.Rendezvous;
@@ -82,12 +83,13 @@ public class QuestionService {
 		Assert.isTrue(question.getCreator().equals(user));
 		this.questionRepository.delete(question);
 	}
-	//	public void deleteByAdmin(final Question question) {
-	//		Assert.notNull(question);
-	//		final Administrator administrator = this.administratorService.findByPrincipal();
-	//		Assert.notNull(administrator);
-	//
-	//	}
+	public void deleteByAdmin(final Question question) {
+		Assert.notNull(question);
+		final Administrator administrator = this.administratorService.findByPrincipal();
+		Assert.notNull(administrator);
+		this.questionRepository.delete(question);
+
+	}
 	//	public void quitarQuestionAnswer(final Question question) {
 	//		final Collection<Answer> answers = question.getAnswers();
 	//		if (!answers.isEmpty())

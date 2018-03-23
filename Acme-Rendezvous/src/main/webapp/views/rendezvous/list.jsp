@@ -111,6 +111,6 @@
     
     
     <div>
-    <a href = "rendezvous/sorted.do?categoryId=${categoryId}"><spring:message code = "rendezvous.sorted" /></a>
+    <a href = "rendezvous/list.do"><spring:message code = "rendezvous.sorted" /></a>
     </div>
     

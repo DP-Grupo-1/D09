@@ -10,7 +10,6 @@
 
 package controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.SystemConfigurationService;
-
 import domain.SystemConfiguration;
 
 @Controller
@@ -27,7 +25,8 @@ public class WelcomeController extends AbstractController {
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
-	
+
+
 	// Constructors -----------------------------------------------------------
 
 	public WelcomeController() {
@@ -51,6 +50,7 @@ public class WelcomeController extends AbstractController {
 		welcomeMessageEnglish = sc.getWelcomeMessageEnglish();
 		welcomeMessageSpanish = sc.getWelcomeMessageSpanish();
 		companyName = sc.getName();
+		final String banner = sc.getBannerUrl();
 
 		final Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -60,7 +60,8 @@ public class WelcomeController extends AbstractController {
 			name = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		result.addObject("name", name);
-		//		result.addObject("banner", banner);
+		result.addObject("banner", banner);
+		result.addObject("companyName", companyName);
 		result.addObject("welcomeMessageEnglish", welcomeMessageEnglish);
 		result.addObject("welcomeMessageSpanish", welcomeMessageSpanish);
 

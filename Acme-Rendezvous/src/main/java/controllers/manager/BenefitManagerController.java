@@ -1,6 +1,8 @@
 
 package controllers.manager;
 
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,21 @@ public class BenefitManagerController extends AbstractController {
 		result.addObject("requestURI", "benefit/manager/edit.do?benefitId=" + benefit.getId());
 
 		return result;
+	}
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ModelAndView list() {
+		ModelAndView res;
+		final Manager manager = this.managerService.findByPrincipal();
+		final Collection<Benefit> benefits = manager.getBenefits();
+		final Collection<Benefit> principalBenefits = manager.getBenefits();
+
+		res = new ModelAndView("benefit/list");
+		res.addObject("requestURI", "benefit/list.do");
+		res.addObject("benefits", benefits);
+		res.addObject("principalBenefits", principalBenefits);
+
+		return res;
 	}
 
 	//Edit----------------------------------------------------------------------

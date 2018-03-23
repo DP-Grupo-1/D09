@@ -173,11 +173,8 @@ public class RendezvousService {
 		//				announcements.remove(a);
 		if (!questions.isEmpty()) {
 			System.out.println("questions de un rendezvous: " + questions);
-			for (final Question q : questions) {
-
-				questions.remove(q.getCreator());
-				questions.remove(q.getRendezvous());
-			}
+			for (final Question q : questions)
+				this.questionService.deleteByAdmin(q);
 		}
 
 		//		this.onlySave(rendezvous);

@@ -17,6 +17,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 
 <p><b>${companyName}</b></p>
+<br/>
+<p><b>${banner}</b></p>
 
 <jstl:if test="${pageContext.response.locale.language=='en'}">
 	<p><b>${welcomeMessageEnglish}</b></p>

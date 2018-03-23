@@ -82,7 +82,7 @@ public class AnswerServiceTest extends AbstractTest {
 			{		// Display correcto de un answerlogueado como User. 
 				"user1", 225, null
 			}, {	// Display correcto de un answerlogueado como Administrator.
-				"admin", 226, null
+				"admin", 225, null
 			}, {	// Display correcto de un Question, sin estar logueado en el sistema.
 				null, 225, null
 			}

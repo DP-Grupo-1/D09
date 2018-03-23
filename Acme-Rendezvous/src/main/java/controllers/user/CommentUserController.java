@@ -91,13 +91,13 @@ public class CommentUserController extends AbstractController {
 			try {
 				if (comment.getId() != 0)
 					Assert.isTrue(principal.getComments().contains(comment));
-				this.commentService.save(comment);
+				final Comment com = this.commentService.save(comment);
 
 				final Rendezvous r = this.rendezvousService.findOne(rendezvousId);
-				if (!(r.getComments().contains(comment))) {
+				if (!(r.getComments().contains(com))) {
 					comments = r.getComments();
 
-					comments.add(comment);
+					comments.add(com);
 
 					r.setComments(comments);
 

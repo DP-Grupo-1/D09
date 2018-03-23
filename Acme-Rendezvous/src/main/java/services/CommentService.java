@@ -36,6 +36,9 @@ public class CommentService {
 	@Autowired
 	private RendezvousService		rendezvousService;
 
+	@Autowired
+	private ReplyService			replyService;
+
 
 	//Simple CRUD methods ------------------------
 
@@ -71,7 +74,8 @@ public class CommentService {
 			logged.setComments(comments);
 			this.userService.save(logged);
 		} else
-			res = this.commentRepository.save(comment);
+			Assert.isTrue(logged.getComments().contains(comment));
+		res = this.commentRepository.save(comment);
 
 		return res;
 	}
@@ -82,18 +86,34 @@ public class CommentService {
 		final Administrator administrator = this.administratorService.findByPrincipal();
 		Assert.notNull(administrator);
 		this.quitarCommentReply(comment);
+		comment.setReplies(new ArrayList<Reply>());
+		final Rendezvous rendezvous = this.rendezvousService.findByCommentId(comment.getId());
+		final Collection<Comment> comments = rendezvous.getComments();
+		comments.remove(comment);
+		rendezvous.setComments(comments);
+		this.rendezvousService.onlySave(rendezvous);
+		final User commenter = this.userService.findByCommentId(comment.getId());
+		final Collection<Comment> commentsUser = commenter.getComments();
+		commentsUser.remove(comment);
+		commenter.setComments(commentsUser);
+		this.userService.onlySave(commenter);
 
 		this.commentRepository.delete(comment);
 	}
 
 	public void quitarCommentReply(final Comment comment) {
 		final Collection<Reply> replies = comment.getReplies();
-		if (!replies.isEmpty())
-
-			for (final Reply r : replies)
-				this.userService.findByReplyId(r.getId()).getReplies().remove(r);
-		this.rendezvousService.findByCommentId(comment.getId()).getComments().remove(comment);
-		this.userService.findByCommentId(comment.getId()).getComments().remove(comment);
+		final Collection<Reply> repliesABorrar = new ArrayList<Reply>();
+		for (final Reply r : replies) {
+			final User user = this.replyService.findUserByReply(r);
+			final Collection<Reply> userReplies = user.getReplies();
+			userReplies.remove(r);
+			user.setReplies(userReplies);
+			this.userService.onlySave(user);
+			repliesABorrar.add(r);
+		}
+		this.replyService.deleteAll(repliesABorrar);
+		//this.rendezvousService.findByCommentId(comment.getId()).getComments().remove(comment);
 	}
 	public Comment findOne(final int commentID) {
 		final Comment res = this.commentRepository.findOne(commentID);

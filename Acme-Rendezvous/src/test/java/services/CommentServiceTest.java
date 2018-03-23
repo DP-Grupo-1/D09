@@ -104,36 +104,36 @@ public class CommentServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			//Normal
 			{
-				"user1", "comment1", "asdf", "http://www.picture.com", null
+				"user1", 206, "asdf", "http://www.picture.com", null
 			},
 			//Normal sin pasarle un picture
 			{
-				"user1", "comment1", "asdf", null, null
+				"user1", 206, "asdf", null, null
 			},
 			//Un usuario no autenticado editando un comment
 			{
-				null, "comment1", "asdf", "http://www.picture.com", IllegalArgumentException.class
+				null, 206, "asdf", "http://www.picture.com", IllegalArgumentException.class
 			},
 			//Un admin intentando actualizar un comment
 			{
-				"admin", "comment1", "asdf", "http://www.picture.com", IllegalArgumentException.class
+				"admin", 206, "asdf", "http://www.picture.com", IllegalArgumentException.class
 			},
 			//El texto esta vacio
 			{
-				"user1", "comment1", null, "http://www.picture.com", ConstraintViolationException.class
+				"user1", 206, null, "http://www.picture.com", ConstraintViolationException.class
 			},
 			//El picture no esta en formato url
 			{
-				"user1", "comment1", "a", "foto", ConstraintViolationException.class
+				"user1", 206, "a", "foto", ConstraintViolationException.class
 			},
 			//			//Un usuario intentando actualizar el comment de otro usuario
 			{
-				"user2", "comment1", "a", "http://www.picture.com", IllegalArgumentException.class
+				"user2", 206, "a", "http://www.picture.com", IllegalArgumentException.class
 			}
 
 		};
 		for (int i = 0; i < testingData.length; i++)
-			this.templateUpdate((String) testingData[i][0], super.getEntityId((String) testingData[i][1]), (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
+			this.templateUpdate((String) testingData[i][0], (int) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (Class<?>) testingData[i][4]);
 	}
 	protected void templateUpdate(final String username, final int commentId, final String text, final String picture, final Class<?> expected) {
 		Class<?> caught;

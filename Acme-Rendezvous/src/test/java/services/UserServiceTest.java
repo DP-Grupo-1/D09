@@ -100,15 +100,15 @@ public class UserServiceTest extends AbstractTest {
 	public void driverDisplaying() {
 		final Object testingData[][] = {
 			{		// Display correcto de un User ya creado y logueado como tal. 
-				"user1", 217, null
+				"user1", 223, null
 			}, {	// Display correcto de un User distinto al que está logueado.
-				"user1", 218, null
+				"user2", 223, null
 			}, {	// Display correcto de un User, sin estar logueado en el sistema.
-				null, 217, null
+				null, 223, null
 			}, {	// Display erróneo de un User que no existe con uno logueado.
-				"user1", 300, IllegalArgumentException.class
+				"user1", 100000, IllegalArgumentException.class
 			}, {		// Display erróneo de un User que no existe sin estar logueado.
-				null, 300, IllegalArgumentException.class
+				null, 100000, IllegalArgumentException.class
 			}
 		};
 		for (int i = 0; i < testingData.length; i++)
