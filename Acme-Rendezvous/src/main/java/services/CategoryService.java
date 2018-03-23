@@ -53,18 +53,17 @@ public class CategoryService {
 	public Category save(final Category category) {
 
 		Assert.notNull(category);
-
+		Category result;
 		//Authority
 		final Administrator a = this.administratorService.findByPrincipal();
 		Assert.notNull(a);
+		//Si no tiene categoría padre, se le asigna CATEGORY
+		if (category.getParent() == null)
+			category.setParent(this.findCATEGORY());
 
 		//Una categoría no puede ser padre ni hija de sí misma
 		Assert.isTrue(!(category.getId() == (category.getParent().getId())));
 		Assert.isTrue(!this.isSonOfItself(category.getId()));
-
-		//Si no tiene categoría padre, se le asigna CATEGORY
-		if (category.getParent() == null)
-			category.setParent(this.findCATEGORY());
 
 		if (category.getId() != 0) {
 			final Category bd = this.categoryRepository.findOne(category.getId());
@@ -73,8 +72,6 @@ public class CategoryService {
 
 		}
 		//Authority
-
-		Category result = new Category();
 
 		result = this.categoryRepository.save(category);
 
