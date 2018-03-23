@@ -111,4 +111,8 @@ public class AnswerService {
 		return answers;
 	}
 
+	public void flush() {
+		this.answerRepository.flush();
+	}
+
 }
