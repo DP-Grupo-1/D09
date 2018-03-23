@@ -10,13 +10,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.LoginService;
 import security.UserAccount;
+import services.ActorService;
+import services.AdministratorService;
 import services.CategoryService;
+import services.ManagerService;
 import services.QuestionService;
 import services.RendezvousService;
 import services.UserService;
+import domain.Administrator;
 import domain.Category;
+import domain.Manager;
 import domain.Question;
 import domain.Rendezvous;
 import domain.User;
@@ -35,6 +41,10 @@ public class RendezvousController extends AbstractController {
 	UserService			userService;
 	@Autowired
 	QuestionService		questionService;
+	
+	
+	@Autowired
+	ActorService		actorService;
 
 
 	//Constructors ------------------------------------------------------
@@ -67,9 +77,19 @@ public class RendezvousController extends AbstractController {
         try {
 
             final UserAccount userAcc = LoginService.getPrincipal();
+//            final Administrator a = this.administratorService.findByUserAccount(userAcc);
+//            final Manager m = this.managerService.findByUserAccount(userAcc);
             final User u = this.userService.findByUserAccount(userAcc);
+            
             final boolean adult = u.getAdult();
             Boolean hasUserRSVPd = false;
+            Boolean muestra = true;
+            
+            if(userAcc.getAuthorities().contains(Authority.USER)){
+            	muestra = false;
+            }
+            
+            
 
             if (u != null) {
                 //Rendezvouses a los que el usuario va a asistir (RSVPs)
@@ -86,6 +106,7 @@ public class RendezvousController extends AbstractController {
             }
             result.addObject("flag", rendezvous.getFlag());
             result.addObject("hasUserRSVPd", hasUserRSVPd);
+            result.addObject("muestra", muestra);
 
         } catch (final Throwable oops) {
         }

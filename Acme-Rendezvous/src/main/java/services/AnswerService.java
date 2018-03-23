@@ -42,10 +42,6 @@ public class AnswerService {
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Answer create(final int questionId) {
-
-		final User principal = this.userService.findByPrincipal();
-		Assert.notNull(principal);
-
 		final Answer result;
 		result = new Answer();
 		return result;

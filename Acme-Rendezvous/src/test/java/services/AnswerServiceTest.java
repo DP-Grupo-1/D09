@@ -91,6 +91,22 @@ public class AnswerServiceTest extends AbstractTest {
 			this.templateDisplaying((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
+	//	@Test
+	//	public void driverDelete() {
+	//		final Object testingData[][] = {
+	//			{	// Delete answercorrecto.
+	//				"user1", 229, null
+	//			}, {
+	//				// Delete Question: no logueado
+	//				null, 230, IllegalArgumentException.class
+	//			}, {
+	//				// Delete Question: no user
+	//				"admin", 230, IllegalArgumentException.class
+	//			}
+	//		};
+	//		for (int i = 0; i < testingData.length; i++)
+	//			this.templateQuestionDelete((String) testingData[i][0], (int) testingData[i][1], (Class<?>) testingData[i][2]);
+	//	}
 
 	// Templates ----------------------------------------------------------
 
@@ -124,4 +140,17 @@ public class AnswerServiceTest extends AbstractTest {
 		this.checkExceptions(expected, caught);
 	}
 
+	//	protected void templateQuestionDelete(final String username, final int questionId, final Class<?> expected) {
+	//		Class<?> caught;
+	//		caught = null;
+	//		try {
+	//			this.authenticate(username);
+	//			final Answer a = this.answerService.findOne(questionId);
+	//			this.questionService.deleteByUser(q);
+	//			this.unauthenticate();
+	//		} catch (final Throwable oops) {
+	//			caught = oops.getClass();
+	//		}
+	//		this.checkExceptions(expected, caught);
+	//	}
 }
